@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.coverage
+htmlcov/
+.nyc_output/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# PyTorch models
+*.pt
+*.pth
+*.onnx
+
+# Google Cloud credentials
+*-credentials.json
+service-account*.json
+
+# Vercel
+.vercel/
+
+# Misc
+*.bak
+*.tmp
+.turbo/

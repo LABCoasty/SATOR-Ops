@@ -1,0 +1,19 @@
+{
+  "name": "sator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SATOR Ops - Decision Infrastructure for Physical Systems",
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "build": "pnpm --parallel -r run build",
+    "lint": "pnpm --parallel -r run lint",
+    "clean": "pnpm --parallel -r run clean"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}

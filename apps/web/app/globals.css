@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 3%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 0 0% 14%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 142 76% 36%;
+    --radius: 0.5rem;
+
+    --observe: 199 89% 48%;
+    --observe-foreground: 0 0% 98%;
+    --decision: 38 92% 50%;
+    --decision-foreground: 0 0% 98%;
+    --replay: 270 76% 60%;
+    --replay-foreground: 0 0% 98%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .mode-observe {
+    --mode-color: var(--observe);
+    --mode-foreground: var(--observe-foreground);
+  }
+  
+  .mode-decision {
+    --mode-color: var(--decision);
+    --mode-foreground: var(--decision-foreground);
+  }
+  
+  .mode-replay {
+    --mode-color: var(--replay);
+    --mode-foreground: var(--replay-foreground);
+  }
+}
