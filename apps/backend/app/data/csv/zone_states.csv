@@ -1,0 +1,4 @@
+timestamp,time_sec,zone_id,confidence,trust_state,sensor_count,sensors_trusted,sensors_degraded,sensors_untrusted,active_contradictions,active_reason_codes,recommended_posture,posture_rationale
+2026-01-14T10:00:00,0.0,main_pipeline,high,trusted,6,6,0,0,0,,monitor,"All sensors nominal, no action required."
+2026-01-14T10:01:00,60.0,main_pipeline,medium,degraded,6,4,2,0,1,RC10,verify,Redundancy conflict detected. Verification required before control actions.
+2026-01-14T10:01:15,75.0,main_pipeline,low,untrusted,6,3,1,2,2,"RC10,RC11",defer,Physics violation detected. Defer control actions pending physical inspection.
