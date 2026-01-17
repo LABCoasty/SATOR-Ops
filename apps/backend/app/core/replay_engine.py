@@ -67,19 +67,16 @@ class ReplayEngine:
             data_dir = Path(__file__).parent.parent / "data"
         self.data_dir = data_dir
         
-        # Loaded data
+        # Loaded data (CSV only)
         self._events: List[Dict] = []
         self._trust_timeline: List[Dict] = []
-        self._telemetry: List[Dict] = []
-        self._contradictions: List[Dict] = []
-        self._receipts: List[Dict] = []
         self._sensors: Dict[str, Dict] = {}
-        
-        # NEW: Additional CSV data
         self._claims: List[Dict] = []
         self._zone_states: List[Dict] = []
         self._action_gates: List[Dict] = []
-        self._csv_receipts: List[Dict] = []
+        self._receipts: List[Dict] = []
+        
+
         
         # Derived data
         self._markers: List[TimelineMarker] = []
@@ -94,9 +91,8 @@ class ReplayEngine:
     # =========================================================================
     
     def load_all(self) -> None:
-        """Load all data from CSV and JSON files."""
+        """Load all data from CSV files only."""
         self.load_from_csv()
-        self.load_from_json()
         self._build_markers()
     
     def load_from_csv(self) -> None:
@@ -151,11 +147,11 @@ class ReplayEngine:
                 a["timestamp"] = self._parse_timestamp(a["timestamp"])
                 a["time_sec"] = float(a.get("time_sec", 0))
         
-        # NEW: CSV Receipts
-        receipts_csv_path = csv_dir / "receipts.csv"
-        if receipts_csv_path.exists():
-            self._csv_receipts = self._read_csv(receipts_csv_path)
-            for r in self._csv_receipts:
+        # Receipts (CSV)
+        receipts_path = csv_dir / "receipts.csv"
+        if receipts_path.exists():
+            self._receipts = self._read_csv(receipts_path)
+            for r in self._receipts:
                 r["timestamp"] = self._parse_timestamp(r["timestamp"])
                 r["time_sec"] = float(r.get("time_sec", 0))
         
@@ -165,25 +161,7 @@ class ReplayEngine:
             self._incident_start = min(timestamps)
             self._incident_end = max(timestamps)
     
-    def load_from_json(self) -> None:
-        """Load data from JSON files."""
-        gen_dir = self.data_dir / "generated"
-        
-        # Contradictions
-        contra_path = gen_dir / "contradictions.json"
-        if contra_path.exists():
-            with open(contra_path) as f:
-                self._contradictions = json.load(f)
-            for c in self._contradictions:
-                c["timestamp"] = self._parse_timestamp(c["timestamp"])
-        
-        # Decision receipts
-        receipts_path = gen_dir / "decision_receipts.json"
-        if receipts_path.exists():
-            with open(receipts_path) as f:
-                self._receipts = json.load(f)
-            for r in self._receipts:
-                r["timestamp"] = self._parse_timestamp(r["timestamp"])
+
     
     def _read_csv(self, path: Path) -> List[Dict]:
         """Read CSV file and return list of dicts."""
@@ -357,35 +335,34 @@ class ReplayEngine:
         )
     
     def _get_contradictions_at(self, timestamp: datetime) -> List[Contradiction]:
-        """Get active (not resolved) contradictions at time t.
+        """Get active contradictions at time t derived from events.csv.
         
-        Note: JSON contradictions have different absolute timestamps (different runs).
-        We match by time_sec relative to incident start.
+        Contradictions are detected from 'contradiction_detected' events.
         """
-        time_sec = self._get_time_sec(timestamp)
-        
         active = []
-        for c in self._contradictions:
-            c_time_sec = c.get("time_sec", 0)
-            # Contradiction is active if it occurred before current time_sec
-            if c_time_sec <= time_sec and not c.get("resolved", False):
-                # Only use first occurrence of each reason code (first run)
-                # to avoid duplicating contradictions across simulation runs
+        
+        # Find contradiction_detected events up to this timestamp
+        for e in self._events:
+            if e["timestamp"] <= timestamp and e.get("event_type") == "contradiction_detected":
+                reason_code = e.get("reason_code", "")
+                tag_id = e.get("tag_id", "")
+                
+                # Avoid duplicates
                 already_has = any(
-                    existing.reason_code == c.get("reason_code") and 
-                    existing.primary_tag_id == c.get("primary_tag_id")
+                    existing.reason_code == reason_code and 
+                    existing.primary_tag_id == tag_id
                     for existing in active
                 )
                 if not already_has:
                     active.append(Contradiction(
-                        contradiction_id=c["contradiction_id"],
-                        timestamp=self._incident_start + __import__("datetime").timedelta(seconds=c_time_sec) if self._incident_start else c["timestamp"],
-                        primary_tag_id=c["primary_tag_id"],
-                        secondary_tag_ids=c.get("secondary_tag_ids", []),
-                        reason_code=c.get("reason_code", ""),
-                        description=c.get("description", ""),
-                        values=c.get("values", {}),
-                        expected_relationship=c.get("expected_relationship", ""),
+                        contradiction_id=f"contradiction_{reason_code}_{tag_id}",
+                        timestamp=e["timestamp"],
+                        primary_tag_id=tag_id,
+                        secondary_tag_ids=[],
+                        reason_code=reason_code,
+                        description=e.get("description", ""),
+                        values={},
+                        expected_relationship="",
                         resolved=False,
                     ))
         return active
@@ -403,13 +380,13 @@ class ReplayEngine:
         return actions
     
     def _get_receipt_status_at(self, timestamp: datetime) -> ReceiptStatus:
-        """Get receipt status at time t from CSV or JSON."""
+        """Get receipt status at time t from CSV receipts."""
         time_sec = self._get_time_sec(timestamp)
         
-        # First check CSV receipts (preferred)
-        csv_receipts_at_t = [r for r in self._csv_receipts if r["time_sec"] <= time_sec]
-        if csv_receipts_at_t:
-            latest = max(csv_receipts_at_t, key=lambda r: r["time_sec"])
+        # Check CSV receipts
+        receipts_at_t = [r for r in self._receipts if r["time_sec"] <= time_sec]
+        if receipts_at_t:
+            latest = max(receipts_at_t, key=lambda r: r["time_sec"])
             status = latest.get("status", "created")
             receipt_ts = self._incident_start + __import__("datetime").timedelta(seconds=latest["time_sec"]) if self._incident_start else timestamp
             return ReceiptStatus(
@@ -418,18 +395,6 @@ class ReplayEngine:
                 created_at=receipt_ts,
                 label=f"Receipt {status} at {receipt_ts.strftime('%H:%M:%S')}",
             )
-        
-        # Fallback to JSON receipts (using time_sec matching)
-        for r in self._receipts:
-            r_time_sec = r.get("time_sec", 0)
-            if r_time_sec <= time_sec:
-                receipt_ts = self._incident_start + __import__("datetime").timedelta(seconds=r_time_sec) if self._incident_start else r["timestamp"]
-                return ReceiptStatus(
-                    exists=True,
-                    receipt_id=r["receipt_id"],
-                    created_at=receipt_ts,
-                    label=f"Receipt created at {receipt_ts.strftime('%H:%M:%S')}",
-                )
         
         return ReceiptStatus(exists=False, label="No receipt yet")
     
