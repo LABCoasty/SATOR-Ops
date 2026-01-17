@@ -4,7 +4,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import decisions, evidence, artifacts, telemetry
+from app.api.routes import decisions, evidence, artifacts, telemetry, replay
 from app.api.websocket import router as websocket_router
 from app.config import settings
 
@@ -33,6 +33,7 @@ app.include_router(decisions.router, prefix="/api/decisions", tags=["decisions"]
 app.include_router(evidence.router, prefix="/api/evidence", tags=["evidence"])
 app.include_router(artifacts.router, prefix="/api/artifacts", tags=["artifacts"])
 app.include_router(telemetry.router, prefix="/api/telemetry", tags=["telemetry"])
+app.include_router(replay.router, prefix="/api/replay", tags=["replay"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
 
