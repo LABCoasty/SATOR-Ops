@@ -1,0 +1,1767 @@
+[
+  {
+    "event_id": "601658e9-2447-4be3-9628-935278541539",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:02.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC06",
+        "RC10"
+      ]
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_hash": "1fb07765a0d068d1a205f89655b662da4ae8cd39c038dfe6313596a667fa4f97"
+  },
+  {
+    "event_id": "6812ec2e-e126-42c8-bf5d-dafb315eac90",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:02.240165",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "1fb07765a0d068d1a205f89655b662da4ae8cd39c038dfe6313596a667fa4f97",
+    "current_hash": "fbb910a8cba6ba16382a50160c943a61cdd61efb6584701898bc8af5fbc0c625"
+  },
+  {
+    "event_id": "8c2698dc-b328-4310-9ce0-81f383c8f4ee",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:03.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "fbb910a8cba6ba16382a50160c943a61cdd61efb6584701898bc8af5fbc0c625",
+    "current_hash": "f9789f1d73a5755c4f287f7937bb06bcecfa58fb4c97e5752e43f3426d3bfe25"
+  },
+  {
+    "event_id": "aba770bf-1789-46ec-91f6-ce25c1240d1d",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:04.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "f9789f1d73a5755c4f287f7937bb06bcecfa58fb4c97e5752e43f3426d3bfe25",
+    "current_hash": "9f1a2bfe700b2789f73c5580eb50ad1e9b1c2ee38c09774b5c5b9a08e8249ffa"
+  },
+  {
+    "event_id": "817304ab-c316-43ab-adc7-9a347c24d793",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:05.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9f1a2bfe700b2789f73c5580eb50ad1e9b1c2ee38c09774b5c5b9a08e8249ffa",
+    "current_hash": "1cac37eee75cd9a8641ae58c9b4032a074cc9b9d8c4e9b1441552c28e3f4a129"
+  },
+  {
+    "event_id": "b96fb19e-3667-46bf-ab4a-fa659a6f2e24",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:06.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "1cac37eee75cd9a8641ae58c9b4032a074cc9b9d8c4e9b1441552c28e3f4a129",
+    "current_hash": "9602d0e7effdbc3b52c6e552b98668bdefd964fd0827b498396446cbdf5a4dbb"
+  },
+  {
+    "event_id": "f0d8b557-fa5a-468a-8b88-7d14e6f3a2c4",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:07.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9602d0e7effdbc3b52c6e552b98668bdefd964fd0827b498396446cbdf5a4dbb",
+    "current_hash": "20bb69c5dd153109868cbefaa28088e0c14074d13ed69963bf971da6161ea475"
+  },
+  {
+    "event_id": "c3c5f891-a4a3-4471-ae4b-c8bf7cdca673",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:08.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "20bb69c5dd153109868cbefaa28088e0c14074d13ed69963bf971da6161ea475",
+    "current_hash": "a2dd51ecf62fdf8bfc9b6fa72a27c99a82e62636d6b77f7c7703b3fed2f2a727"
+  },
+  {
+    "event_id": "91c59ae7-aeaf-44d5-a353-7030d43cb12a",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:09.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a2dd51ecf62fdf8bfc9b6fa72a27c99a82e62636d6b77f7c7703b3fed2f2a727",
+    "current_hash": "6b1e91dde2733d9c44dd4b21c4e1b45066772760644b7ace3d58d7ea9d40b36c"
+  },
+  {
+    "event_id": "f85724b6-eae1-4b47-b06a-bc09634ac5ce",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:10.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "6b1e91dde2733d9c44dd4b21c4e1b45066772760644b7ace3d58d7ea9d40b36c",
+    "current_hash": "7f8d0e938c778a6e94dd4727a51d29d6d115b93288c5db55fed4ca622820af77"
+  },
+  {
+    "event_id": "acfd8262-f07c-4957-a3d3-1a6f4d18cf42",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:11.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "7f8d0e938c778a6e94dd4727a51d29d6d115b93288c5db55fed4ca622820af77",
+    "current_hash": "47fe1b8dd3bf64846f1586e8f4030ad93f0f1730221f8b8421ec27d1c0a098e8"
+  },
+  {
+    "event_id": "e3dbdb6c-76af-49d6-ad35-ecda4972828f",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:12.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "47fe1b8dd3bf64846f1586e8f4030ad93f0f1730221f8b8421ec27d1c0a098e8",
+    "current_hash": "eefbb25b34094cacb4a53269a4d6527b94cbb9cec173eb500679608b72c3a101"
+  },
+  {
+    "event_id": "96314768-751e-4f4d-8d87-0f94ec3dff88",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:13.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "eefbb25b34094cacb4a53269a4d6527b94cbb9cec173eb500679608b72c3a101",
+    "current_hash": "a29bb9a4a8e9e0dde46b29dd82f2b87bcf1477215393574d35b65ce66db37100"
+  },
+  {
+    "event_id": "cf46092b-b636-4fc0-a53d-36a59d49c966",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:14.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a29bb9a4a8e9e0dde46b29dd82f2b87bcf1477215393574d35b65ce66db37100",
+    "current_hash": "ea57cca708710bdff7d0be40e392f8406556aabfc58ea293c10a89c4b3058b4b"
+  },
+  {
+    "event_id": "5f0ef711-0fb9-4c9d-8481-8d815cb1ce36",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:15.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "ea57cca708710bdff7d0be40e392f8406556aabfc58ea293c10a89c4b3058b4b",
+    "current_hash": "267ae6e7b96457bde3ba3dedd690defc701bde47d07605560cd9c4b8652a023c"
+  },
+  {
+    "event_id": "207243b2-6fa9-447e-a4d3-72f4f1b64c55",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:16.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "267ae6e7b96457bde3ba3dedd690defc701bde47d07605560cd9c4b8652a023c",
+    "current_hash": "d4ddd3ad5b1f12608ea5cb16a643114b1b94fba9b5e907b1193fa0b0a7523dac"
+  },
+  {
+    "event_id": "f250c99f-b985-403b-a26e-103f3647229a",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:17.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d4ddd3ad5b1f12608ea5cb16a643114b1b94fba9b5e907b1193fa0b0a7523dac",
+    "current_hash": "583eb9b214fbc2f9e21768f2c447382f118e43301b09237adc8d44618c4ce0a9"
+  },
+  {
+    "event_id": "3c9985a9-af4f-42f9-8251-396ee48d5a60",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:17.240165",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "valve_position",
+      "reason_codes": [
+        "RC11"
+      ]
+    },
+    "prev_hash": "583eb9b214fbc2f9e21768f2c447382f118e43301b09237adc8d44618c4ce0a9",
+    "current_hash": "48741987616d56f24396ff9a2d3f2cbac9607efaa4fac343926c00cd349833a5"
+  },
+  {
+    "event_id": "980b9135-f124-4a76-93cd-e5ceeecb40f0",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:18.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "48741987616d56f24396ff9a2d3f2cbac9607efaa4fac343926c00cd349833a5",
+    "current_hash": "d4eac21eb2f4fbfa7a18c652e5eab4dfad478eb71ad9e81cfd65640543ba9682"
+  },
+  {
+    "event_id": "2fd73c6a-6817-4a3a-834c-ac91c95555c7",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:19.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d4eac21eb2f4fbfa7a18c652e5eab4dfad478eb71ad9e81cfd65640543ba9682",
+    "current_hash": "fbaf081a2a62b73dbf6f444959f731a51f33542d17475e7789779508b6139efe"
+  },
+  {
+    "event_id": "10ec47b3-6e59-4d33-b992-de6c571da8de",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:20.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "fbaf081a2a62b73dbf6f444959f731a51f33542d17475e7789779508b6139efe",
+    "current_hash": "773336589c4a5d7ba6a2c8356fc3d5c11a55076f0fb019b8fc1c045f89423b1e"
+  },
+  {
+    "event_id": "c676d0ff-8b9b-4dbf-9747-26d4b792817a",
+    "chain_id": "dd707c4d-b4be-4eb4-b2cf-75901ec5ae1b",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:21.240165",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "773336589c4a5d7ba6a2c8356fc3d5c11a55076f0fb019b8fc1c045f89423b1e",
+    "current_hash": "55e6d3332eb9f0a14d4b6241a7dc198fed432cfc5460964f1dcb7a3cb4c4cdea"
+  },
+  {
+    "event_id": "96321802-be87-4a98-9945-7b0d6c783f72",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:02.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC06",
+        "RC10"
+      ]
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_hash": "7e1942c9e158101ffc1c02780a1561b7e266cc9151b8883ab25149be117c77cd"
+  },
+  {
+    "event_id": "b6858362-c8bd-4db9-9588-f7a56376227f",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:02.129870",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "7e1942c9e158101ffc1c02780a1561b7e266cc9151b8883ab25149be117c77cd",
+    "current_hash": "aca7335070fd4a385b943c71ddb209cd183b15a080e0e5b9dce4ef99a1b04a3b"
+  },
+  {
+    "event_id": "5d9d3bdf-6e89-4b44-af42-8fb905c5ecf0",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:03.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "aca7335070fd4a385b943c71ddb209cd183b15a080e0e5b9dce4ef99a1b04a3b",
+    "current_hash": "b4a45f03c8fb8cbe5ddb492c005f7c7adaa3a14b55d0a4a0e3d85b1c4bcee92e"
+  },
+  {
+    "event_id": "f83725f7-9041-492d-9358-ff7711afb7be",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:04.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "b4a45f03c8fb8cbe5ddb492c005f7c7adaa3a14b55d0a4a0e3d85b1c4bcee92e",
+    "current_hash": "0134d3f71d24c044052ad3fae373ce288704d9d54127853b0e93cc639da68c90"
+  },
+  {
+    "event_id": "15a5c90a-2c8c-41ea-aca1-cf13885e4a1f",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:05.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "0134d3f71d24c044052ad3fae373ce288704d9d54127853b0e93cc639da68c90",
+    "current_hash": "3832ac02cb805fb0ad5cc5ba142515f2fe0934158888b2c0ccb164b6bcee9ef9"
+  },
+  {
+    "event_id": "6510e629-eebb-4d09-96c3-843298c8beb6",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:06.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "3832ac02cb805fb0ad5cc5ba142515f2fe0934158888b2c0ccb164b6bcee9ef9",
+    "current_hash": "e5a4d606487190fa87f39aae3781131062595d31a09562b80da0216272331df8"
+  },
+  {
+    "event_id": "9297325e-476d-4843-8408-830c649fbc34",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:07.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "e5a4d606487190fa87f39aae3781131062595d31a09562b80da0216272331df8",
+    "current_hash": "297c78950994392cbd553fccd7c0a3d4049d290db9ed85e79ce7ae18151a1e30"
+  },
+  {
+    "event_id": "e1cf7415-4740-4128-ab4f-e06018cb4be5",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:08.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "297c78950994392cbd553fccd7c0a3d4049d290db9ed85e79ce7ae18151a1e30",
+    "current_hash": "a4f71c0bc330a2e706a4afe8762bd4a4db81242c648f970fabf40f2ff75cfb06"
+  },
+  {
+    "event_id": "4e0aa816-a057-426d-b5e9-08459607430b",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:09.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a4f71c0bc330a2e706a4afe8762bd4a4db81242c648f970fabf40f2ff75cfb06",
+    "current_hash": "971b444ccb01020697939a61a66f367aa7e88f1efc4af8015cee58c95a7745fe"
+  },
+  {
+    "event_id": "cf5a10db-6da9-4503-b3b6-9953a52116fb",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:10.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "971b444ccb01020697939a61a66f367aa7e88f1efc4af8015cee58c95a7745fe",
+    "current_hash": "9a99f0024ce6c70f3951a2ac475a57c00a3fd16b93ea408a32ba20dd812f8e87"
+  },
+  {
+    "event_id": "d647dfa3-1210-411e-89be-77b7bef4ede4",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:11.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9a99f0024ce6c70f3951a2ac475a57c00a3fd16b93ea408a32ba20dd812f8e87",
+    "current_hash": "2bc3d228ecb939679de08ee69748439df7c62016a08bc596648c3e2e4fe94349"
+  },
+  {
+    "event_id": "3191d8f3-d797-4dfd-be46-e7c70847e8f1",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:12.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "2bc3d228ecb939679de08ee69748439df7c62016a08bc596648c3e2e4fe94349",
+    "current_hash": "d802e4e64e356dc6a3409acf092bbf033f875827486eb7b1afe2b416b3869908"
+  },
+  {
+    "event_id": "fd13dbb4-52f8-4713-ba09-89173b76d2b1",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:13.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d802e4e64e356dc6a3409acf092bbf033f875827486eb7b1afe2b416b3869908",
+    "current_hash": "7ce7e7ac773e879f514a001c0435676772a3878e2acec042c88ca3ab006567a3"
+  },
+  {
+    "event_id": "a9f8dfeb-b6dd-447e-bec0-03f526a43276",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:14.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "7ce7e7ac773e879f514a001c0435676772a3878e2acec042c88ca3ab006567a3",
+    "current_hash": "d17515bc635acac89014682cdd60d9b5e17764adfbda4646737545f9cadfee85"
+  },
+  {
+    "event_id": "871da994-50f4-4519-9087-a218d94457c8",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:15.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d17515bc635acac89014682cdd60d9b5e17764adfbda4646737545f9cadfee85",
+    "current_hash": "061820957e8694088861fcb9ebc959408511202dca91b12a90a8e6076ac767e7"
+  },
+  {
+    "event_id": "d4b9730e-f1e0-49eb-9afa-adc808e1dbdd",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:16.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "061820957e8694088861fcb9ebc959408511202dca91b12a90a8e6076ac767e7",
+    "current_hash": "f96994610c15ae18b951b9127be1bf31b4cfee5eaf913c173525f0ba1acc1d75"
+  },
+  {
+    "event_id": "d2d7f129-9de4-45d7-a4cf-7b1aa877f769",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:17.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "f96994610c15ae18b951b9127be1bf31b4cfee5eaf913c173525f0ba1acc1d75",
+    "current_hash": "1136ab5fcccea592dbd2a025c0cfee7818a4c3eb7c6de7a44ed7f51771d42e1b"
+  },
+  {
+    "event_id": "0cdeb972-8467-4fb6-9347-ab3c0f01685a",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:17.129870",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "valve_position",
+      "reason_codes": [
+        "RC11"
+      ]
+    },
+    "prev_hash": "1136ab5fcccea592dbd2a025c0cfee7818a4c3eb7c6de7a44ed7f51771d42e1b",
+    "current_hash": "1d7b47fda8a80331638627b9bbeccb5934affc4b3b7971e8146214f2cc266a7b"
+  },
+  {
+    "event_id": "a7a04ab5-62e0-47f1-af01-36f32c57d0a0",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:18.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "1d7b47fda8a80331638627b9bbeccb5934affc4b3b7971e8146214f2cc266a7b",
+    "current_hash": "05a629183680bd68b5689dc6d4159211e06233db4002c4b3eeb6ad378aa34a8d"
+  },
+  {
+    "event_id": "236dd09b-6aab-463f-a1f6-60a5178388ba",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:19.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "05a629183680bd68b5689dc6d4159211e06233db4002c4b3eeb6ad378aa34a8d",
+    "current_hash": "54a7960c8f7b35cdb58e826e2441d7cf846c9dfd572a62f741d730def21ae5bc"
+  },
+  {
+    "event_id": "0514f779-00c6-437f-b064-98d5a1787a76",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:20.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "54a7960c8f7b35cdb58e826e2441d7cf846c9dfd572a62f741d730def21ae5bc",
+    "current_hash": "bdc1ae20757807371141b23ab0b4bcfe6bbab464a17ca928599cbe598ffde12b"
+  },
+  {
+    "event_id": "216f3f37-8e38-4013-a20f-ab355b404d71",
+    "chain_id": "db04c474-5155-4551-84d7-cac9d04424fb",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:21.129870",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "bdc1ae20757807371141b23ab0b4bcfe6bbab464a17ca928599cbe598ffde12b",
+    "current_hash": "36ad1259267c480e0e39df23f3b5d6d7dbe55854c397b8aafad0dd107817af04"
+  },
+  {
+    "event_id": "a86a6c18-9b54-421f-96db-db55438bdc2d",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:02.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC06",
+        "RC10"
+      ]
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_hash": "abf3dd508bc298c0ee48f5b034dfa88429848729c5d70db2647076fba7217c45"
+  },
+  {
+    "event_id": "0494e0ee-df5b-486b-9b4a-c40da9d7dd5d",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:02.193916",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "abf3dd508bc298c0ee48f5b034dfa88429848729c5d70db2647076fba7217c45",
+    "current_hash": "4704a95cad120618ecacd2125b233c565e77b991be98c8cfc9888ca53f2650ab"
+  },
+  {
+    "event_id": "c1a29867-560a-44f8-bff8-7613ac620fa6",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:03.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "4704a95cad120618ecacd2125b233c565e77b991be98c8cfc9888ca53f2650ab",
+    "current_hash": "23aa11794bba4bbb976942a45fd86f99d8836ca5d270e00d39cd6c191bd92c7d"
+  },
+  {
+    "event_id": "4d546531-9a1d-4fee-88ef-105deb893fd4",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:04.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "23aa11794bba4bbb976942a45fd86f99d8836ca5d270e00d39cd6c191bd92c7d",
+    "current_hash": "2fbc78ad32e861f8af7a96ce8c8190a9099fcc0eea749f6d90444b0e9d2f6915"
+  },
+  {
+    "event_id": "396196f8-0827-4742-b7a2-2ae070133020",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:05.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "2fbc78ad32e861f8af7a96ce8c8190a9099fcc0eea749f6d90444b0e9d2f6915",
+    "current_hash": "b940399a4a979efacae46b75009b77d2c0da5a13dcb8ac6676b2992f6f79900b"
+  },
+  {
+    "event_id": "a6f3033f-b034-45c8-9ee9-66570829878e",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:06.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "b940399a4a979efacae46b75009b77d2c0da5a13dcb8ac6676b2992f6f79900b",
+    "current_hash": "8d9e91403b27e73f1c3779ef6e5a670235bd8fe581c46e52e8a54fbe86f9aedb"
+  },
+  {
+    "event_id": "1809c452-3fad-4c42-8619-d68d7645b632",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:07.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "8d9e91403b27e73f1c3779ef6e5a670235bd8fe581c46e52e8a54fbe86f9aedb",
+    "current_hash": "9d8fbc04ced0977b602ef34d9d54473b773857061022d882b3579c296d2509cd"
+  },
+  {
+    "event_id": "91a9bc59-98d5-40f6-bb0a-374430000d48",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:08.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9d8fbc04ced0977b602ef34d9d54473b773857061022d882b3579c296d2509cd",
+    "current_hash": "4689e628f9e3f6bfc849bf84a347125c42369d48250f09c71f44cfad370e846d"
+  },
+  {
+    "event_id": "48a4f423-0b08-4c9d-8aac-94d64cc3944a",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:09.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "4689e628f9e3f6bfc849bf84a347125c42369d48250f09c71f44cfad370e846d",
+    "current_hash": "cd2414dd920433baa206181c43046bd9b5f68ecce8b6f46728391710ec72545e"
+  },
+  {
+    "event_id": "4881fe51-6d84-43a9-b6cb-38c832dc4b2c",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:10.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "cd2414dd920433baa206181c43046bd9b5f68ecce8b6f46728391710ec72545e",
+    "current_hash": "0401a9d2bbfd2f0763ffd4d1e0c45550b022d9e661bab2ca5e9b9c5863d9850d"
+  },
+  {
+    "event_id": "c441841c-8763-4cbf-9da6-cb5c639cacab",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:11.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "0401a9d2bbfd2f0763ffd4d1e0c45550b022d9e661bab2ca5e9b9c5863d9850d",
+    "current_hash": "5c36939344d41b97454d542230c11df81f381986c897c2f2bdec88bb3db3f39b"
+  },
+  {
+    "event_id": "73bea465-c985-4bc6-a60d-c2370b1e0ae0",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:12.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "5c36939344d41b97454d542230c11df81f381986c897c2f2bdec88bb3db3f39b",
+    "current_hash": "06086adbd28eb577ae6d2ef5c47797e35b9b6120ab62048abcb8f93738210a4e"
+  },
+  {
+    "event_id": "7fbb710b-b9c2-476f-8ebf-afa064c19146",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:13.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "06086adbd28eb577ae6d2ef5c47797e35b9b6120ab62048abcb8f93738210a4e",
+    "current_hash": "dea7e5de344eb41cf3a4be626e1707161d0bef911ce35e40dcb0b9977a824925"
+  },
+  {
+    "event_id": "61719171-1c44-4b1b-8d22-6e8a9da38652",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:14.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "dea7e5de344eb41cf3a4be626e1707161d0bef911ce35e40dcb0b9977a824925",
+    "current_hash": "cfde98d29d426e73fa27c792fc472f834e2ddae14f2b7d9bcf5697e1a4f13977"
+  },
+  {
+    "event_id": "1228fe42-4497-48ab-9170-883626a7b08b",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:15.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "cfde98d29d426e73fa27c792fc472f834e2ddae14f2b7d9bcf5697e1a4f13977",
+    "current_hash": "75d5642d7b2a718b6dd348248098e6f83582c201b28f9e8ef3706077f52d39ab"
+  },
+  {
+    "event_id": "fab4977b-0efe-40a5-b964-ee1214ad4928",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:16.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "75d5642d7b2a718b6dd348248098e6f83582c201b28f9e8ef3706077f52d39ab",
+    "current_hash": "859e3cdda6a838721506f17c63980573cf64e11bdaaf50d6adc074006ca07ebb"
+  },
+  {
+    "event_id": "f9de98c6-6e28-47fd-9807-76a56f567c5a",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:17.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "859e3cdda6a838721506f17c63980573cf64e11bdaaf50d6adc074006ca07ebb",
+    "current_hash": "d752779b8079ce30246d18c2f2532efe70badf408ff5dca4bd5dbfc4b687a6e7"
+  },
+  {
+    "event_id": "3061a19c-9405-4f0c-a479-7b6b3a2f2f33",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:17.193916",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "valve_position",
+      "reason_codes": [
+        "RC11"
+      ]
+    },
+    "prev_hash": "d752779b8079ce30246d18c2f2532efe70badf408ff5dca4bd5dbfc4b687a6e7",
+    "current_hash": "ddb60ecce30bfefbce308d2bc080c47bb9a9aa14160c0ee7ec6b2695cf1702d9"
+  },
+  {
+    "event_id": "1dabac28-2d78-4c4d-88dc-0cc654100aea",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:18.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "ddb60ecce30bfefbce308d2bc080c47bb9a9aa14160c0ee7ec6b2695cf1702d9",
+    "current_hash": "41b7b5f11395d1873c1d4eaa314a91905d8f15c9b660f5bbcea970b628955d83"
+  },
+  {
+    "event_id": "d2d334de-ab39-4e3b-936b-69d0c159b13f",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:19.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "41b7b5f11395d1873c1d4eaa314a91905d8f15c9b660f5bbcea970b628955d83",
+    "current_hash": "b057ffd776a0ec186f3efe5395dcd71b92b5bf08c928f77edbd18c8b25177f5c"
+  },
+  {
+    "event_id": "7cb1b350-4aed-4e9b-938d-7517c3e1fb4c",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:20.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "b057ffd776a0ec186f3efe5395dcd71b92b5bf08c928f77edbd18c8b25177f5c",
+    "current_hash": "02ac17230417045e31689e468636112459608544fbb9b7fef4aef9dfaddefdbe"
+  },
+  {
+    "event_id": "8ae20828-e820-47e5-8ec0-0547333e56c1",
+    "chain_id": "1eed631b-a706-49cb-a536-b545e531a82f",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:21.193916",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "02ac17230417045e31689e468636112459608544fbb9b7fef4aef9dfaddefdbe",
+    "current_hash": "7c1ace2e6974f82d290f37edb956c046133ba93a023d5a7d2b52c3d6f7d8b17f"
+  },
+  {
+    "event_id": "0cfbc4de-7c10-496f-ba08-f49ca24405a9",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:02.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC06",
+        "RC10"
+      ]
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_hash": "6b3f3d8bc9b30f991a4fa63b938a8a04ef5450b2101f66aa8cbc89d4e9aa0045"
+  },
+  {
+    "event_id": "b81d7058-2bc4-4c23-a85f-b0550c3e5ec8",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:02.214806",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "6b3f3d8bc9b30f991a4fa63b938a8a04ef5450b2101f66aa8cbc89d4e9aa0045",
+    "current_hash": "d5ca689994f40a735f62812ce1a6c076d833d7add33011a289ffafb866b60f06"
+  },
+  {
+    "event_id": "82f64865-7b22-442f-9ff2-ced39e13e849",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:03.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d5ca689994f40a735f62812ce1a6c076d833d7add33011a289ffafb866b60f06",
+    "current_hash": "0ca9fd1456de5aebc07a0c02f598a924a9c9ddd1ab3d28966765af5011a01fab"
+  },
+  {
+    "event_id": "73f31882-1f31-4679-9ca0-f2d3d791e3f5",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:04.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "0ca9fd1456de5aebc07a0c02f598a924a9c9ddd1ab3d28966765af5011a01fab",
+    "current_hash": "e87008068af5234550ef2835516dc0e2bffd418641d8c8b3b99ef4218aedbfc2"
+  },
+  {
+    "event_id": "f54df268-eec3-49e9-b5e8-3d1289e7342f",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:05.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "e87008068af5234550ef2835516dc0e2bffd418641d8c8b3b99ef4218aedbfc2",
+    "current_hash": "bd79b4b43df2524a71f737883665b6964dd44f146bd3bebdf5dbb2c01db88312"
+  },
+  {
+    "event_id": "e66cb92e-558b-49ac-9e8f-c12c8a2f50f5",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:06.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "bd79b4b43df2524a71f737883665b6964dd44f146bd3bebdf5dbb2c01db88312",
+    "current_hash": "5582cafa8d18cea226ff0a20c29a5de42a1f266a22a5874f1aca378a4481cee1"
+  },
+  {
+    "event_id": "71159a4b-fdd4-4ec2-b7f8-0300a702f77a",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:07.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "5582cafa8d18cea226ff0a20c29a5de42a1f266a22a5874f1aca378a4481cee1",
+    "current_hash": "2562dfc2b3afec1e265c4a2f8f5ccf5a3109cdf27ad4a85fd141569eb4e6d504"
+  },
+  {
+    "event_id": "fef30bb3-ed4f-48d9-97c9-407c24473a17",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:08.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "2562dfc2b3afec1e265c4a2f8f5ccf5a3109cdf27ad4a85fd141569eb4e6d504",
+    "current_hash": "077f68ca9e8958bc1ed4315c58010986f2cd42e676f5225be37ff943d73c33de"
+  },
+  {
+    "event_id": "9be73f43-b171-4b57-845a-256894f4df1b",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:09.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "077f68ca9e8958bc1ed4315c58010986f2cd42e676f5225be37ff943d73c33de",
+    "current_hash": "e3f9ad34972469ab34a71de221106618b7bf5890a2f51aae539231f34db96bab"
+  },
+  {
+    "event_id": "188841d9-49cf-4d81-ab2d-5620d2db4a4a",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:10.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "e3f9ad34972469ab34a71de221106618b7bf5890a2f51aae539231f34db96bab",
+    "current_hash": "ad784b48851f6061a94bca3a65fd3b62ffad7f837b3ab803b639cf604c620572"
+  },
+  {
+    "event_id": "2d295777-afd6-44c0-b330-36af3ef27af8",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:11.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "ad784b48851f6061a94bca3a65fd3b62ffad7f837b3ab803b639cf604c620572",
+    "current_hash": "f07ccb6a40cdecfae8d38364916a6d45410ee95853a10a2c2c23d9b4469b73ec"
+  },
+  {
+    "event_id": "22bcd2dd-9ba5-4885-948a-dfc957a011b7",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:12.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "f07ccb6a40cdecfae8d38364916a6d45410ee95853a10a2c2c23d9b4469b73ec",
+    "current_hash": "91ec08d1dc1ae346c90fe3d1d916ec835ccb8dab99ba781d8e1fdcbaf3935b2b"
+  },
+  {
+    "event_id": "b6bb96af-c6c7-4774-b197-25b52eb68959",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:13.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "91ec08d1dc1ae346c90fe3d1d916ec835ccb8dab99ba781d8e1fdcbaf3935b2b",
+    "current_hash": "a777491e6869e2ba03f46aa7bb2304218a1919e29d379cf369c4edfb048d9fca"
+  },
+  {
+    "event_id": "9406e0c2-76f7-40ff-814d-e218e9dd04e3",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:14.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a777491e6869e2ba03f46aa7bb2304218a1919e29d379cf369c4edfb048d9fca",
+    "current_hash": "ca39628baf708b79a889da4cfad32382eb6d711689a82dde92a7ab44df04ffd8"
+  },
+  {
+    "event_id": "cacf8444-c5b2-46c7-958b-ce984092f3bd",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:15.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "ca39628baf708b79a889da4cfad32382eb6d711689a82dde92a7ab44df04ffd8",
+    "current_hash": "b9faa174349cf19ff46ec58a46a8677ea0bbd2462df8da3002a48f082826a6a4"
+  },
+  {
+    "event_id": "90cac003-183b-447f-8dfc-d66f8bfd4747",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:16.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "b9faa174349cf19ff46ec58a46a8677ea0bbd2462df8da3002a48f082826a6a4",
+    "current_hash": "2c0936f8a22bce17fbde096a7ae41cecc8ea723833eff7395ab645e39d1ff9f1"
+  },
+  {
+    "event_id": "c4f46a97-b5d0-4dfd-a5bd-062e7f9cdacd",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:17.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "2c0936f8a22bce17fbde096a7ae41cecc8ea723833eff7395ab645e39d1ff9f1",
+    "current_hash": "aad84d8de1a2f2c6a88c5a89569763a04bfc45ebb41942344b433ea04296a0ad"
+  },
+  {
+    "event_id": "b1c530fa-7ad5-4a5b-be74-6be31931409e",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:17.214806",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "valve_position",
+      "reason_codes": [
+        "RC11"
+      ]
+    },
+    "prev_hash": "aad84d8de1a2f2c6a88c5a89569763a04bfc45ebb41942344b433ea04296a0ad",
+    "current_hash": "688b96718f3b5c39d20ce672e209a98dcd4441e4eed33a63bf42f831edd142cc"
+  },
+  {
+    "event_id": "391610cb-1fe7-414f-a6ad-fa835fcb9bf8",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:18.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "688b96718f3b5c39d20ce672e209a98dcd4441e4eed33a63bf42f831edd142cc",
+    "current_hash": "67d349f4871ca6a2e3d98010aea8b99830022abf1867b5f8707aef465e3c4576"
+  },
+  {
+    "event_id": "f673b4ba-2559-48da-9378-91d584b7366d",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:19.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "67d349f4871ca6a2e3d98010aea8b99830022abf1867b5f8707aef465e3c4576",
+    "current_hash": "977d562f02af30212bfc69c9a69c8ce7ac9def07e6e7c33d9febe42da421c23f"
+  },
+  {
+    "event_id": "04a9b938-517f-4b7e-8944-742546ed2835",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:20.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "977d562f02af30212bfc69c9a69c8ce7ac9def07e6e7c33d9febe42da421c23f",
+    "current_hash": "9cdc559b33ecfd459fcba126a8a382cb3d443d0baa34d4555fd80c36172ac535"
+  },
+  {
+    "event_id": "7ba8350b-238e-4240-a18e-6b5e7fab86e8",
+    "chain_id": "8bd4ff2f-ad5c-4c1e-8dc7-ec0c8dbccfef",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:21.214806",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9cdc559b33ecfd459fcba126a8a382cb3d443d0baa34d4555fd80c36172ac535",
+    "current_hash": "160d12246b63ac1330994fc844acdfbc5dd6b9b8fdc2ca68e314971543105756"
+  },
+  {
+    "event_id": "0291f00a-7467-4de0-aa7a-e52ad6675675",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:02.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC06",
+        "RC10"
+      ]
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "current_hash": "cb14e4d13c7f52684b65373d53df67a4a974c3d0fca058ebb5d1a28995b3e8d5"
+  },
+  {
+    "event_id": "c366fee2-8df7-49d0-b024-0f55a0a22d87",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:02.262932",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "cb14e4d13c7f52684b65373d53df67a4a974c3d0fca058ebb5d1a28995b3e8d5",
+    "current_hash": "d03b96a5bda9ceaad9d4bae7e74016cfff6faaa1710696cc2398f56d867f5bed"
+  },
+  {
+    "event_id": "9de1d261-0bbb-4f09-8a1b-23ec2f1b55d4",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:03.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d03b96a5bda9ceaad9d4bae7e74016cfff6faaa1710696cc2398f56d867f5bed",
+    "current_hash": "e9f3a86af361db0b5c7b6c6abc590a657ae2e3143d8f5c67c96e2b7f2a4f0a2a"
+  },
+  {
+    "event_id": "86c89fd0-0fd5-4fef-9f9e-4b0fd42eefe0",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:04.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "e9f3a86af361db0b5c7b6c6abc590a657ae2e3143d8f5c67c96e2b7f2a4f0a2a",
+    "current_hash": "d926950ad7c5ab73078c2c79c691c7974b38e17f5a34383c770bdad444503181"
+  },
+  {
+    "event_id": "1f57da85-91bd-4853-8203-e1a5962aa604",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:05.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "d926950ad7c5ab73078c2c79c691c7974b38e17f5a34383c770bdad444503181",
+    "current_hash": "9f9d40bde92b0deaddaec6741dfbbd5d2dc14b8d79cfd4656ef304253f0f97fc"
+  },
+  {
+    "event_id": "82ec888f-f54a-4c02-9a9f-a7f3a6bf9508",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:06.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9f9d40bde92b0deaddaec6741dfbbd5d2dc14b8d79cfd4656ef304253f0f97fc",
+    "current_hash": "87efa36a2ac7351423c3b0ec59a6ec049727207a25d697d6e931e4059b2ad880"
+  },
+  {
+    "event_id": "32af66b3-e2fd-4eae-98f7-ded7be621232",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:07.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "87efa36a2ac7351423c3b0ec59a6ec049727207a25d697d6e931e4059b2ad880",
+    "current_hash": "01b0e5f34b93fe9bbb2420d567de32bfee357b81f756eb39d70adba7e2b12303"
+  },
+  {
+    "event_id": "06175cfd-8094-49bd-8f3c-d07ea9cff4d1",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:08.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "01b0e5f34b93fe9bbb2420d567de32bfee357b81f756eb39d70adba7e2b12303",
+    "current_hash": "f32bd4a0b733d9c800e1a9be6b65a5094b18cae058437661eca086bb75f1d429"
+  },
+  {
+    "event_id": "70895a5f-aaeb-418b-9287-b56be6b98a8b",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:09.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "f32bd4a0b733d9c800e1a9be6b65a5094b18cae058437661eca086bb75f1d429",
+    "current_hash": "a33f9b3c4289877ec03fc4c8f38cf7a1faa1c000c3507fc486f8cc31fc9cd353"
+  },
+  {
+    "event_id": "cf0635c8-03cf-4631-8d66-3697dabf51b6",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:10.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a33f9b3c4289877ec03fc4c8f38cf7a1faa1c000c3507fc486f8cc31fc9cd353",
+    "current_hash": "b532392c267d9fde562cb5a350f0c855e6bb89d8a40954d92b2852a076665f79"
+  },
+  {
+    "event_id": "edb3dde0-9fc5-4d59-92a2-c99866a4cc1c",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:11.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "b532392c267d9fde562cb5a350f0c855e6bb89d8a40954d92b2852a076665f79",
+    "current_hash": "9abb0ebe986ffe930e80ea9efad91bf8e0cedf5c11155943a35a0e11b9ce5aad"
+  },
+  {
+    "event_id": "d9fa5e86-b25a-415f-8a8a-f42f25ed8a05",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:12.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9abb0ebe986ffe930e80ea9efad91bf8e0cedf5c11155943a35a0e11b9ce5aad",
+    "current_hash": "5627032a64f7d447fcd0ecc9ae982a097288b31a92d18cdc6c38164a0b7bc68e"
+  },
+  {
+    "event_id": "b8b56fb2-d0d7-4a30-8352-1bb5be3a16e8",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:13.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "5627032a64f7d447fcd0ecc9ae982a097288b31a92d18cdc6c38164a0b7bc68e",
+    "current_hash": "a644dcd180efe482372833808982b72bea3d333b6fffa33c81e1148d3bd16497"
+  },
+  {
+    "event_id": "6dc96e68-e589-4c05-a4fd-5347280b7bc1",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:14.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "a644dcd180efe482372833808982b72bea3d333b6fffa33c81e1148d3bd16497",
+    "current_hash": "52f52497724acd112fd3b334ed2b41b329922b897d3819e3caba7c7f1815e3e0"
+  },
+  {
+    "event_id": "f2df9ff5-9711-41e4-ac17-763d121bde8e",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:15.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "52f52497724acd112fd3b334ed2b41b329922b897d3819e3caba7c7f1815e3e0",
+    "current_hash": "81abdc10843d2d92f03b21125efa36fd777160760fead50ed2dba29890755001"
+  },
+  {
+    "event_id": "2a564fee-cf58-4722-ade1-072aa10ff439",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:16.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "81abdc10843d2d92f03b21125efa36fd777160760fead50ed2dba29890755001",
+    "current_hash": "72533d49cbbc7f44e9438bcd64ed52ec8e200c7d0a84fffb5b986ebe796cff64"
+  },
+  {
+    "event_id": "a06e03ec-6651-48af-a2f7-b73cb8ed7c9f",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:17.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "72533d49cbbc7f44e9438bcd64ed52ec8e200c7d0a84fffb5b986ebe796cff64",
+    "current_hash": "bbf3d809c356eea083929a73a8bc173315be019e47412016022beeb8ef9556a5"
+  },
+  {
+    "event_id": "c0825bf0-5bd4-462d-a84f-e83884ddd303",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:17.262932",
+    "actor": "system",
+    "action": "contradiction_detected",
+    "payload": {
+      "tag_id": "valve_position",
+      "reason_codes": [
+        "RC11"
+      ]
+    },
+    "prev_hash": "bbf3d809c356eea083929a73a8bc173315be019e47412016022beeb8ef9556a5",
+    "current_hash": "1df77107a640264a8e9cef10df0bb7f7a9dc73128573a9fc6d327098e94809d1"
+  },
+  {
+    "event_id": "78e31ae1-2ab9-4b68-85eb-9ad9b9502499",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:18.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "1df77107a640264a8e9cef10df0bb7f7a9dc73128573a9fc6d327098e94809d1",
+    "current_hash": "e31d38710b74913c8c90210ce912903548344a3b858314a4c05fee81ab1da92a"
+  },
+  {
+    "event_id": "f635e5a5-79ac-4603-b13c-c84891655aaf",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:19.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "e31d38710b74913c8c90210ce912903548344a3b858314a4c05fee81ab1da92a",
+    "current_hash": "9ec180c9bfc4185e62bef8dfbcaa4c953e4d5504ce4f90320a1250a971b18245"
+  },
+  {
+    "event_id": "8a233990-b48f-4b09-aa41-8d6398c56c4c",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:20.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "9ec180c9bfc4185e62bef8dfbcaa4c953e4d5504ce4f90320a1250a971b18245",
+    "current_hash": "ba2d1204d85f8dc33610ebd3bd9c037f9e16e9edf15c1b55da85cb4d01aaccf2"
+  },
+  {
+    "event_id": "9f88b55b-8c2b-42ad-a0d8-b97ca1f3c4d3",
+    "chain_id": "5821fa56-5c04-4be0-83f7-1c7b19eaab71",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:21.262932",
+    "actor": "system",
+    "action": "trust_updated",
+    "payload": {
+      "tag_id": "pressure_sensor_a",
+      "reason_codes": [
+        "RC10"
+      ]
+    },
+    "prev_hash": "ba2d1204d85f8dc33610ebd3bd9c037f9e16e9edf15c1b55da85cb4d01aaccf2",
+    "current_hash": "4e8df2c966afeaae33fc34199666839636b36972c6b89ff5687e2ced4518f72c"
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "receipt_id": "204335de-2850-4cd7-a687-2884e1bb5f96",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:47.129870",
+    "operator_id": "operator_347c4269",
+    "action_type": "defer",
+    "action_description": "Deferred action pending visual inspection",
+    "rationale": "Cannot trust sensor data - physical verification required before control action",
+    "uncertainty_snapshot": {
+      "pressure_sensor_a": 0.5,
+      "pressure_sensor_b": 1.0,
+      "valve_position": 0.3,
+      "flow_meter": 1.0
+    },
+    "active_contradictions": [
+      "ea2ef5e1-4fe3-403e-b9ff-a04f842966a7"
+    ],
+    "evidence_refs": [
+      "ev_81b16f4b"
+    ],
+    "content_hash": "397fb3c99864de14e41b95f2d2c85246b087f5539e358372f95f1d8cc3a547c9"
+  },
+  {
+    "receipt_id": "6c3a93e4-df43-461c-b90b-e1477986acd4",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:47.193916",
+    "operator_id": "operator_47ca83fc",
+    "action_type": "defer",
+    "action_description": "Deferred action pending visual inspection",
+    "rationale": "Cannot trust sensor data - physical verification required before control action",
+    "uncertainty_snapshot": {
+      "pressure_sensor_a": 0.5,
+      "pressure_sensor_b": 1.0,
+      "valve_position": 0.3,
+      "flow_meter": 1.0
+    },
+    "active_contradictions": [
+      "e886521d-0a90-4c6d-977c-4f033caddb16"
+    ],
+    "evidence_refs": [
+      "ev_b5f278d4"
+    ],
+    "content_hash": "baccffdd0a5848ed9f511a472826aa981d4fa5c2decc8ba62fce30bffcb49e7d"
+  },
+  {
+    "receipt_id": "f0b34e94-7a2d-40d3-bd94-ee1c3079ae16",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:47.214806",
+    "operator_id": "operator_12c170b0",
+    "action_type": "defer",
+    "action_description": "Deferred action pending visual inspection",
+    "rationale": "Cannot trust sensor data - physical verification required before control action",
+    "uncertainty_snapshot": {
+      "pressure_sensor_a": 0.5,
+      "pressure_sensor_b": 1.0,
+      "valve_position": 0.3,
+      "flow_meter": 1.0
+    },
+    "active_contradictions": [
+      "94ffa291-5512-4b8f-b670-6f2434ccc1e8"
+    ],
+    "evidence_refs": [
+      "ev_8dc8dad7"
+    ],
+    "content_hash": "804475542088ddaedbb581f750ca3a1a32be217564122ff9374da3d89d488575"
+  },
+  {
+    "receipt_id": "7d1841b5-d683-44a6-9fb0-f02c9db31e2c",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:47.240165",
+    "operator_id": "operator_d2b37207",
+    "action_type": "defer",
+    "action_description": "Deferred action pending visual inspection",
+    "rationale": "Cannot trust sensor data - physical verification required before control action",
+    "uncertainty_snapshot": {
+      "pressure_sensor_a": 0.5,
+      "pressure_sensor_b": 1.0,
+      "valve_position": 0.3,
+      "flow_meter": 1.0
+    },
+    "active_contradictions": [
+      "403459f4-829c-4cc3-ba0d-53823a326fbc"
+    ],
+    "evidence_refs": [
+      "ev_1c5c27e3"
+    ],
+    "content_hash": "be19a9b2e8e17a7862155dfc6759291ae0f78ae9c998f5e22a8783ed442f5aaf"
+  },
+  {
+    "receipt_id": "2a4f740e-b7b2-4928-b755-82941e226b20",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:47.262932",
+    "operator_id": "operator_a69e5544",
+    "action_type": "defer",
+    "action_description": "Deferred action pending visual inspection",
+    "rationale": "Cannot trust sensor data - physical verification required before control action",
+    "uncertainty_snapshot": {
+      "pressure_sensor_a": 0.5,
+      "pressure_sensor_b": 1.0,
+      "valve_position": 0.3,
+      "flow_meter": 1.0
+    },
+    "active_contradictions": [
+      "9d1f3a73-802d-4aee-a343-c63fae976972"
+    ],
+    "evidence_refs": [
+      "ev_132e1f99"
+    ],
+    "content_hash": "c1f8bf3a7106220e2b31537c673916a11d1a4ec6917092a8f4b2cbb1aad44291"
+  }
+]

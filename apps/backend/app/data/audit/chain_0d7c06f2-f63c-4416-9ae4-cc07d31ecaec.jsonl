@@ -1,0 +1,1 @@
+{"event_id":"ced24ed2-65d9-4439-b7b1-07c6722b27c5","timestamp":"2026-01-15T03:01:27.489504","actor":"system","actor_id":null,"action":"test_action","payload":{"test":"data"},"data_ref":null,"prev_hash":"0000000000000000000000000000000000000000000000000000000000000000","current_hash":"be3456a5e645d6a5b74ab989b3c5ab8aaf12deca428b74ae6dbc58ac0a274553","anchor_tx_sig":null}

@@ -1,0 +1,13 @@
+timestamp,time_sec,event_type,severity,tag_id,reason_code,description,action_required
+2026-01-14T10:00:00,0.0,scenario_start,INFO,,,Scenario started: The Mismatched Valve Incident,false
+2026-01-14T10:00:30,30.0,trust_update,INFO,pressure_sensor_a,,Trust score stable at 1.0,false
+2026-01-14T10:01:00,60.0,failure_injection,WARNING,pressure_sensor_a,RC10,Sensor reading diverged from redundant sensor,false
+2026-01-14T10:01:02,62.0,trust_degraded,WARNING,pressure_sensor_a,RC10,Trust score dropped to 0.7 - Redundancy conflict with pressure_sensor_b,false
+2026-01-14T10:01:05,65.0,contradiction_detected,ALARM,pressure_sensor_a,RC10,Redundancy conflict: pressure_sensor_a=40 PSI vs pressure_sensor_b=100 PSI,true
+2026-01-14T10:01:15,75.0,failure_injection,CRITICAL,valve_position,RC11,Valve position sensor shows CLOSED,false
+2026-01-14T10:01:16,76.0,contradiction_detected,CRITICAL,valve_position,RC11,Physics violation: Valve CLOSED (0%) but flow_meter shows 500 GPM,true
+2026-01-14T10:01:17,77.0,mode_change,CRITICAL,,,System entered DECISION MODE - operator action required,true
+2026-01-14T10:01:30,90.0,operator_action,INFO,,,Operator selected DEFER - pending visual inspection,false
+2026-01-14T10:01:31,91.0,operator_action,INFO,,,Operator dispatched field technician,false
+2026-01-14T10:02:00,120.0,mode_change,INFO,,,System entered REPLAY MODE for forensic review,false
+2026-01-14T10:03:00,180.0,scenario_end,INFO,,,Scenario completed,false

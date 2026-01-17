@@ -1,0 +1,1081 @@
+timestamp,tag_id,sensor_name,value,unit,quality,time_sec,redundancy_group
+2026-01-14T10:00:00,pressure_sensor_a,Pressure Sensor A,99.712,PSI,Good,0.0,pressure_main
+2026-01-14T10:00:00,pressure_sensor_b,Pressure Sensor B,99.654,PSI,Good,0.0,pressure_main
+2026-01-14T10:00:00,flow_meter,Flow Meter,498.33,GPM,Good,0.0,
+2026-01-14T10:00:00,valve_position,Main Valve Position,100.0,%,Good,0.0,
+2026-01-14T10:00:00,vibration_sensor,Pump Vibration,2.468,mm/s,Good,0.0,
+2026-01-14T10:00:00,temperature_sensor,Fluid Temperature,34.476,°C,Good,0.0,
+2026-01-14T10:00:01,pressure_sensor_a,Pressure Sensor A,100.769,PSI,Good,1.0,pressure_main
+2026-01-14T10:00:01,pressure_sensor_b,Pressure Sensor B,99.57,PSI,Good,1.0,pressure_main
+2026-01-14T10:00:01,flow_meter,Flow Meter,497.791,GPM,Good,1.0,
+2026-01-14T10:00:01,valve_position,Main Valve Position,100.0,%,Good,1.0,
+2026-01-14T10:00:01,vibration_sensor,Pump Vibration,2.558,mm/s,Good,1.0,
+2026-01-14T10:00:01,temperature_sensor,Fluid Temperature,35.408,°C,Good,1.0,
+2026-01-14T10:00:02,pressure_sensor_a,Pressure Sensor A,101.522,PSI,Good,2.0,pressure_main
+2026-01-14T10:00:02,pressure_sensor_b,Pressure Sensor B,100.43,PSI,Good,2.0,pressure_main
+2026-01-14T10:00:02,flow_meter,Flow Meter,491.004,GPM,Good,2.0,
+2026-01-14T10:00:02,valve_position,Main Valve Position,100.0,%,Good,2.0,
+2026-01-14T10:00:02,vibration_sensor,Pump Vibration,2.562,mm/s,Good,2.0,
+2026-01-14T10:00:02,temperature_sensor,Fluid Temperature,35.461,°C,Good,2.0,
+2026-01-14T10:00:03,pressure_sensor_a,Pressure Sensor A,100.396,PSI,Good,3.0,pressure_main
+2026-01-14T10:00:03,pressure_sensor_b,Pressure Sensor B,100.1,PSI,Good,3.0,pressure_main
+2026-01-14T10:00:03,flow_meter,Flow Meter,511.067,GPM,Good,3.0,
+2026-01-14T10:00:03,valve_position,Main Valve Position,100.0,%,Good,3.0,
+2026-01-14T10:00:03,vibration_sensor,Pump Vibration,2.422,mm/s,Good,3.0,
+2026-01-14T10:00:03,temperature_sensor,Fluid Temperature,35.175,°C,Good,3.0,
+2026-01-14T10:00:04,pressure_sensor_a,Pressure Sensor A,102.163,PSI,Good,4.0,pressure_main
+2026-01-14T10:00:04,pressure_sensor_b,Pressure Sensor B,99.935,PSI,Good,4.0,pressure_main
+2026-01-14T10:00:04,flow_meter,Flow Meter,509.716,GPM,Good,4.0,
+2026-01-14T10:00:04,valve_position,Main Valve Position,100.0,%,Good,4.0,
+2026-01-14T10:00:04,vibration_sensor,Pump Vibration,2.696,mm/s,Good,4.0,
+2026-01-14T10:00:04,temperature_sensor,Fluid Temperature,34.614,°C,Good,4.0,
+2026-01-14T10:00:05,pressure_sensor_a,Pressure Sensor A,101.654,PSI,Good,5.0,pressure_main
+2026-01-14T10:00:05,pressure_sensor_b,Pressure Sensor B,97.489,PSI,Good,5.0,pressure_main
+2026-01-14T10:00:05,flow_meter,Flow Meter,465.701,GPM,Good,5.0,
+2026-01-14T10:00:05,valve_position,Main Valve Position,100.0,%,Good,5.0,
+2026-01-14T10:00:05,vibration_sensor,Pump Vibration,2.271,mm/s,Good,5.0,
+2026-01-14T10:00:05,temperature_sensor,Fluid Temperature,35.312,°C,Good,5.0,
+2026-01-14T10:00:06,pressure_sensor_a,Pressure Sensor A,101.947,PSI,Good,6.0,pressure_main
+2026-01-14T10:00:06,pressure_sensor_b,Pressure Sensor B,98.18,PSI,Good,6.0,pressure_main
+2026-01-14T10:00:06,flow_meter,Flow Meter,518.588,GPM,Good,6.0,
+2026-01-14T10:00:06,valve_position,Main Valve Position,100.0,%,Good,6.0,
+2026-01-14T10:00:06,vibration_sensor,Pump Vibration,2.478,mm/s,Good,6.0,
+2026-01-14T10:00:06,temperature_sensor,Fluid Temperature,34.903,°C,Good,6.0,
+2026-01-14T10:00:07,pressure_sensor_a,Pressure Sensor A,100.946,PSI,Good,7.0,pressure_main
+2026-01-14T10:00:07,pressure_sensor_b,Pressure Sensor B,102.354,PSI,Good,7.0,pressure_main
+2026-01-14T10:00:07,flow_meter,Flow Meter,516.268,GPM,Good,7.0,
+2026-01-14T10:00:07,valve_position,Main Valve Position,100.0,%,Good,7.0,
+2026-01-14T10:00:07,vibration_sensor,Pump Vibration,2.662,mm/s,Good,7.0,
+2026-01-14T10:00:07,temperature_sensor,Fluid Temperature,35.174,°C,Good,7.0,
+2026-01-14T10:00:08,pressure_sensor_a,Pressure Sensor A,99.56,PSI,Good,8.0,pressure_main
+2026-01-14T10:00:08,pressure_sensor_b,Pressure Sensor B,99.379,PSI,Good,8.0,pressure_main
+2026-01-14T10:00:08,flow_meter,Flow Meter,500.382,GPM,Good,8.0,
+2026-01-14T10:00:08,valve_position,Main Valve Position,100.0,%,Good,8.0,
+2026-01-14T10:00:08,vibration_sensor,Pump Vibration,2.437,mm/s,Good,8.0,
+2026-01-14T10:00:08,temperature_sensor,Fluid Temperature,35.826,°C,Good,8.0,
+2026-01-14T10:00:09,pressure_sensor_a,Pressure Sensor A,99.269,PSI,Good,9.0,pressure_main
+2026-01-14T10:00:09,pressure_sensor_b,Pressure Sensor B,98.71,PSI,Good,9.0,pressure_main
+2026-01-14T10:00:09,flow_meter,Flow Meter,519.617,GPM,Good,9.0,
+2026-01-14T10:00:09,valve_position,Main Valve Position,100.0,%,Good,9.0,
+2026-01-14T10:00:09,vibration_sensor,Pump Vibration,2.626,mm/s,Good,9.0,
+2026-01-14T10:00:09,temperature_sensor,Fluid Temperature,35.302,°C,Good,9.0,
+2026-01-14T10:00:10,pressure_sensor_a,Pressure Sensor A,103.853,PSI,Good,10.0,pressure_main
+2026-01-14T10:00:10,pressure_sensor_b,Pressure Sensor B,100.812,PSI,Good,10.0,pressure_main
+2026-01-14T10:00:10,flow_meter,Flow Meter,487.316,GPM,Good,10.0,
+2026-01-14T10:00:10,valve_position,Main Valve Position,100.0,%,Good,10.0,
+2026-01-14T10:00:10,vibration_sensor,Pump Vibration,2.738,mm/s,Good,10.0,
+2026-01-14T10:00:10,temperature_sensor,Fluid Temperature,34.505,°C,Good,10.0,
+2026-01-14T10:00:11,pressure_sensor_a,Pressure Sensor A,101.156,PSI,Good,11.0,pressure_main
+2026-01-14T10:00:11,pressure_sensor_b,Pressure Sensor B,101.596,PSI,Good,11.0,pressure_main
+2026-01-14T10:00:11,flow_meter,Flow Meter,504.402,GPM,Good,11.0,
+2026-01-14T10:00:11,valve_position,Main Valve Position,100.0,%,Good,11.0,
+2026-01-14T10:00:11,vibration_sensor,Pump Vibration,2.645,mm/s,Good,11.0,
+2026-01-14T10:00:11,temperature_sensor,Fluid Temperature,35.823,°C,Good,11.0,
+2026-01-14T10:00:12,pressure_sensor_a,Pressure Sensor A,102.416,PSI,Good,12.0,pressure_main
+2026-01-14T10:00:12,pressure_sensor_b,Pressure Sensor B,99.957,PSI,Good,12.0,pressure_main
+2026-01-14T10:00:12,flow_meter,Flow Meter,501.084,GPM,Good,12.0,
+2026-01-14T10:00:12,valve_position,Main Valve Position,100.0,%,Good,12.0,
+2026-01-14T10:00:12,vibration_sensor,Pump Vibration,2.738,mm/s,Good,12.0,
+2026-01-14T10:00:12,temperature_sensor,Fluid Temperature,34.814,°C,Good,12.0,
+2026-01-14T10:00:13,pressure_sensor_a,Pressure Sensor A,101.118,PSI,Good,13.0,pressure_main
+2026-01-14T10:00:13,pressure_sensor_b,Pressure Sensor B,102.757,PSI,Good,13.0,pressure_main
+2026-01-14T10:00:13,flow_meter,Flow Meter,498.93,GPM,Good,13.0,
+2026-01-14T10:00:13,valve_position,Main Valve Position,100.0,%,Good,13.0,
+2026-01-14T10:00:13,vibration_sensor,Pump Vibration,2.04,mm/s,Good,13.0,
+2026-01-14T10:00:13,temperature_sensor,Fluid Temperature,34.634,°C,Good,13.0,
+2026-01-14T10:00:14,pressure_sensor_a,Pressure Sensor A,100.203,PSI,Good,14.0,pressure_main
+2026-01-14T10:00:14,pressure_sensor_b,Pressure Sensor B,102.17,PSI,Good,14.0,pressure_main
+2026-01-14T10:00:14,flow_meter,Flow Meter,527.848,GPM,Good,14.0,
+2026-01-14T10:00:14,valve_position,Main Valve Position,100.0,%,Good,14.0,
+2026-01-14T10:00:14,vibration_sensor,Pump Vibration,2.565,mm/s,Good,14.0,
+2026-01-14T10:00:14,temperature_sensor,Fluid Temperature,35.073,°C,Good,14.0,
+2026-01-14T10:00:15,pressure_sensor_a,Pressure Sensor A,103.584,PSI,Good,15.0,pressure_main
+2026-01-14T10:00:15,pressure_sensor_b,Pressure Sensor B,103.201,PSI,Good,15.0,pressure_main
+2026-01-14T10:00:15,flow_meter,Flow Meter,514.105,GPM,Good,15.0,
+2026-01-14T10:00:15,valve_position,Main Valve Position,100.0,%,Good,15.0,
+2026-01-14T10:00:15,vibration_sensor,Pump Vibration,2.726,mm/s,Good,15.0,
+2026-01-14T10:00:15,temperature_sensor,Fluid Temperature,35.148,°C,Good,15.0,
+2026-01-14T10:00:16,pressure_sensor_a,Pressure Sensor A,103.94,PSI,Good,16.0,pressure_main
+2026-01-14T10:00:16,pressure_sensor_b,Pressure Sensor B,101.426,PSI,Good,16.0,pressure_main
+2026-01-14T10:00:16,flow_meter,Flow Meter,539.242,GPM,Good,16.0,
+2026-01-14T10:00:16,valve_position,Main Valve Position,100.0,%,Good,16.0,
+2026-01-14T10:00:16,vibration_sensor,Pump Vibration,2.898,mm/s,Good,16.0,
+2026-01-14T10:00:16,temperature_sensor,Fluid Temperature,35.056,°C,Good,16.0,
+2026-01-14T10:00:17,pressure_sensor_a,Pressure Sensor A,100.522,PSI,Good,17.0,pressure_main
+2026-01-14T10:00:17,pressure_sensor_b,Pressure Sensor B,99.297,PSI,Good,17.0,pressure_main
+2026-01-14T10:00:17,flow_meter,Flow Meter,507.516,GPM,Good,17.0,
+2026-01-14T10:00:17,valve_position,Main Valve Position,100.0,%,Good,17.0,
+2026-01-14T10:00:17,vibration_sensor,Pump Vibration,2.704,mm/s,Good,17.0,
+2026-01-14T10:00:17,temperature_sensor,Fluid Temperature,35.258,°C,Good,17.0,
+2026-01-14T10:00:18,pressure_sensor_a,Pressure Sensor A,96.866,PSI,Good,18.0,pressure_main
+2026-01-14T10:00:18,pressure_sensor_b,Pressure Sensor B,103.04,PSI,Good,18.0,pressure_main
+2026-01-14T10:00:18,flow_meter,Flow Meter,517.848,GPM,Good,18.0,
+2026-01-14T10:00:18,valve_position,Main Valve Position,100.0,%,Good,18.0,
+2026-01-14T10:00:18,vibration_sensor,Pump Vibration,2.343,mm/s,Good,18.0,
+2026-01-14T10:00:18,temperature_sensor,Fluid Temperature,35.017,°C,Good,18.0,
+2026-01-14T10:00:19,pressure_sensor_a,Pressure Sensor A,105.127,PSI,Good,19.0,pressure_main
+2026-01-14T10:00:19,pressure_sensor_b,Pressure Sensor B,99.567,PSI,Good,19.0,pressure_main
+2026-01-14T10:00:19,flow_meter,Flow Meter,502.718,GPM,Good,19.0,
+2026-01-14T10:00:19,valve_position,Main Valve Position,100.0,%,Good,19.0,
+2026-01-14T10:00:19,vibration_sensor,Pump Vibration,2.388,mm/s,Good,19.0,
+2026-01-14T10:00:19,temperature_sensor,Fluid Temperature,34.892,°C,Good,19.0,
+2026-01-14T10:00:20,pressure_sensor_a,Pressure Sensor A,101.928,PSI,Good,20.0,pressure_main
+2026-01-14T10:00:20,pressure_sensor_b,Pressure Sensor B,99.249,PSI,Good,20.0,pressure_main
+2026-01-14T10:00:20,flow_meter,Flow Meter,511.959,GPM,Good,20.0,
+2026-01-14T10:00:20,valve_position,Main Valve Position,100.0,%,Good,20.0,
+2026-01-14T10:00:20,vibration_sensor,Pump Vibration,2.721,mm/s,Good,20.0,
+2026-01-14T10:00:20,temperature_sensor,Fluid Temperature,35.021,°C,Good,20.0,
+2026-01-14T10:00:21,pressure_sensor_a,Pressure Sensor A,106.349,PSI,Good,21.0,pressure_main
+2026-01-14T10:00:21,pressure_sensor_b,Pressure Sensor B,102.344,PSI,Good,21.0,pressure_main
+2026-01-14T10:00:21,flow_meter,Flow Meter,528.576,GPM,Good,21.0,
+2026-01-14T10:00:21,valve_position,Main Valve Position,100.0,%,Good,21.0,
+2026-01-14T10:00:21,vibration_sensor,Pump Vibration,2.469,mm/s,Good,21.0,
+2026-01-14T10:00:21,temperature_sensor,Fluid Temperature,35.134,°C,Good,21.0,
+2026-01-14T10:00:22,pressure_sensor_a,Pressure Sensor A,105.319,PSI,Good,22.0,pressure_main
+2026-01-14T10:00:22,pressure_sensor_b,Pressure Sensor B,98.465,PSI,Good,22.0,pressure_main
+2026-01-14T10:00:22,flow_meter,Flow Meter,522.291,GPM,Good,22.0,
+2026-01-14T10:00:22,valve_position,Main Valve Position,100.0,%,Good,22.0,
+2026-01-14T10:00:22,vibration_sensor,Pump Vibration,2.883,mm/s,Good,22.0,
+2026-01-14T10:00:22,temperature_sensor,Fluid Temperature,35.271,°C,Good,22.0,
+2026-01-14T10:00:23,pressure_sensor_a,Pressure Sensor A,101.971,PSI,Good,23.0,pressure_main
+2026-01-14T10:00:23,pressure_sensor_b,Pressure Sensor B,100.824,PSI,Good,23.0,pressure_main
+2026-01-14T10:00:23,flow_meter,Flow Meter,487.969,GPM,Good,23.0,
+2026-01-14T10:00:23,valve_position,Main Valve Position,100.0,%,Good,23.0,
+2026-01-14T10:00:23,vibration_sensor,Pump Vibration,2.452,mm/s,Good,23.0,
+2026-01-14T10:00:23,temperature_sensor,Fluid Temperature,35.73,°C,Good,23.0,
+2026-01-14T10:00:24,pressure_sensor_a,Pressure Sensor A,100.68,PSI,Good,24.0,pressure_main
+2026-01-14T10:00:24,pressure_sensor_b,Pressure Sensor B,102.543,PSI,Good,24.0,pressure_main
+2026-01-14T10:00:24,flow_meter,Flow Meter,482.343,GPM,Good,24.0,
+2026-01-14T10:00:24,valve_position,Main Valve Position,100.0,%,Good,24.0,
+2026-01-14T10:00:24,vibration_sensor,Pump Vibration,2.565,mm/s,Good,24.0,
+2026-01-14T10:00:24,temperature_sensor,Fluid Temperature,35.312,°C,Good,24.0,
+2026-01-14T10:00:25,pressure_sensor_a,Pressure Sensor A,104.828,PSI,Good,25.0,pressure_main
+2026-01-14T10:00:25,pressure_sensor_b,Pressure Sensor B,101.844,PSI,Good,25.0,pressure_main
+2026-01-14T10:00:25,flow_meter,Flow Meter,488.241,GPM,Good,25.0,
+2026-01-14T10:00:25,valve_position,Main Valve Position,100.0,%,Good,25.0,
+2026-01-14T10:00:25,vibration_sensor,Pump Vibration,2.629,mm/s,Good,25.0,
+2026-01-14T10:00:25,temperature_sensor,Fluid Temperature,35.197,°C,Good,25.0,
+2026-01-14T10:00:26,pressure_sensor_a,Pressure Sensor A,100.556,PSI,Good,26.0,pressure_main
+2026-01-14T10:00:26,pressure_sensor_b,Pressure Sensor B,104.223,PSI,Good,26.0,pressure_main
+2026-01-14T10:00:26,flow_meter,Flow Meter,505.386,GPM,Good,26.0,
+2026-01-14T10:00:26,valve_position,Main Valve Position,100.0,%,Good,26.0,
+2026-01-14T10:00:26,vibration_sensor,Pump Vibration,2.819,mm/s,Good,26.0,
+2026-01-14T10:00:26,temperature_sensor,Fluid Temperature,35.239,°C,Good,26.0,
+2026-01-14T10:00:27,pressure_sensor_a,Pressure Sensor A,102.548,PSI,Good,27.0,pressure_main
+2026-01-14T10:00:27,pressure_sensor_b,Pressure Sensor B,106.281,PSI,Good,27.0,pressure_main
+2026-01-14T10:00:27,flow_meter,Flow Meter,506.746,GPM,Good,27.0,
+2026-01-14T10:00:27,valve_position,Main Valve Position,100.0,%,Good,27.0,
+2026-01-14T10:00:27,vibration_sensor,Pump Vibration,2.528,mm/s,Good,27.0,
+2026-01-14T10:00:27,temperature_sensor,Fluid Temperature,35.546,°C,Good,27.0,
+2026-01-14T10:00:28,pressure_sensor_a,Pressure Sensor A,102.226,PSI,Good,28.0,pressure_main
+2026-01-14T10:00:28,pressure_sensor_b,Pressure Sensor B,103.028,PSI,Good,28.0,pressure_main
+2026-01-14T10:00:28,flow_meter,Flow Meter,520.015,GPM,Good,28.0,
+2026-01-14T10:00:28,valve_position,Main Valve Position,100.0,%,Good,28.0,
+2026-01-14T10:00:28,vibration_sensor,Pump Vibration,2.068,mm/s,Good,28.0,
+2026-01-14T10:00:28,temperature_sensor,Fluid Temperature,35.133,°C,Good,28.0,
+2026-01-14T10:00:29,pressure_sensor_a,Pressure Sensor A,102.457,PSI,Good,29.0,pressure_main
+2026-01-14T10:00:29,pressure_sensor_b,Pressure Sensor B,100.781,PSI,Good,29.0,pressure_main
+2026-01-14T10:00:29,flow_meter,Flow Meter,514.112,GPM,Good,29.0,
+2026-01-14T10:00:29,valve_position,Main Valve Position,100.0,%,Good,29.0,
+2026-01-14T10:00:29,vibration_sensor,Pump Vibration,2.251,mm/s,Good,29.0,
+2026-01-14T10:00:29,temperature_sensor,Fluid Temperature,35.21,°C,Good,29.0,
+2026-01-14T10:00:30,pressure_sensor_a,Pressure Sensor A,101.608,PSI,Good,30.0,pressure_main
+2026-01-14T10:00:30,pressure_sensor_b,Pressure Sensor B,99.034,PSI,Good,30.0,pressure_main
+2026-01-14T10:00:30,flow_meter,Flow Meter,506.794,GPM,Good,30.0,
+2026-01-14T10:00:30,valve_position,Main Valve Position,100.0,%,Good,30.0,
+2026-01-14T10:00:30,vibration_sensor,Pump Vibration,2.314,mm/s,Good,30.0,
+2026-01-14T10:00:30,temperature_sensor,Fluid Temperature,35.213,°C,Good,30.0,
+2026-01-14T10:00:31,pressure_sensor_a,Pressure Sensor A,102.973,PSI,Good,31.0,pressure_main
+2026-01-14T10:00:31,pressure_sensor_b,Pressure Sensor B,100.842,PSI,Good,31.0,pressure_main
+2026-01-14T10:00:31,flow_meter,Flow Meter,504.96,GPM,Good,31.0,
+2026-01-14T10:00:31,valve_position,Main Valve Position,100.0,%,Good,31.0,
+2026-01-14T10:00:31,vibration_sensor,Pump Vibration,2.322,mm/s,Good,31.0,
+2026-01-14T10:00:31,temperature_sensor,Fluid Temperature,35.164,°C,Good,31.0,
+2026-01-14T10:00:32,pressure_sensor_a,Pressure Sensor A,101.995,PSI,Good,32.0,pressure_main
+2026-01-14T10:00:32,pressure_sensor_b,Pressure Sensor B,106.521,PSI,Good,32.0,pressure_main
+2026-01-14T10:00:32,flow_meter,Flow Meter,469.986,GPM,Good,32.0,
+2026-01-14T10:00:32,valve_position,Main Valve Position,100.0,%,Good,32.0,
+2026-01-14T10:00:32,vibration_sensor,Pump Vibration,2.423,mm/s,Good,32.0,
+2026-01-14T10:00:32,temperature_sensor,Fluid Temperature,34.997,°C,Good,32.0,
+2026-01-14T10:00:33,pressure_sensor_a,Pressure Sensor A,105.779,PSI,Good,33.0,pressure_main
+2026-01-14T10:00:33,pressure_sensor_b,Pressure Sensor B,101.958,PSI,Good,33.0,pressure_main
+2026-01-14T10:00:33,flow_meter,Flow Meter,530.524,GPM,Good,33.0,
+2026-01-14T10:00:33,valve_position,Main Valve Position,100.0,%,Good,33.0,
+2026-01-14T10:00:33,vibration_sensor,Pump Vibration,2.588,mm/s,Good,33.0,
+2026-01-14T10:00:33,temperature_sensor,Fluid Temperature,34.861,°C,Good,33.0,
+2026-01-14T10:00:34,pressure_sensor_a,Pressure Sensor A,100.575,PSI,Good,34.0,pressure_main
+2026-01-14T10:00:34,pressure_sensor_b,Pressure Sensor B,102.081,PSI,Good,34.0,pressure_main
+2026-01-14T10:00:34,flow_meter,Flow Meter,491.694,GPM,Good,34.0,
+2026-01-14T10:00:34,valve_position,Main Valve Position,100.0,%,Good,34.0,
+2026-01-14T10:00:34,vibration_sensor,Pump Vibration,1.974,mm/s,Good,34.0,
+2026-01-14T10:00:34,temperature_sensor,Fluid Temperature,35.735,°C,Good,34.0,
+2026-01-14T10:00:35,pressure_sensor_a,Pressure Sensor A,101.598,PSI,Good,35.0,pressure_main
+2026-01-14T10:00:35,pressure_sensor_b,Pressure Sensor B,105.418,PSI,Good,35.0,pressure_main
+2026-01-14T10:00:35,flow_meter,Flow Meter,479.893,GPM,Good,35.0,
+2026-01-14T10:00:35,valve_position,Main Valve Position,100.0,%,Good,35.0,
+2026-01-14T10:00:35,vibration_sensor,Pump Vibration,3.291,mm/s,Good,35.0,
+2026-01-14T10:00:35,temperature_sensor,Fluid Temperature,34.731,°C,Good,35.0,
+2026-01-14T10:00:36,pressure_sensor_a,Pressure Sensor A,98.912,PSI,Good,36.0,pressure_main
+2026-01-14T10:00:36,pressure_sensor_b,Pressure Sensor B,100.809,PSI,Good,36.0,pressure_main
+2026-01-14T10:00:36,flow_meter,Flow Meter,501.209,GPM,Good,36.0,
+2026-01-14T10:00:36,valve_position,Main Valve Position,100.0,%,Good,36.0,
+2026-01-14T10:00:36,vibration_sensor,Pump Vibration,2.823,mm/s,Good,36.0,
+2026-01-14T10:00:36,temperature_sensor,Fluid Temperature,34.946,°C,Good,36.0,
+2026-01-14T10:00:37,pressure_sensor_a,Pressure Sensor A,98.663,PSI,Good,37.0,pressure_main
+2026-01-14T10:00:37,pressure_sensor_b,Pressure Sensor B,100.997,PSI,Good,37.0,pressure_main
+2026-01-14T10:00:37,flow_meter,Flow Meter,511.912,GPM,Good,37.0,
+2026-01-14T10:00:37,valve_position,Main Valve Position,100.0,%,Good,37.0,
+2026-01-14T10:00:37,vibration_sensor,Pump Vibration,2.011,mm/s,Good,37.0,
+2026-01-14T10:00:37,temperature_sensor,Fluid Temperature,35.025,°C,Good,37.0,
+2026-01-14T10:00:38,pressure_sensor_a,Pressure Sensor A,104.623,PSI,Good,38.0,pressure_main
+2026-01-14T10:00:38,pressure_sensor_b,Pressure Sensor B,106.08,PSI,Good,38.0,pressure_main
+2026-01-14T10:00:38,flow_meter,Flow Meter,500.994,GPM,Good,38.0,
+2026-01-14T10:00:38,valve_position,Main Valve Position,100.0,%,Good,38.0,
+2026-01-14T10:00:38,vibration_sensor,Pump Vibration,2.19,mm/s,Good,38.0,
+2026-01-14T10:00:38,temperature_sensor,Fluid Temperature,34.743,°C,Good,38.0,
+2026-01-14T10:00:39,pressure_sensor_a,Pressure Sensor A,101.876,PSI,Good,39.0,pressure_main
+2026-01-14T10:00:39,pressure_sensor_b,Pressure Sensor B,102.788,PSI,Good,39.0,pressure_main
+2026-01-14T10:00:39,flow_meter,Flow Meter,500.613,GPM,Good,39.0,
+2026-01-14T10:00:39,valve_position,Main Valve Position,100.0,%,Good,39.0,
+2026-01-14T10:00:39,vibration_sensor,Pump Vibration,2.212,mm/s,Good,39.0,
+2026-01-14T10:00:39,temperature_sensor,Fluid Temperature,34.767,°C,Good,39.0,
+2026-01-14T10:00:40,pressure_sensor_a,Pressure Sensor A,99.418,PSI,Good,40.0,pressure_main
+2026-01-14T10:00:40,pressure_sensor_b,Pressure Sensor B,103.019,PSI,Good,40.0,pressure_main
+2026-01-14T10:00:40,flow_meter,Flow Meter,456.656,GPM,Good,40.0,
+2026-01-14T10:00:40,valve_position,Main Valve Position,100.0,%,Good,40.0,
+2026-01-14T10:00:40,vibration_sensor,Pump Vibration,2.612,mm/s,Good,40.0,
+2026-01-14T10:00:40,temperature_sensor,Fluid Temperature,35.573,°C,Good,40.0,
+2026-01-14T10:00:41,pressure_sensor_a,Pressure Sensor A,101.82,PSI,Good,41.0,pressure_main
+2026-01-14T10:00:41,pressure_sensor_b,Pressure Sensor B,103.68,PSI,Good,41.0,pressure_main
+2026-01-14T10:00:41,flow_meter,Flow Meter,484.879,GPM,Good,41.0,
+2026-01-14T10:00:41,valve_position,Main Valve Position,100.0,%,Good,41.0,
+2026-01-14T10:00:41,vibration_sensor,Pump Vibration,2.331,mm/s,Good,41.0,
+2026-01-14T10:00:41,temperature_sensor,Fluid Temperature,35.576,°C,Good,41.0,
+2026-01-14T10:00:42,pressure_sensor_a,Pressure Sensor A,103.606,PSI,Good,42.0,pressure_main
+2026-01-14T10:00:42,pressure_sensor_b,Pressure Sensor B,102.593,PSI,Good,42.0,pressure_main
+2026-01-14T10:00:42,flow_meter,Flow Meter,540.443,GPM,Good,42.0,
+2026-01-14T10:00:42,valve_position,Main Valve Position,100.0,%,Good,42.0,
+2026-01-14T10:00:42,vibration_sensor,Pump Vibration,2.655,mm/s,Good,42.0,
+2026-01-14T10:00:42,temperature_sensor,Fluid Temperature,35.15,°C,Good,42.0,
+2026-01-14T10:00:43,pressure_sensor_a,Pressure Sensor A,101.111,PSI,Good,43.0,pressure_main
+2026-01-14T10:00:43,pressure_sensor_b,Pressure Sensor B,106.187,PSI,Good,43.0,pressure_main
+2026-01-14T10:00:43,flow_meter,Flow Meter,512.818,GPM,Good,43.0,
+2026-01-14T10:00:43,valve_position,Main Valve Position,100.0,%,Good,43.0,
+2026-01-14T10:00:43,vibration_sensor,Pump Vibration,2.4,mm/s,Good,43.0,
+2026-01-14T10:00:43,temperature_sensor,Fluid Temperature,35.193,°C,Good,43.0,
+2026-01-14T10:00:44,pressure_sensor_a,Pressure Sensor A,103.053,PSI,Good,44.0,pressure_main
+2026-01-14T10:00:44,pressure_sensor_b,Pressure Sensor B,98.789,PSI,Good,44.0,pressure_main
+2026-01-14T10:00:44,flow_meter,Flow Meter,456.221,GPM,Good,44.0,
+2026-01-14T10:00:44,valve_position,Main Valve Position,100.0,%,Good,44.0,
+2026-01-14T10:00:44,vibration_sensor,Pump Vibration,2.482,mm/s,Good,44.0,
+2026-01-14T10:00:44,temperature_sensor,Fluid Temperature,35.008,°C,Good,44.0,
+2026-01-14T10:00:45,pressure_sensor_a,Pressure Sensor A,102.105,PSI,Good,45.0,pressure_main
+2026-01-14T10:00:45,pressure_sensor_b,Pressure Sensor B,99.875,PSI,Good,45.0,pressure_main
+2026-01-14T10:00:45,flow_meter,Flow Meter,471.636,GPM,Good,45.0,
+2026-01-14T10:00:45,valve_position,Main Valve Position,100.0,%,Good,45.0,
+2026-01-14T10:00:45,vibration_sensor,Pump Vibration,2.582,mm/s,Good,45.0,
+2026-01-14T10:00:45,temperature_sensor,Fluid Temperature,35.175,°C,Good,45.0,
+2026-01-14T10:00:46,pressure_sensor_a,Pressure Sensor A,103.324,PSI,Good,46.0,pressure_main
+2026-01-14T10:00:46,pressure_sensor_b,Pressure Sensor B,102.92,PSI,Good,46.0,pressure_main
+2026-01-14T10:00:46,flow_meter,Flow Meter,487.194,GPM,Good,46.0,
+2026-01-14T10:00:46,valve_position,Main Valve Position,100.0,%,Good,46.0,
+2026-01-14T10:00:46,vibration_sensor,Pump Vibration,2.466,mm/s,Good,46.0,
+2026-01-14T10:00:46,temperature_sensor,Fluid Temperature,34.815,°C,Good,46.0,
+2026-01-14T10:00:47,pressure_sensor_a,Pressure Sensor A,100.217,PSI,Good,47.0,pressure_main
+2026-01-14T10:00:47,pressure_sensor_b,Pressure Sensor B,100.089,PSI,Good,47.0,pressure_main
+2026-01-14T10:00:47,flow_meter,Flow Meter,457.732,GPM,Good,47.0,
+2026-01-14T10:00:47,valve_position,Main Valve Position,100.0,%,Good,47.0,
+2026-01-14T10:00:47,vibration_sensor,Pump Vibration,2.562,mm/s,Good,47.0,
+2026-01-14T10:00:47,temperature_sensor,Fluid Temperature,34.92,°C,Good,47.0,
+2026-01-14T10:00:48,pressure_sensor_a,Pressure Sensor A,99.748,PSI,Good,48.0,pressure_main
+2026-01-14T10:00:48,pressure_sensor_b,Pressure Sensor B,101.919,PSI,Good,48.0,pressure_main
+2026-01-14T10:00:48,flow_meter,Flow Meter,516.242,GPM,Good,48.0,
+2026-01-14T10:00:48,valve_position,Main Valve Position,100.0,%,Good,48.0,
+2026-01-14T10:00:48,vibration_sensor,Pump Vibration,2.373,mm/s,Good,48.0,
+2026-01-14T10:00:48,temperature_sensor,Fluid Temperature,34.841,°C,Good,48.0,
+2026-01-14T10:00:49,pressure_sensor_a,Pressure Sensor A,100.95,PSI,Good,49.0,pressure_main
+2026-01-14T10:00:49,pressure_sensor_b,Pressure Sensor B,98.56,PSI,Good,49.0,pressure_main
+2026-01-14T10:00:49,flow_meter,Flow Meter,488.986,GPM,Good,49.0,
+2026-01-14T10:00:49,valve_position,Main Valve Position,100.0,%,Good,49.0,
+2026-01-14T10:00:49,vibration_sensor,Pump Vibration,2.961,mm/s,Good,49.0,
+2026-01-14T10:00:49,temperature_sensor,Fluid Temperature,35.379,°C,Good,49.0,
+2026-01-14T10:00:50,pressure_sensor_a,Pressure Sensor A,103.068,PSI,Good,50.0,pressure_main
+2026-01-14T10:00:50,pressure_sensor_b,Pressure Sensor B,99.574,PSI,Good,50.0,pressure_main
+2026-01-14T10:00:50,flow_meter,Flow Meter,501.389,GPM,Good,50.0,
+2026-01-14T10:00:50,valve_position,Main Valve Position,100.0,%,Good,50.0,
+2026-01-14T10:00:50,vibration_sensor,Pump Vibration,2.578,mm/s,Good,50.0,
+2026-01-14T10:00:50,temperature_sensor,Fluid Temperature,35.197,°C,Good,50.0,
+2026-01-14T10:00:51,pressure_sensor_a,Pressure Sensor A,99.375,PSI,Good,51.0,pressure_main
+2026-01-14T10:00:51,pressure_sensor_b,Pressure Sensor B,104.907,PSI,Good,51.0,pressure_main
+2026-01-14T10:00:51,flow_meter,Flow Meter,500.42,GPM,Good,51.0,
+2026-01-14T10:00:51,valve_position,Main Valve Position,100.0,%,Good,51.0,
+2026-01-14T10:00:51,vibration_sensor,Pump Vibration,2.638,mm/s,Good,51.0,
+2026-01-14T10:00:51,temperature_sensor,Fluid Temperature,34.908,°C,Good,51.0,
+2026-01-14T10:00:52,pressure_sensor_a,Pressure Sensor A,100.816,PSI,Good,52.0,pressure_main
+2026-01-14T10:00:52,pressure_sensor_b,Pressure Sensor B,101.745,PSI,Good,52.0,pressure_main
+2026-01-14T10:00:52,flow_meter,Flow Meter,498.427,GPM,Good,52.0,
+2026-01-14T10:00:52,valve_position,Main Valve Position,100.0,%,Good,52.0,
+2026-01-14T10:00:52,vibration_sensor,Pump Vibration,2.21,mm/s,Good,52.0,
+2026-01-14T10:00:52,temperature_sensor,Fluid Temperature,35.322,°C,Good,52.0,
+2026-01-14T10:00:53,pressure_sensor_a,Pressure Sensor A,103.319,PSI,Good,53.0,pressure_main
+2026-01-14T10:00:53,pressure_sensor_b,Pressure Sensor B,104.523,PSI,Good,53.0,pressure_main
+2026-01-14T10:00:53,flow_meter,Flow Meter,520.356,GPM,Good,53.0,
+2026-01-14T10:00:53,valve_position,Main Valve Position,100.0,%,Good,53.0,
+2026-01-14T10:00:53,vibration_sensor,Pump Vibration,2.692,mm/s,Good,53.0,
+2026-01-14T10:00:53,temperature_sensor,Fluid Temperature,34.382,°C,Good,53.0,
+2026-01-14T10:00:54,pressure_sensor_a,Pressure Sensor A,103.845,PSI,Good,54.0,pressure_main
+2026-01-14T10:00:54,pressure_sensor_b,Pressure Sensor B,101.125,PSI,Good,54.0,pressure_main
+2026-01-14T10:00:54,flow_meter,Flow Meter,477.005,GPM,Good,54.0,
+2026-01-14T10:00:54,valve_position,Main Valve Position,100.0,%,Good,54.0,
+2026-01-14T10:00:54,vibration_sensor,Pump Vibration,2.661,mm/s,Good,54.0,
+2026-01-14T10:00:54,temperature_sensor,Fluid Temperature,34.392,°C,Good,54.0,
+2026-01-14T10:00:55,pressure_sensor_a,Pressure Sensor A,101.105,PSI,Good,55.0,pressure_main
+2026-01-14T10:00:55,pressure_sensor_b,Pressure Sensor B,99.055,PSI,Good,55.0,pressure_main
+2026-01-14T10:00:55,flow_meter,Flow Meter,496.669,GPM,Good,55.0,
+2026-01-14T10:00:55,valve_position,Main Valve Position,100.0,%,Good,55.0,
+2026-01-14T10:00:55,vibration_sensor,Pump Vibration,2.843,mm/s,Good,55.0,
+2026-01-14T10:00:55,temperature_sensor,Fluid Temperature,34.557,°C,Good,55.0,
+2026-01-14T10:00:56,pressure_sensor_a,Pressure Sensor A,101.051,PSI,Good,56.0,pressure_main
+2026-01-14T10:00:56,pressure_sensor_b,Pressure Sensor B,104.044,PSI,Good,56.0,pressure_main
+2026-01-14T10:00:56,flow_meter,Flow Meter,483.528,GPM,Good,56.0,
+2026-01-14T10:00:56,valve_position,Main Valve Position,100.0,%,Good,56.0,
+2026-01-14T10:00:56,vibration_sensor,Pump Vibration,2.551,mm/s,Good,56.0,
+2026-01-14T10:00:56,temperature_sensor,Fluid Temperature,34.815,°C,Good,56.0,
+2026-01-14T10:00:57,pressure_sensor_a,Pressure Sensor A,101.609,PSI,Good,57.0,pressure_main
+2026-01-14T10:00:57,pressure_sensor_b,Pressure Sensor B,100.507,PSI,Good,57.0,pressure_main
+2026-01-14T10:00:57,flow_meter,Flow Meter,482.753,GPM,Good,57.0,
+2026-01-14T10:00:57,valve_position,Main Valve Position,100.0,%,Good,57.0,
+2026-01-14T10:00:57,vibration_sensor,Pump Vibration,2.698,mm/s,Good,57.0,
+2026-01-14T10:00:57,temperature_sensor,Fluid Temperature,34.999,°C,Good,57.0,
+2026-01-14T10:00:58,pressure_sensor_a,Pressure Sensor A,98.936,PSI,Good,58.0,pressure_main
+2026-01-14T10:00:58,pressure_sensor_b,Pressure Sensor B,98.64,PSI,Good,58.0,pressure_main
+2026-01-14T10:00:58,flow_meter,Flow Meter,516.385,GPM,Good,58.0,
+2026-01-14T10:00:58,valve_position,Main Valve Position,100.0,%,Good,58.0,
+2026-01-14T10:00:58,vibration_sensor,Pump Vibration,2.615,mm/s,Good,58.0,
+2026-01-14T10:00:58,temperature_sensor,Fluid Temperature,34.993,°C,Good,58.0,
+2026-01-14T10:00:59,pressure_sensor_a,Pressure Sensor A,101.337,PSI,Good,59.0,pressure_main
+2026-01-14T10:00:59,pressure_sensor_b,Pressure Sensor B,99.873,PSI,Good,59.0,pressure_main
+2026-01-14T10:00:59,flow_meter,Flow Meter,510.413,GPM,Good,59.0,
+2026-01-14T10:00:59,valve_position,Main Valve Position,100.0,%,Good,59.0,
+2026-01-14T10:00:59,vibration_sensor,Pump Vibration,2.707,mm/s,Good,59.0,
+2026-01-14T10:00:59,temperature_sensor,Fluid Temperature,35.294,°C,Good,59.0,
+2026-01-14T10:01:00,pressure_sensor_a,Pressure Sensor A,39.767,PSI,Good,60.0,pressure_main
+2026-01-14T10:01:00,pressure_sensor_b,Pressure Sensor B,98.28,PSI,Good,60.0,pressure_main
+2026-01-14T10:01:00,flow_meter,Flow Meter,485.898,GPM,Good,60.0,
+2026-01-14T10:01:00,valve_position,Main Valve Position,100.0,%,Good,60.0,
+2026-01-14T10:01:00,vibration_sensor,Pump Vibration,2.254,mm/s,Good,60.0,
+2026-01-14T10:01:00,temperature_sensor,Fluid Temperature,35.363,°C,Good,60.0,
+2026-01-14T10:01:01,pressure_sensor_a,Pressure Sensor A,39.907,PSI,Good,61.0,pressure_main
+2026-01-14T10:01:01,pressure_sensor_b,Pressure Sensor B,103.036,PSI,Good,61.0,pressure_main
+2026-01-14T10:01:01,flow_meter,Flow Meter,535.235,GPM,Good,61.0,
+2026-01-14T10:01:01,valve_position,Main Valve Position,100.0,%,Good,61.0,
+2026-01-14T10:01:01,vibration_sensor,Pump Vibration,2.113,mm/s,Good,61.0,
+2026-01-14T10:01:01,temperature_sensor,Fluid Temperature,34.927,°C,Good,61.0,
+2026-01-14T10:01:02,pressure_sensor_a,Pressure Sensor A,39.849,PSI,Good,62.0,pressure_main
+2026-01-14T10:01:02,pressure_sensor_b,Pressure Sensor B,96.814,PSI,Good,62.0,pressure_main
+2026-01-14T10:01:02,flow_meter,Flow Meter,498.322,GPM,Good,62.0,
+2026-01-14T10:01:02,valve_position,Main Valve Position,100.0,%,Good,62.0,
+2026-01-14T10:01:02,vibration_sensor,Pump Vibration,2.385,mm/s,Good,62.0,
+2026-01-14T10:01:02,temperature_sensor,Fluid Temperature,34.793,°C,Good,62.0,
+2026-01-14T10:01:03,pressure_sensor_a,Pressure Sensor A,38.482,PSI,Good,63.0,pressure_main
+2026-01-14T10:01:03,pressure_sensor_b,Pressure Sensor B,103.26,PSI,Good,63.0,pressure_main
+2026-01-14T10:01:03,flow_meter,Flow Meter,500.695,GPM,Good,63.0,
+2026-01-14T10:01:03,valve_position,Main Valve Position,100.0,%,Good,63.0,
+2026-01-14T10:01:03,vibration_sensor,Pump Vibration,2.407,mm/s,Good,63.0,
+2026-01-14T10:01:03,temperature_sensor,Fluid Temperature,35.397,°C,Good,63.0,
+2026-01-14T10:01:04,pressure_sensor_a,Pressure Sensor A,38.631,PSI,Good,64.0,pressure_main
+2026-01-14T10:01:04,pressure_sensor_b,Pressure Sensor B,100.548,PSI,Good,64.0,pressure_main
+2026-01-14T10:01:04,flow_meter,Flow Meter,514.986,GPM,Good,64.0,
+2026-01-14T10:01:04,valve_position,Main Valve Position,100.0,%,Good,64.0,
+2026-01-14T10:01:04,vibration_sensor,Pump Vibration,2.85,mm/s,Good,64.0,
+2026-01-14T10:01:04,temperature_sensor,Fluid Temperature,34.871,°C,Good,64.0,
+2026-01-14T10:01:05,pressure_sensor_a,Pressure Sensor A,42.265,PSI,Good,65.0,pressure_main
+2026-01-14T10:01:05,pressure_sensor_b,Pressure Sensor B,97.897,PSI,Good,65.0,pressure_main
+2026-01-14T10:01:05,flow_meter,Flow Meter,499.052,GPM,Good,65.0,
+2026-01-14T10:01:05,valve_position,Main Valve Position,100.0,%,Good,65.0,
+2026-01-14T10:01:05,vibration_sensor,Pump Vibration,2.706,mm/s,Good,65.0,
+2026-01-14T10:01:05,temperature_sensor,Fluid Temperature,35.066,°C,Good,65.0,
+2026-01-14T10:01:06,pressure_sensor_a,Pressure Sensor A,37.617,PSI,Good,66.0,pressure_main
+2026-01-14T10:01:06,pressure_sensor_b,Pressure Sensor B,100.505,PSI,Good,66.0,pressure_main
+2026-01-14T10:01:06,flow_meter,Flow Meter,496.422,GPM,Good,66.0,
+2026-01-14T10:01:06,valve_position,Main Valve Position,100.0,%,Good,66.0,
+2026-01-14T10:01:06,vibration_sensor,Pump Vibration,2.338,mm/s,Good,66.0,
+2026-01-14T10:01:06,temperature_sensor,Fluid Temperature,35.152,°C,Good,66.0,
+2026-01-14T10:01:07,pressure_sensor_a,Pressure Sensor A,35.758,PSI,Good,67.0,pressure_main
+2026-01-14T10:01:07,pressure_sensor_b,Pressure Sensor B,100.005,PSI,Good,67.0,pressure_main
+2026-01-14T10:01:07,flow_meter,Flow Meter,509.3,GPM,Good,67.0,
+2026-01-14T10:01:07,valve_position,Main Valve Position,100.0,%,Good,67.0,
+2026-01-14T10:01:07,vibration_sensor,Pump Vibration,2.759,mm/s,Good,67.0,
+2026-01-14T10:01:07,temperature_sensor,Fluid Temperature,35.281,°C,Good,67.0,
+2026-01-14T10:01:08,pressure_sensor_a,Pressure Sensor A,38.787,PSI,Good,68.0,pressure_main
+2026-01-14T10:01:08,pressure_sensor_b,Pressure Sensor B,97.846,PSI,Good,68.0,pressure_main
+2026-01-14T10:01:08,flow_meter,Flow Meter,517.859,GPM,Good,68.0,
+2026-01-14T10:01:08,valve_position,Main Valve Position,100.0,%,Good,68.0,
+2026-01-14T10:01:08,vibration_sensor,Pump Vibration,2.417,mm/s,Good,68.0,
+2026-01-14T10:01:08,temperature_sensor,Fluid Temperature,34.847,°C,Good,68.0,
+2026-01-14T10:01:09,pressure_sensor_a,Pressure Sensor A,40.14,PSI,Good,69.0,pressure_main
+2026-01-14T10:01:09,pressure_sensor_b,Pressure Sensor B,99.514,PSI,Good,69.0,pressure_main
+2026-01-14T10:01:09,flow_meter,Flow Meter,508.642,GPM,Good,69.0,
+2026-01-14T10:01:09,valve_position,Main Valve Position,100.0,%,Good,69.0,
+2026-01-14T10:01:09,vibration_sensor,Pump Vibration,2.557,mm/s,Good,69.0,
+2026-01-14T10:01:09,temperature_sensor,Fluid Temperature,34.959,°C,Good,69.0,
+2026-01-14T10:01:10,pressure_sensor_a,Pressure Sensor A,37.578,PSI,Good,70.0,pressure_main
+2026-01-14T10:01:10,pressure_sensor_b,Pressure Sensor B,100.444,PSI,Good,70.0,pressure_main
+2026-01-14T10:01:10,flow_meter,Flow Meter,516.582,GPM,Good,70.0,
+2026-01-14T10:01:10,valve_position,Main Valve Position,100.0,%,Good,70.0,
+2026-01-14T10:01:10,vibration_sensor,Pump Vibration,2.313,mm/s,Good,70.0,
+2026-01-14T10:01:10,temperature_sensor,Fluid Temperature,35.079,°C,Good,70.0,
+2026-01-14T10:01:11,pressure_sensor_a,Pressure Sensor A,39.883,PSI,Good,71.0,pressure_main
+2026-01-14T10:01:11,pressure_sensor_b,Pressure Sensor B,98.736,PSI,Good,71.0,pressure_main
+2026-01-14T10:01:11,flow_meter,Flow Meter,509.291,GPM,Good,71.0,
+2026-01-14T10:01:11,valve_position,Main Valve Position,100.0,%,Good,71.0,
+2026-01-14T10:01:11,vibration_sensor,Pump Vibration,2.706,mm/s,Good,71.0,
+2026-01-14T10:01:11,temperature_sensor,Fluid Temperature,35.3,°C,Good,71.0,
+2026-01-14T10:01:12,pressure_sensor_a,Pressure Sensor A,42.261,PSI,Good,72.0,pressure_main
+2026-01-14T10:01:12,pressure_sensor_b,Pressure Sensor B,103.324,PSI,Good,72.0,pressure_main
+2026-01-14T10:01:12,flow_meter,Flow Meter,504.726,GPM,Good,72.0,
+2026-01-14T10:01:12,valve_position,Main Valve Position,100.0,%,Good,72.0,
+2026-01-14T10:01:12,vibration_sensor,Pump Vibration,2.502,mm/s,Good,72.0,
+2026-01-14T10:01:12,temperature_sensor,Fluid Temperature,35.752,°C,Good,72.0,
+2026-01-14T10:01:13,pressure_sensor_a,Pressure Sensor A,36.538,PSI,Good,73.0,pressure_main
+2026-01-14T10:01:13,pressure_sensor_b,Pressure Sensor B,99.713,PSI,Good,73.0,pressure_main
+2026-01-14T10:01:13,flow_meter,Flow Meter,487.719,GPM,Good,73.0,
+2026-01-14T10:01:13,valve_position,Main Valve Position,100.0,%,Good,73.0,
+2026-01-14T10:01:13,vibration_sensor,Pump Vibration,1.995,mm/s,Good,73.0,
+2026-01-14T10:01:13,temperature_sensor,Fluid Temperature,34.589,°C,Good,73.0,
+2026-01-14T10:01:14,pressure_sensor_a,Pressure Sensor A,42.138,PSI,Good,74.0,pressure_main
+2026-01-14T10:01:14,pressure_sensor_b,Pressure Sensor B,96.925,PSI,Good,74.0,pressure_main
+2026-01-14T10:01:14,flow_meter,Flow Meter,506.533,GPM,Good,74.0,
+2026-01-14T10:01:14,valve_position,Main Valve Position,100.0,%,Good,74.0,
+2026-01-14T10:01:14,vibration_sensor,Pump Vibration,2.653,mm/s,Good,74.0,
+2026-01-14T10:01:14,temperature_sensor,Fluid Temperature,34.688,°C,Good,74.0,
+2026-01-14T10:01:15,pressure_sensor_a,Pressure Sensor A,42.635,PSI,Good,75.0,pressure_main
+2026-01-14T10:01:15,pressure_sensor_b,Pressure Sensor B,96.6,PSI,Good,75.0,pressure_main
+2026-01-14T10:01:15,flow_meter,Flow Meter,498.528,GPM,Good,75.0,
+2026-01-14T10:01:15,valve_position,Main Valve Position,0.0,%,Good,75.0,
+2026-01-14T10:01:15,vibration_sensor,Pump Vibration,2.531,mm/s,Good,75.0,
+2026-01-14T10:01:15,temperature_sensor,Fluid Temperature,35.084,°C,Good,75.0,
+2026-01-14T10:01:16,pressure_sensor_a,Pressure Sensor A,42.849,PSI,Good,76.0,pressure_main
+2026-01-14T10:01:16,pressure_sensor_b,Pressure Sensor B,98.755,PSI,Good,76.0,pressure_main
+2026-01-14T10:01:16,flow_meter,Flow Meter,491.828,GPM,Good,76.0,
+2026-01-14T10:01:16,valve_position,Main Valve Position,0.0,%,Good,76.0,
+2026-01-14T10:01:16,vibration_sensor,Pump Vibration,2.36,mm/s,Good,76.0,
+2026-01-14T10:01:16,temperature_sensor,Fluid Temperature,34.876,°C,Good,76.0,
+2026-01-14T10:01:17,pressure_sensor_a,Pressure Sensor A,41.45,PSI,Good,77.0,pressure_main
+2026-01-14T10:01:17,pressure_sensor_b,Pressure Sensor B,99.213,PSI,Good,77.0,pressure_main
+2026-01-14T10:01:17,flow_meter,Flow Meter,507.991,GPM,Good,77.0,
+2026-01-14T10:01:17,valve_position,Main Valve Position,0.0,%,Good,77.0,
+2026-01-14T10:01:17,vibration_sensor,Pump Vibration,2.717,mm/s,Good,77.0,
+2026-01-14T10:01:17,temperature_sensor,Fluid Temperature,34.892,°C,Good,77.0,
+2026-01-14T10:01:18,pressure_sensor_a,Pressure Sensor A,39.728,PSI,Good,78.0,pressure_main
+2026-01-14T10:01:18,pressure_sensor_b,Pressure Sensor B,98.743,PSI,Good,78.0,pressure_main
+2026-01-14T10:01:18,flow_meter,Flow Meter,532.433,GPM,Good,78.0,
+2026-01-14T10:01:18,valve_position,Main Valve Position,0.0,%,Good,78.0,
+2026-01-14T10:01:18,vibration_sensor,Pump Vibration,2.475,mm/s,Good,78.0,
+2026-01-14T10:01:18,temperature_sensor,Fluid Temperature,34.955,°C,Good,78.0,
+2026-01-14T10:01:19,pressure_sensor_a,Pressure Sensor A,37.908,PSI,Good,79.0,pressure_main
+2026-01-14T10:01:19,pressure_sensor_b,Pressure Sensor B,99.695,PSI,Good,79.0,pressure_main
+2026-01-14T10:01:19,flow_meter,Flow Meter,500.321,GPM,Good,79.0,
+2026-01-14T10:01:19,valve_position,Main Valve Position,0.0,%,Good,79.0,
+2026-01-14T10:01:19,vibration_sensor,Pump Vibration,2.586,mm/s,Good,79.0,
+2026-01-14T10:01:19,temperature_sensor,Fluid Temperature,34.413,°C,Good,79.0,
+2026-01-14T10:01:20,pressure_sensor_a,Pressure Sensor A,42.086,PSI,Good,80.0,pressure_main
+2026-01-14T10:01:20,pressure_sensor_b,Pressure Sensor B,95.604,PSI,Good,80.0,pressure_main
+2026-01-14T10:01:20,flow_meter,Flow Meter,497.0,GPM,Good,80.0,
+2026-01-14T10:01:20,valve_position,Main Valve Position,0.0,%,Good,80.0,
+2026-01-14T10:01:20,vibration_sensor,Pump Vibration,2.765,mm/s,Good,80.0,
+2026-01-14T10:01:20,temperature_sensor,Fluid Temperature,34.613,°C,Good,80.0,
+2026-01-14T10:01:21,pressure_sensor_a,Pressure Sensor A,39.841,PSI,Good,81.0,pressure_main
+2026-01-14T10:01:21,pressure_sensor_b,Pressure Sensor B,98.366,PSI,Good,81.0,pressure_main
+2026-01-14T10:01:21,flow_meter,Flow Meter,493.112,GPM,Good,81.0,
+2026-01-14T10:01:21,valve_position,Main Valve Position,0.0,%,Good,81.0,
+2026-01-14T10:01:21,vibration_sensor,Pump Vibration,2.836,mm/s,Good,81.0,
+2026-01-14T10:01:21,temperature_sensor,Fluid Temperature,35.606,°C,Good,81.0,
+2026-01-14T10:01:22,pressure_sensor_a,Pressure Sensor A,36.057,PSI,Good,82.0,pressure_main
+2026-01-14T10:01:22,pressure_sensor_b,Pressure Sensor B,95.275,PSI,Good,82.0,pressure_main
+2026-01-14T10:01:22,flow_meter,Flow Meter,519.555,GPM,Good,82.0,
+2026-01-14T10:01:22,valve_position,Main Valve Position,0.0,%,Good,82.0,
+2026-01-14T10:01:22,vibration_sensor,Pump Vibration,2.174,mm/s,Good,82.0,
+2026-01-14T10:01:22,temperature_sensor,Fluid Temperature,34.946,°C,Good,82.0,
+2026-01-14T10:01:23,pressure_sensor_a,Pressure Sensor A,40.259,PSI,Good,83.0,pressure_main
+2026-01-14T10:01:23,pressure_sensor_b,Pressure Sensor B,99.517,PSI,Good,83.0,pressure_main
+2026-01-14T10:01:23,flow_meter,Flow Meter,503.343,GPM,Good,83.0,
+2026-01-14T10:01:23,valve_position,Main Valve Position,0.0,%,Good,83.0,
+2026-01-14T10:01:23,vibration_sensor,Pump Vibration,2.524,mm/s,Good,83.0,
+2026-01-14T10:01:23,temperature_sensor,Fluid Temperature,34.811,°C,Good,83.0,
+2026-01-14T10:01:24,pressure_sensor_a,Pressure Sensor A,42.585,PSI,Good,84.0,pressure_main
+2026-01-14T10:01:24,pressure_sensor_b,Pressure Sensor B,97.107,PSI,Good,84.0,pressure_main
+2026-01-14T10:01:24,flow_meter,Flow Meter,510.974,GPM,Good,84.0,
+2026-01-14T10:01:24,valve_position,Main Valve Position,0.0,%,Good,84.0,
+2026-01-14T10:01:24,vibration_sensor,Pump Vibration,2.372,mm/s,Good,84.0,
+2026-01-14T10:01:24,temperature_sensor,Fluid Temperature,35.121,°C,Good,84.0,
+2026-01-14T10:01:25,pressure_sensor_a,Pressure Sensor A,39.664,PSI,Good,85.0,pressure_main
+2026-01-14T10:01:25,pressure_sensor_b,Pressure Sensor B,97.743,PSI,Good,85.0,pressure_main
+2026-01-14T10:01:25,flow_meter,Flow Meter,489.793,GPM,Good,85.0,
+2026-01-14T10:01:25,valve_position,Main Valve Position,0.0,%,Good,85.0,
+2026-01-14T10:01:25,vibration_sensor,Pump Vibration,2.699,mm/s,Good,85.0,
+2026-01-14T10:01:25,temperature_sensor,Fluid Temperature,35.58,°C,Good,85.0,
+2026-01-14T10:01:26,pressure_sensor_a,Pressure Sensor A,40.486,PSI,Good,86.0,pressure_main
+2026-01-14T10:01:26,pressure_sensor_b,Pressure Sensor B,99.508,PSI,Good,86.0,pressure_main
+2026-01-14T10:01:26,flow_meter,Flow Meter,516.638,GPM,Good,86.0,
+2026-01-14T10:01:26,valve_position,Main Valve Position,0.0,%,Good,86.0,
+2026-01-14T10:01:26,vibration_sensor,Pump Vibration,2.732,mm/s,Good,86.0,
+2026-01-14T10:01:26,temperature_sensor,Fluid Temperature,35.192,°C,Good,86.0,
+2026-01-14T10:01:27,pressure_sensor_a,Pressure Sensor A,40.425,PSI,Good,87.0,pressure_main
+2026-01-14T10:01:27,pressure_sensor_b,Pressure Sensor B,99.753,PSI,Good,87.0,pressure_main
+2026-01-14T10:01:27,flow_meter,Flow Meter,504.123,GPM,Good,87.0,
+2026-01-14T10:01:27,valve_position,Main Valve Position,0.0,%,Good,87.0,
+2026-01-14T10:01:27,vibration_sensor,Pump Vibration,2.257,mm/s,Good,87.0,
+2026-01-14T10:01:27,temperature_sensor,Fluid Temperature,35.095,°C,Good,87.0,
+2026-01-14T10:01:28,pressure_sensor_a,Pressure Sensor A,36.223,PSI,Good,88.0,pressure_main
+2026-01-14T10:01:28,pressure_sensor_b,Pressure Sensor B,97.999,PSI,Good,88.0,pressure_main
+2026-01-14T10:01:28,flow_meter,Flow Meter,508.28,GPM,Good,88.0,
+2026-01-14T10:01:28,valve_position,Main Valve Position,0.0,%,Good,88.0,
+2026-01-14T10:01:28,vibration_sensor,Pump Vibration,2.809,mm/s,Good,88.0,
+2026-01-14T10:01:28,temperature_sensor,Fluid Temperature,35.141,°C,Good,88.0,
+2026-01-14T10:01:29,pressure_sensor_a,Pressure Sensor A,41.856,PSI,Good,89.0,pressure_main
+2026-01-14T10:01:29,pressure_sensor_b,Pressure Sensor B,98.002,PSI,Good,89.0,pressure_main
+2026-01-14T10:01:29,flow_meter,Flow Meter,485.693,GPM,Good,89.0,
+2026-01-14T10:01:29,valve_position,Main Valve Position,0.0,%,Good,89.0,
+2026-01-14T10:01:29,vibration_sensor,Pump Vibration,2.147,mm/s,Good,89.0,
+2026-01-14T10:01:29,temperature_sensor,Fluid Temperature,34.75,°C,Good,89.0,
+2026-01-14T10:01:30,pressure_sensor_a,Pressure Sensor A,37.268,PSI,Good,90.0,pressure_main
+2026-01-14T10:01:30,pressure_sensor_b,Pressure Sensor B,99.267,PSI,Good,90.0,pressure_main
+2026-01-14T10:01:30,flow_meter,Flow Meter,496.886,GPM,Good,90.0,
+2026-01-14T10:01:30,valve_position,Main Valve Position,0.0,%,Good,90.0,
+2026-01-14T10:01:30,vibration_sensor,Pump Vibration,2.643,mm/s,Good,90.0,
+2026-01-14T10:01:30,temperature_sensor,Fluid Temperature,35.116,°C,Good,90.0,
+2026-01-14T10:01:31,pressure_sensor_a,Pressure Sensor A,42.088,PSI,Good,91.0,pressure_main
+2026-01-14T10:01:31,pressure_sensor_b,Pressure Sensor B,100.123,PSI,Good,91.0,pressure_main
+2026-01-14T10:01:31,flow_meter,Flow Meter,489.275,GPM,Good,91.0,
+2026-01-14T10:01:31,valve_position,Main Valve Position,0.0,%,Good,91.0,
+2026-01-14T10:01:31,vibration_sensor,Pump Vibration,2.431,mm/s,Good,91.0,
+2026-01-14T10:01:31,temperature_sensor,Fluid Temperature,34.905,°C,Good,91.0,
+2026-01-14T10:01:32,pressure_sensor_a,Pressure Sensor A,36.757,PSI,Good,92.0,pressure_main
+2026-01-14T10:01:32,pressure_sensor_b,Pressure Sensor B,99.361,PSI,Good,92.0,pressure_main
+2026-01-14T10:01:32,flow_meter,Flow Meter,515.753,GPM,Good,92.0,
+2026-01-14T10:01:32,valve_position,Main Valve Position,0.0,%,Good,92.0,
+2026-01-14T10:01:32,vibration_sensor,Pump Vibration,2.498,mm/s,Good,92.0,
+2026-01-14T10:01:32,temperature_sensor,Fluid Temperature,34.919,°C,Good,92.0,
+2026-01-14T10:01:33,pressure_sensor_a,Pressure Sensor A,42.182,PSI,Good,93.0,pressure_main
+2026-01-14T10:01:33,pressure_sensor_b,Pressure Sensor B,93.335,PSI,Good,93.0,pressure_main
+2026-01-14T10:01:33,flow_meter,Flow Meter,499.572,GPM,Good,93.0,
+2026-01-14T10:01:33,valve_position,Main Valve Position,0.0,%,Good,93.0,
+2026-01-14T10:01:33,vibration_sensor,Pump Vibration,2.536,mm/s,Good,93.0,
+2026-01-14T10:01:33,temperature_sensor,Fluid Temperature,34.893,°C,Good,93.0,
+2026-01-14T10:01:34,pressure_sensor_a,Pressure Sensor A,42.783,PSI,Good,94.0,pressure_main
+2026-01-14T10:01:34,pressure_sensor_b,Pressure Sensor B,99.985,PSI,Good,94.0,pressure_main
+2026-01-14T10:01:34,flow_meter,Flow Meter,492.015,GPM,Good,94.0,
+2026-01-14T10:01:34,valve_position,Main Valve Position,0.0,%,Good,94.0,
+2026-01-14T10:01:34,vibration_sensor,Pump Vibration,2.478,mm/s,Good,94.0,
+2026-01-14T10:01:34,temperature_sensor,Fluid Temperature,34.958,°C,Good,94.0,
+2026-01-14T10:01:35,pressure_sensor_a,Pressure Sensor A,38.976,PSI,Good,95.0,pressure_main
+2026-01-14T10:01:35,pressure_sensor_b,Pressure Sensor B,95.452,PSI,Good,95.0,pressure_main
+2026-01-14T10:01:35,flow_meter,Flow Meter,515.699,GPM,Good,95.0,
+2026-01-14T10:01:35,valve_position,Main Valve Position,0.0,%,Good,95.0,
+2026-01-14T10:01:35,vibration_sensor,Pump Vibration,2.757,mm/s,Good,95.0,
+2026-01-14T10:01:35,temperature_sensor,Fluid Temperature,35.374,°C,Good,95.0,
+2026-01-14T10:01:36,pressure_sensor_a,Pressure Sensor A,37.811,PSI,Good,96.0,pressure_main
+2026-01-14T10:01:36,pressure_sensor_b,Pressure Sensor B,102.26,PSI,Good,96.0,pressure_main
+2026-01-14T10:01:36,flow_meter,Flow Meter,523.825,GPM,Good,96.0,
+2026-01-14T10:01:36,valve_position,Main Valve Position,0.0,%,Good,96.0,
+2026-01-14T10:01:36,vibration_sensor,Pump Vibration,2.547,mm/s,Good,96.0,
+2026-01-14T10:01:36,temperature_sensor,Fluid Temperature,34.78,°C,Good,96.0,
+2026-01-14T10:01:37,pressure_sensor_a,Pressure Sensor A,38.267,PSI,Good,97.0,pressure_main
+2026-01-14T10:01:37,pressure_sensor_b,Pressure Sensor B,98.97,PSI,Good,97.0,pressure_main
+2026-01-14T10:01:37,flow_meter,Flow Meter,479.613,GPM,Good,97.0,
+2026-01-14T10:01:37,valve_position,Main Valve Position,0.0,%,Good,97.0,
+2026-01-14T10:01:37,vibration_sensor,Pump Vibration,2.491,mm/s,Good,97.0,
+2026-01-14T10:01:37,temperature_sensor,Fluid Temperature,35.478,°C,Good,97.0,
+2026-01-14T10:01:38,pressure_sensor_a,Pressure Sensor A,36.986,PSI,Good,98.0,pressure_main
+2026-01-14T10:01:38,pressure_sensor_b,Pressure Sensor B,102.184,PSI,Good,98.0,pressure_main
+2026-01-14T10:01:38,flow_meter,Flow Meter,516.069,GPM,Good,98.0,
+2026-01-14T10:01:38,valve_position,Main Valve Position,0.0,%,Good,98.0,
+2026-01-14T10:01:38,vibration_sensor,Pump Vibration,2.191,mm/s,Good,98.0,
+2026-01-14T10:01:38,temperature_sensor,Fluid Temperature,34.603,°C,Good,98.0,
+2026-01-14T10:01:39,pressure_sensor_a,Pressure Sensor A,39.433,PSI,Good,99.0,pressure_main
+2026-01-14T10:01:39,pressure_sensor_b,Pressure Sensor B,96.156,PSI,Good,99.0,pressure_main
+2026-01-14T10:01:39,flow_meter,Flow Meter,487.954,GPM,Good,99.0,
+2026-01-14T10:01:39,valve_position,Main Valve Position,0.0,%,Good,99.0,
+2026-01-14T10:01:39,vibration_sensor,Pump Vibration,1.855,mm/s,Good,99.0,
+2026-01-14T10:01:39,temperature_sensor,Fluid Temperature,35.019,°C,Good,99.0,
+2026-01-14T10:01:40,pressure_sensor_a,Pressure Sensor A,43.606,PSI,Good,100.0,pressure_main
+2026-01-14T10:01:40,pressure_sensor_b,Pressure Sensor B,96.035,PSI,Good,100.0,pressure_main
+2026-01-14T10:01:40,flow_meter,Flow Meter,487.244,GPM,Good,100.0,
+2026-01-14T10:01:40,valve_position,Main Valve Position,0.0,%,Good,100.0,
+2026-01-14T10:01:40,vibration_sensor,Pump Vibration,2.128,mm/s,Good,100.0,
+2026-01-14T10:01:40,temperature_sensor,Fluid Temperature,35.323,°C,Good,100.0,
+2026-01-14T10:01:41,pressure_sensor_a,Pressure Sensor A,39.549,PSI,Good,101.0,pressure_main
+2026-01-14T10:01:41,pressure_sensor_b,Pressure Sensor B,102.204,PSI,Good,101.0,pressure_main
+2026-01-14T10:01:41,flow_meter,Flow Meter,493.967,GPM,Good,101.0,
+2026-01-14T10:01:41,valve_position,Main Valve Position,0.0,%,Good,101.0,
+2026-01-14T10:01:41,vibration_sensor,Pump Vibration,2.407,mm/s,Good,101.0,
+2026-01-14T10:01:41,temperature_sensor,Fluid Temperature,35.294,°C,Good,101.0,
+2026-01-14T10:01:42,pressure_sensor_a,Pressure Sensor A,38.988,PSI,Good,102.0,pressure_main
+2026-01-14T10:01:42,pressure_sensor_b,Pressure Sensor B,95.703,PSI,Good,102.0,pressure_main
+2026-01-14T10:01:42,flow_meter,Flow Meter,495.019,GPM,Good,102.0,
+2026-01-14T10:01:42,valve_position,Main Valve Position,0.0,%,Good,102.0,
+2026-01-14T10:01:42,vibration_sensor,Pump Vibration,2.456,mm/s,Good,102.0,
+2026-01-14T10:01:42,temperature_sensor,Fluid Temperature,35.16,°C,Good,102.0,
+2026-01-14T10:01:43,pressure_sensor_a,Pressure Sensor A,40.751,PSI,Good,103.0,pressure_main
+2026-01-14T10:01:43,pressure_sensor_b,Pressure Sensor B,97.425,PSI,Good,103.0,pressure_main
+2026-01-14T10:01:43,flow_meter,Flow Meter,496.542,GPM,Good,103.0,
+2026-01-14T10:01:43,valve_position,Main Valve Position,0.0,%,Good,103.0,
+2026-01-14T10:01:43,vibration_sensor,Pump Vibration,2.934,mm/s,Good,103.0,
+2026-01-14T10:01:43,temperature_sensor,Fluid Temperature,34.715,°C,Good,103.0,
+2026-01-14T10:01:44,pressure_sensor_a,Pressure Sensor A,43.475,PSI,Good,104.0,pressure_main
+2026-01-14T10:01:44,pressure_sensor_b,Pressure Sensor B,98.028,PSI,Good,104.0,pressure_main
+2026-01-14T10:01:44,flow_meter,Flow Meter,478.555,GPM,Good,104.0,
+2026-01-14T10:01:44,valve_position,Main Valve Position,0.0,%,Good,104.0,
+2026-01-14T10:01:44,vibration_sensor,Pump Vibration,3.107,mm/s,Good,104.0,
+2026-01-14T10:01:44,temperature_sensor,Fluid Temperature,35.158,°C,Good,104.0,
+2026-01-14T10:01:45,pressure_sensor_a,Pressure Sensor A,42.741,PSI,Good,105.0,pressure_main
+2026-01-14T10:01:45,pressure_sensor_b,Pressure Sensor B,100.221,PSI,Good,105.0,pressure_main
+2026-01-14T10:01:45,flow_meter,Flow Meter,464.791,GPM,Good,105.0,
+2026-01-14T10:01:45,valve_position,Main Valve Position,0.0,%,Good,105.0,
+2026-01-14T10:01:45,vibration_sensor,Pump Vibration,2.53,mm/s,Good,105.0,
+2026-01-14T10:01:45,temperature_sensor,Fluid Temperature,34.921,°C,Good,105.0,
+2026-01-14T10:01:46,pressure_sensor_a,Pressure Sensor A,37.316,PSI,Good,106.0,pressure_main
+2026-01-14T10:01:46,pressure_sensor_b,Pressure Sensor B,95.118,PSI,Good,106.0,pressure_main
+2026-01-14T10:01:46,flow_meter,Flow Meter,491.589,GPM,Good,106.0,
+2026-01-14T10:01:46,valve_position,Main Valve Position,0.0,%,Good,106.0,
+2026-01-14T10:01:46,vibration_sensor,Pump Vibration,2.648,mm/s,Good,106.0,
+2026-01-14T10:01:46,temperature_sensor,Fluid Temperature,35.243,°C,Good,106.0,
+2026-01-14T10:01:47,pressure_sensor_a,Pressure Sensor A,39.388,PSI,Good,107.0,pressure_main
+2026-01-14T10:01:47,pressure_sensor_b,Pressure Sensor B,97.144,PSI,Good,107.0,pressure_main
+2026-01-14T10:01:47,flow_meter,Flow Meter,475.416,GPM,Good,107.0,
+2026-01-14T10:01:47,valve_position,Main Valve Position,0.0,%,Good,107.0,
+2026-01-14T10:01:47,vibration_sensor,Pump Vibration,2.361,mm/s,Good,107.0,
+2026-01-14T10:01:47,temperature_sensor,Fluid Temperature,34.745,°C,Good,107.0,
+2026-01-14T10:01:48,pressure_sensor_a,Pressure Sensor A,39.593,PSI,Good,108.0,pressure_main
+2026-01-14T10:01:48,pressure_sensor_b,Pressure Sensor B,98.779,PSI,Good,108.0,pressure_main
+2026-01-14T10:01:48,flow_meter,Flow Meter,477.05,GPM,Good,108.0,
+2026-01-14T10:01:48,valve_position,Main Valve Position,0.0,%,Good,108.0,
+2026-01-14T10:01:48,vibration_sensor,Pump Vibration,2.442,mm/s,Good,108.0,
+2026-01-14T10:01:48,temperature_sensor,Fluid Temperature,34.842,°C,Good,108.0,
+2026-01-14T10:01:49,pressure_sensor_a,Pressure Sensor A,39.991,PSI,Good,109.0,pressure_main
+2026-01-14T10:01:49,pressure_sensor_b,Pressure Sensor B,99.925,PSI,Good,109.0,pressure_main
+2026-01-14T10:01:49,flow_meter,Flow Meter,493.536,GPM,Good,109.0,
+2026-01-14T10:01:49,valve_position,Main Valve Position,0.0,%,Good,109.0,
+2026-01-14T10:01:49,vibration_sensor,Pump Vibration,2.618,mm/s,Good,109.0,
+2026-01-14T10:01:49,temperature_sensor,Fluid Temperature,34.531,°C,Good,109.0,
+2026-01-14T10:01:50,pressure_sensor_a,Pressure Sensor A,39.243,PSI,Good,110.0,pressure_main
+2026-01-14T10:01:50,pressure_sensor_b,Pressure Sensor B,99.553,PSI,Good,110.0,pressure_main
+2026-01-14T10:01:50,flow_meter,Flow Meter,500.957,GPM,Good,110.0,
+2026-01-14T10:01:50,valve_position,Main Valve Position,0.0,%,Good,110.0,
+2026-01-14T10:01:50,vibration_sensor,Pump Vibration,2.1,mm/s,Good,110.0,
+2026-01-14T10:01:50,temperature_sensor,Fluid Temperature,35.166,°C,Good,110.0,
+2026-01-14T10:01:51,pressure_sensor_a,Pressure Sensor A,42.413,PSI,Good,111.0,pressure_main
+2026-01-14T10:01:51,pressure_sensor_b,Pressure Sensor B,98.735,PSI,Good,111.0,pressure_main
+2026-01-14T10:01:51,flow_meter,Flow Meter,490.488,GPM,Good,111.0,
+2026-01-14T10:01:51,valve_position,Main Valve Position,0.0,%,Good,111.0,
+2026-01-14T10:01:51,vibration_sensor,Pump Vibration,2.613,mm/s,Good,111.0,
+2026-01-14T10:01:51,temperature_sensor,Fluid Temperature,35.197,°C,Good,111.0,
+2026-01-14T10:01:52,pressure_sensor_a,Pressure Sensor A,41.349,PSI,Good,112.0,pressure_main
+2026-01-14T10:01:52,pressure_sensor_b,Pressure Sensor B,99.331,PSI,Good,112.0,pressure_main
+2026-01-14T10:01:52,flow_meter,Flow Meter,494.856,GPM,Good,112.0,
+2026-01-14T10:01:52,valve_position,Main Valve Position,0.0,%,Good,112.0,
+2026-01-14T10:01:52,vibration_sensor,Pump Vibration,2.304,mm/s,Good,112.0,
+2026-01-14T10:01:52,temperature_sensor,Fluid Temperature,35.052,°C,Good,112.0,
+2026-01-14T10:01:53,pressure_sensor_a,Pressure Sensor A,42.506,PSI,Good,113.0,pressure_main
+2026-01-14T10:01:53,pressure_sensor_b,Pressure Sensor B,98.875,PSI,Good,113.0,pressure_main
+2026-01-14T10:01:53,flow_meter,Flow Meter,490.78,GPM,Good,113.0,
+2026-01-14T10:01:53,valve_position,Main Valve Position,0.0,%,Good,113.0,
+2026-01-14T10:01:53,vibration_sensor,Pump Vibration,2.377,mm/s,Good,113.0,
+2026-01-14T10:01:53,temperature_sensor,Fluid Temperature,35.389,°C,Good,113.0,
+2026-01-14T10:01:54,pressure_sensor_a,Pressure Sensor A,38.291,PSI,Good,114.0,pressure_main
+2026-01-14T10:01:54,pressure_sensor_b,Pressure Sensor B,101.203,PSI,Good,114.0,pressure_main
+2026-01-14T10:01:54,flow_meter,Flow Meter,480.068,GPM,Good,114.0,
+2026-01-14T10:01:54,valve_position,Main Valve Position,0.0,%,Good,114.0,
+2026-01-14T10:01:54,vibration_sensor,Pump Vibration,2.236,mm/s,Good,114.0,
+2026-01-14T10:01:54,temperature_sensor,Fluid Temperature,35.186,°C,Good,114.0,
+2026-01-14T10:01:55,pressure_sensor_a,Pressure Sensor A,40.26,PSI,Good,115.0,pressure_main
+2026-01-14T10:01:55,pressure_sensor_b,Pressure Sensor B,100.077,PSI,Good,115.0,pressure_main
+2026-01-14T10:01:55,flow_meter,Flow Meter,510.938,GPM,Good,115.0,
+2026-01-14T10:01:55,valve_position,Main Valve Position,0.0,%,Good,115.0,
+2026-01-14T10:01:55,vibration_sensor,Pump Vibration,2.397,mm/s,Good,115.0,
+2026-01-14T10:01:55,temperature_sensor,Fluid Temperature,35.27,°C,Good,115.0,
+2026-01-14T10:01:56,pressure_sensor_a,Pressure Sensor A,38.18,PSI,Good,116.0,pressure_main
+2026-01-14T10:01:56,pressure_sensor_b,Pressure Sensor B,102.103,PSI,Good,116.0,pressure_main
+2026-01-14T10:01:56,flow_meter,Flow Meter,505.42,GPM,Good,116.0,
+2026-01-14T10:01:56,valve_position,Main Valve Position,0.0,%,Good,116.0,
+2026-01-14T10:01:56,vibration_sensor,Pump Vibration,2.634,mm/s,Good,116.0,
+2026-01-14T10:01:56,temperature_sensor,Fluid Temperature,35.182,°C,Good,116.0,
+2026-01-14T10:01:57,pressure_sensor_a,Pressure Sensor A,38.429,PSI,Good,117.0,pressure_main
+2026-01-14T10:01:57,pressure_sensor_b,Pressure Sensor B,99.032,PSI,Good,117.0,pressure_main
+2026-01-14T10:01:57,flow_meter,Flow Meter,504.437,GPM,Good,117.0,
+2026-01-14T10:01:57,valve_position,Main Valve Position,0.0,%,Good,117.0,
+2026-01-14T10:01:57,vibration_sensor,Pump Vibration,2.495,mm/s,Good,117.0,
+2026-01-14T10:01:57,temperature_sensor,Fluid Temperature,35.16,°C,Good,117.0,
+2026-01-14T10:01:58,pressure_sensor_a,Pressure Sensor A,37.28,PSI,Good,118.0,pressure_main
+2026-01-14T10:01:58,pressure_sensor_b,Pressure Sensor B,100.153,PSI,Good,118.0,pressure_main
+2026-01-14T10:01:58,flow_meter,Flow Meter,487.542,GPM,Good,118.0,
+2026-01-14T10:01:58,valve_position,Main Valve Position,0.0,%,Good,118.0,
+2026-01-14T10:01:58,vibration_sensor,Pump Vibration,2.229,mm/s,Good,118.0,
+2026-01-14T10:01:58,temperature_sensor,Fluid Temperature,35.064,°C,Good,118.0,
+2026-01-14T10:01:59,pressure_sensor_a,Pressure Sensor A,36.287,PSI,Good,119.0,pressure_main
+2026-01-14T10:01:59,pressure_sensor_b,Pressure Sensor B,101.292,PSI,Good,119.0,pressure_main
+2026-01-14T10:01:59,flow_meter,Flow Meter,511.735,GPM,Good,119.0,
+2026-01-14T10:01:59,valve_position,Main Valve Position,0.0,%,Good,119.0,
+2026-01-14T10:01:59,vibration_sensor,Pump Vibration,2.487,mm/s,Good,119.0,
+2026-01-14T10:01:59,temperature_sensor,Fluid Temperature,34.771,°C,Good,119.0,
+2026-01-14T10:02:00,pressure_sensor_a,Pressure Sensor A,38.109,PSI,Good,120.0,pressure_main
+2026-01-14T10:02:00,pressure_sensor_b,Pressure Sensor B,99.698,PSI,Good,120.0,pressure_main
+2026-01-14T10:02:00,flow_meter,Flow Meter,463.644,GPM,Good,120.0,
+2026-01-14T10:02:00,valve_position,Main Valve Position,0.0,%,Good,120.0,
+2026-01-14T10:02:00,vibration_sensor,Pump Vibration,2.545,mm/s,Good,120.0,
+2026-01-14T10:02:00,temperature_sensor,Fluid Temperature,35.353,°C,Good,120.0,
+2026-01-14T10:02:01,pressure_sensor_a,Pressure Sensor A,39.376,PSI,Good,121.0,pressure_main
+2026-01-14T10:02:01,pressure_sensor_b,Pressure Sensor B,99.116,PSI,Good,121.0,pressure_main
+2026-01-14T10:02:01,flow_meter,Flow Meter,503.775,GPM,Good,121.0,
+2026-01-14T10:02:01,valve_position,Main Valve Position,0.0,%,Good,121.0,
+2026-01-14T10:02:01,vibration_sensor,Pump Vibration,2.588,mm/s,Good,121.0,
+2026-01-14T10:02:01,temperature_sensor,Fluid Temperature,35.504,°C,Good,121.0,
+2026-01-14T10:02:02,pressure_sensor_a,Pressure Sensor A,40.037,PSI,Good,122.0,pressure_main
+2026-01-14T10:02:02,pressure_sensor_b,Pressure Sensor B,98.83,PSI,Good,122.0,pressure_main
+2026-01-14T10:02:02,flow_meter,Flow Meter,495.16,GPM,Good,122.0,
+2026-01-14T10:02:02,valve_position,Main Valve Position,0.0,%,Good,122.0,
+2026-01-14T10:02:02,vibration_sensor,Pump Vibration,2.545,mm/s,Good,122.0,
+2026-01-14T10:02:02,temperature_sensor,Fluid Temperature,35.667,°C,Good,122.0,
+2026-01-14T10:02:03,pressure_sensor_a,Pressure Sensor A,39.359,PSI,Good,123.0,pressure_main
+2026-01-14T10:02:03,pressure_sensor_b,Pressure Sensor B,98.208,PSI,Good,123.0,pressure_main
+2026-01-14T10:02:03,flow_meter,Flow Meter,490.039,GPM,Good,123.0,
+2026-01-14T10:02:03,valve_position,Main Valve Position,0.0,%,Good,123.0,
+2026-01-14T10:02:03,vibration_sensor,Pump Vibration,1.976,mm/s,Good,123.0,
+2026-01-14T10:02:03,temperature_sensor,Fluid Temperature,35.238,°C,Good,123.0,
+2026-01-14T10:02:04,pressure_sensor_a,Pressure Sensor A,37.277,PSI,Good,124.0,pressure_main
+2026-01-14T10:02:04,pressure_sensor_b,Pressure Sensor B,97.949,PSI,Good,124.0,pressure_main
+2026-01-14T10:02:04,flow_meter,Flow Meter,474.427,GPM,Good,124.0,
+2026-01-14T10:02:04,valve_position,Main Valve Position,0.0,%,Good,124.0,
+2026-01-14T10:02:04,vibration_sensor,Pump Vibration,2.221,mm/s,Good,124.0,
+2026-01-14T10:02:04,temperature_sensor,Fluid Temperature,35.323,°C,Good,124.0,
+2026-01-14T10:02:05,pressure_sensor_a,Pressure Sensor A,37.377,PSI,Good,125.0,pressure_main
+2026-01-14T10:02:05,pressure_sensor_b,Pressure Sensor B,97.018,PSI,Good,125.0,pressure_main
+2026-01-14T10:02:05,flow_meter,Flow Meter,507.674,GPM,Good,125.0,
+2026-01-14T10:02:05,valve_position,Main Valve Position,0.0,%,Good,125.0,
+2026-01-14T10:02:05,vibration_sensor,Pump Vibration,2.415,mm/s,Good,125.0,
+2026-01-14T10:02:05,temperature_sensor,Fluid Temperature,35.276,°C,Good,125.0,
+2026-01-14T10:02:06,pressure_sensor_a,Pressure Sensor A,41.481,PSI,Good,126.0,pressure_main
+2026-01-14T10:02:06,pressure_sensor_b,Pressure Sensor B,100.601,PSI,Good,126.0,pressure_main
+2026-01-14T10:02:06,flow_meter,Flow Meter,486.411,GPM,Good,126.0,
+2026-01-14T10:02:06,valve_position,Main Valve Position,0.0,%,Good,126.0,
+2026-01-14T10:02:06,vibration_sensor,Pump Vibration,2.469,mm/s,Good,126.0,
+2026-01-14T10:02:06,temperature_sensor,Fluid Temperature,35.301,°C,Good,126.0,
+2026-01-14T10:02:07,pressure_sensor_a,Pressure Sensor A,38.834,PSI,Good,127.0,pressure_main
+2026-01-14T10:02:07,pressure_sensor_b,Pressure Sensor B,97.842,PSI,Good,127.0,pressure_main
+2026-01-14T10:02:07,flow_meter,Flow Meter,523.23,GPM,Good,127.0,
+2026-01-14T10:02:07,valve_position,Main Valve Position,0.0,%,Good,127.0,
+2026-01-14T10:02:07,vibration_sensor,Pump Vibration,2.396,mm/s,Good,127.0,
+2026-01-14T10:02:07,temperature_sensor,Fluid Temperature,34.984,°C,Good,127.0,
+2026-01-14T10:02:08,pressure_sensor_a,Pressure Sensor A,40.032,PSI,Good,128.0,pressure_main
+2026-01-14T10:02:08,pressure_sensor_b,Pressure Sensor B,102.874,PSI,Good,128.0,pressure_main
+2026-01-14T10:02:08,flow_meter,Flow Meter,511.386,GPM,Good,128.0,
+2026-01-14T10:02:08,valve_position,Main Valve Position,0.0,%,Good,128.0,
+2026-01-14T10:02:08,vibration_sensor,Pump Vibration,2.417,mm/s,Good,128.0,
+2026-01-14T10:02:08,temperature_sensor,Fluid Temperature,35.367,°C,Good,128.0,
+2026-01-14T10:02:09,pressure_sensor_a,Pressure Sensor A,44.294,PSI,Good,129.0,pressure_main
+2026-01-14T10:02:09,pressure_sensor_b,Pressure Sensor B,103.684,PSI,Good,129.0,pressure_main
+2026-01-14T10:02:09,flow_meter,Flow Meter,518.183,GPM,Good,129.0,
+2026-01-14T10:02:09,valve_position,Main Valve Position,0.0,%,Good,129.0,
+2026-01-14T10:02:09,vibration_sensor,Pump Vibration,2.219,mm/s,Good,129.0,
+2026-01-14T10:02:09,temperature_sensor,Fluid Temperature,36.442,°C,Good,129.0,
+2026-01-14T10:02:10,pressure_sensor_a,Pressure Sensor A,37.603,PSI,Good,130.0,pressure_main
+2026-01-14T10:02:10,pressure_sensor_b,Pressure Sensor B,100.256,PSI,Good,130.0,pressure_main
+2026-01-14T10:02:10,flow_meter,Flow Meter,498.162,GPM,Good,130.0,
+2026-01-14T10:02:10,valve_position,Main Valve Position,0.0,%,Good,130.0,
+2026-01-14T10:02:10,vibration_sensor,Pump Vibration,2.907,mm/s,Good,130.0,
+2026-01-14T10:02:10,temperature_sensor,Fluid Temperature,35.277,°C,Good,130.0,
+2026-01-14T10:02:11,pressure_sensor_a,Pressure Sensor A,37.146,PSI,Good,131.0,pressure_main
+2026-01-14T10:02:11,pressure_sensor_b,Pressure Sensor B,101.624,PSI,Good,131.0,pressure_main
+2026-01-14T10:02:11,flow_meter,Flow Meter,517.339,GPM,Good,131.0,
+2026-01-14T10:02:11,valve_position,Main Valve Position,0.0,%,Good,131.0,
+2026-01-14T10:02:11,vibration_sensor,Pump Vibration,2.42,mm/s,Good,131.0,
+2026-01-14T10:02:11,temperature_sensor,Fluid Temperature,34.704,°C,Good,131.0,
+2026-01-14T10:02:12,pressure_sensor_a,Pressure Sensor A,38.55,PSI,Good,132.0,pressure_main
+2026-01-14T10:02:12,pressure_sensor_b,Pressure Sensor B,100.302,PSI,Good,132.0,pressure_main
+2026-01-14T10:02:12,flow_meter,Flow Meter,509.852,GPM,Good,132.0,
+2026-01-14T10:02:12,valve_position,Main Valve Position,0.0,%,Good,132.0,
+2026-01-14T10:02:12,vibration_sensor,Pump Vibration,2.37,mm/s,Good,132.0,
+2026-01-14T10:02:12,temperature_sensor,Fluid Temperature,35.389,°C,Good,132.0,
+2026-01-14T10:02:13,pressure_sensor_a,Pressure Sensor A,38.1,PSI,Good,133.0,pressure_main
+2026-01-14T10:02:13,pressure_sensor_b,Pressure Sensor B,97.796,PSI,Good,133.0,pressure_main
+2026-01-14T10:02:13,flow_meter,Flow Meter,498.691,GPM,Good,133.0,
+2026-01-14T10:02:13,valve_position,Main Valve Position,0.0,%,Good,133.0,
+2026-01-14T10:02:13,vibration_sensor,Pump Vibration,2.837,mm/s,Good,133.0,
+2026-01-14T10:02:13,temperature_sensor,Fluid Temperature,34.932,°C,Good,133.0,
+2026-01-14T10:02:14,pressure_sensor_a,Pressure Sensor A,44.682,PSI,Good,134.0,pressure_main
+2026-01-14T10:02:14,pressure_sensor_b,Pressure Sensor B,102.321,PSI,Good,134.0,pressure_main
+2026-01-14T10:02:14,flow_meter,Flow Meter,492.479,GPM,Good,134.0,
+2026-01-14T10:02:14,valve_position,Main Valve Position,0.0,%,Good,134.0,
+2026-01-14T10:02:14,vibration_sensor,Pump Vibration,2.291,mm/s,Good,134.0,
+2026-01-14T10:02:14,temperature_sensor,Fluid Temperature,35.219,°C,Good,134.0,
+2026-01-14T10:02:15,pressure_sensor_a,Pressure Sensor A,37.645,PSI,Good,135.0,pressure_main
+2026-01-14T10:02:15,pressure_sensor_b,Pressure Sensor B,106.163,PSI,Good,135.0,pressure_main
+2026-01-14T10:02:15,flow_meter,Flow Meter,495.137,GPM,Good,135.0,
+2026-01-14T10:02:15,valve_position,Main Valve Position,0.0,%,Good,135.0,
+2026-01-14T10:02:15,vibration_sensor,Pump Vibration,2.67,mm/s,Good,135.0,
+2026-01-14T10:02:15,temperature_sensor,Fluid Temperature,35.646,°C,Good,135.0,
+2026-01-14T10:02:16,pressure_sensor_a,Pressure Sensor A,39.782,PSI,Good,136.0,pressure_main
+2026-01-14T10:02:16,pressure_sensor_b,Pressure Sensor B,99.495,PSI,Good,136.0,pressure_main
+2026-01-14T10:02:16,flow_meter,Flow Meter,505.849,GPM,Good,136.0,
+2026-01-14T10:02:16,valve_position,Main Valve Position,0.0,%,Good,136.0,
+2026-01-14T10:02:16,vibration_sensor,Pump Vibration,2.591,mm/s,Good,136.0,
+2026-01-14T10:02:16,temperature_sensor,Fluid Temperature,35.443,°C,Good,136.0,
+2026-01-14T10:02:17,pressure_sensor_a,Pressure Sensor A,40.113,PSI,Good,137.0,pressure_main
+2026-01-14T10:02:17,pressure_sensor_b,Pressure Sensor B,98.754,PSI,Good,137.0,pressure_main
+2026-01-14T10:02:17,flow_meter,Flow Meter,510.416,GPM,Good,137.0,
+2026-01-14T10:02:17,valve_position,Main Valve Position,0.0,%,Good,137.0,
+2026-01-14T10:02:17,vibration_sensor,Pump Vibration,2.332,mm/s,Good,137.0,
+2026-01-14T10:02:17,temperature_sensor,Fluid Temperature,34.373,°C,Good,137.0,
+2026-01-14T10:02:18,pressure_sensor_a,Pressure Sensor A,38.605,PSI,Good,138.0,pressure_main
+2026-01-14T10:02:18,pressure_sensor_b,Pressure Sensor B,98.753,PSI,Good,138.0,pressure_main
+2026-01-14T10:02:18,flow_meter,Flow Meter,518.313,GPM,Good,138.0,
+2026-01-14T10:02:18,valve_position,Main Valve Position,0.0,%,Good,138.0,
+2026-01-14T10:02:18,vibration_sensor,Pump Vibration,2.986,mm/s,Good,138.0,
+2026-01-14T10:02:18,temperature_sensor,Fluid Temperature,35.789,°C,Good,138.0,
+2026-01-14T10:02:19,pressure_sensor_a,Pressure Sensor A,38.854,PSI,Good,139.0,pressure_main
+2026-01-14T10:02:19,pressure_sensor_b,Pressure Sensor B,100.743,PSI,Good,139.0,pressure_main
+2026-01-14T10:02:19,flow_meter,Flow Meter,519.467,GPM,Good,139.0,
+2026-01-14T10:02:19,valve_position,Main Valve Position,0.0,%,Good,139.0,
+2026-01-14T10:02:19,vibration_sensor,Pump Vibration,2.765,mm/s,Good,139.0,
+2026-01-14T10:02:19,temperature_sensor,Fluid Temperature,34.992,°C,Good,139.0,
+2026-01-14T10:02:20,pressure_sensor_a,Pressure Sensor A,39.715,PSI,Good,140.0,pressure_main
+2026-01-14T10:02:20,pressure_sensor_b,Pressure Sensor B,106.146,PSI,Good,140.0,pressure_main
+2026-01-14T10:02:20,flow_meter,Flow Meter,507.048,GPM,Good,140.0,
+2026-01-14T10:02:20,valve_position,Main Valve Position,0.0,%,Good,140.0,
+2026-01-14T10:02:20,vibration_sensor,Pump Vibration,2.379,mm/s,Good,140.0,
+2026-01-14T10:02:20,temperature_sensor,Fluid Temperature,35.182,°C,Good,140.0,
+2026-01-14T10:02:21,pressure_sensor_a,Pressure Sensor A,41.159,PSI,Good,141.0,pressure_main
+2026-01-14T10:02:21,pressure_sensor_b,Pressure Sensor B,99.739,PSI,Good,141.0,pressure_main
+2026-01-14T10:02:21,flow_meter,Flow Meter,504.364,GPM,Good,141.0,
+2026-01-14T10:02:21,valve_position,Main Valve Position,0.0,%,Good,141.0,
+2026-01-14T10:02:21,vibration_sensor,Pump Vibration,2.208,mm/s,Good,141.0,
+2026-01-14T10:02:21,temperature_sensor,Fluid Temperature,35.044,°C,Good,141.0,
+2026-01-14T10:02:22,pressure_sensor_a,Pressure Sensor A,43.754,PSI,Good,142.0,pressure_main
+2026-01-14T10:02:22,pressure_sensor_b,Pressure Sensor B,103.311,PSI,Good,142.0,pressure_main
+2026-01-14T10:02:22,flow_meter,Flow Meter,506.043,GPM,Good,142.0,
+2026-01-14T10:02:22,valve_position,Main Valve Position,0.0,%,Good,142.0,
+2026-01-14T10:02:22,vibration_sensor,Pump Vibration,2.267,mm/s,Good,142.0,
+2026-01-14T10:02:22,temperature_sensor,Fluid Temperature,35.033,°C,Good,142.0,
+2026-01-14T10:02:23,pressure_sensor_a,Pressure Sensor A,42.101,PSI,Good,143.0,pressure_main
+2026-01-14T10:02:23,pressure_sensor_b,Pressure Sensor B,100.744,PSI,Good,143.0,pressure_main
+2026-01-14T10:02:23,flow_meter,Flow Meter,528.448,GPM,Good,143.0,
+2026-01-14T10:02:23,valve_position,Main Valve Position,0.0,%,Good,143.0,
+2026-01-14T10:02:23,vibration_sensor,Pump Vibration,2.157,mm/s,Good,143.0,
+2026-01-14T10:02:23,temperature_sensor,Fluid Temperature,35.041,°C,Good,143.0,
+2026-01-14T10:02:24,pressure_sensor_a,Pressure Sensor A,43.486,PSI,Good,144.0,pressure_main
+2026-01-14T10:02:24,pressure_sensor_b,Pressure Sensor B,97.886,PSI,Good,144.0,pressure_main
+2026-01-14T10:02:24,flow_meter,Flow Meter,523.704,GPM,Good,144.0,
+2026-01-14T10:02:24,valve_position,Main Valve Position,0.0,%,Good,144.0,
+2026-01-14T10:02:24,vibration_sensor,Pump Vibration,2.037,mm/s,Good,144.0,
+2026-01-14T10:02:24,temperature_sensor,Fluid Temperature,35.112,°C,Good,144.0,
+2026-01-14T10:02:25,pressure_sensor_a,Pressure Sensor A,39.655,PSI,Good,145.0,pressure_main
+2026-01-14T10:02:25,pressure_sensor_b,Pressure Sensor B,103.58,PSI,Good,145.0,pressure_main
+2026-01-14T10:02:25,flow_meter,Flow Meter,457.682,GPM,Good,145.0,
+2026-01-14T10:02:25,valve_position,Main Valve Position,0.0,%,Good,145.0,
+2026-01-14T10:02:25,vibration_sensor,Pump Vibration,2.021,mm/s,Good,145.0,
+2026-01-14T10:02:25,temperature_sensor,Fluid Temperature,34.947,°C,Good,145.0,
+2026-01-14T10:02:26,pressure_sensor_a,Pressure Sensor A,40.074,PSI,Good,146.0,pressure_main
+2026-01-14T10:02:26,pressure_sensor_b,Pressure Sensor B,100.17,PSI,Good,146.0,pressure_main
+2026-01-14T10:02:26,flow_meter,Flow Meter,500.754,GPM,Good,146.0,
+2026-01-14T10:02:26,valve_position,Main Valve Position,0.0,%,Good,146.0,
+2026-01-14T10:02:26,vibration_sensor,Pump Vibration,2.203,mm/s,Good,146.0,
+2026-01-14T10:02:26,temperature_sensor,Fluid Temperature,35.006,°C,Good,146.0,
+2026-01-14T10:02:27,pressure_sensor_a,Pressure Sensor A,38.306,PSI,Good,147.0,pressure_main
+2026-01-14T10:02:27,pressure_sensor_b,Pressure Sensor B,102.463,PSI,Good,147.0,pressure_main
+2026-01-14T10:02:27,flow_meter,Flow Meter,511.811,GPM,Good,147.0,
+2026-01-14T10:02:27,valve_position,Main Valve Position,0.0,%,Good,147.0,
+2026-01-14T10:02:27,vibration_sensor,Pump Vibration,2.858,mm/s,Good,147.0,
+2026-01-14T10:02:27,temperature_sensor,Fluid Temperature,34.917,°C,Good,147.0,
+2026-01-14T10:02:28,pressure_sensor_a,Pressure Sensor A,39.364,PSI,Good,148.0,pressure_main
+2026-01-14T10:02:28,pressure_sensor_b,Pressure Sensor B,102.085,PSI,Good,148.0,pressure_main
+2026-01-14T10:02:28,flow_meter,Flow Meter,497.655,GPM,Good,148.0,
+2026-01-14T10:02:28,valve_position,Main Valve Position,0.0,%,Good,148.0,
+2026-01-14T10:02:28,vibration_sensor,Pump Vibration,2.487,mm/s,Good,148.0,
+2026-01-14T10:02:28,temperature_sensor,Fluid Temperature,34.601,°C,Good,148.0,
+2026-01-14T10:02:29,pressure_sensor_a,Pressure Sensor A,40.744,PSI,Good,149.0,pressure_main
+2026-01-14T10:02:29,pressure_sensor_b,Pressure Sensor B,100.167,PSI,Good,149.0,pressure_main
+2026-01-14T10:02:29,flow_meter,Flow Meter,486.691,GPM,Good,149.0,
+2026-01-14T10:02:29,valve_position,Main Valve Position,0.0,%,Good,149.0,
+2026-01-14T10:02:29,vibration_sensor,Pump Vibration,2.103,mm/s,Good,149.0,
+2026-01-14T10:02:29,temperature_sensor,Fluid Temperature,35.555,°C,Good,149.0,
+2026-01-14T10:02:30,pressure_sensor_a,Pressure Sensor A,39.719,PSI,Good,150.0,pressure_main
+2026-01-14T10:02:30,pressure_sensor_b,Pressure Sensor B,104.299,PSI,Good,150.0,pressure_main
+2026-01-14T10:02:30,flow_meter,Flow Meter,504.085,GPM,Good,150.0,
+2026-01-14T10:02:30,valve_position,Main Valve Position,0.0,%,Good,150.0,
+2026-01-14T10:02:30,vibration_sensor,Pump Vibration,2.074,mm/s,Good,150.0,
+2026-01-14T10:02:30,temperature_sensor,Fluid Temperature,34.771,°C,Good,150.0,
+2026-01-14T10:02:31,pressure_sensor_a,Pressure Sensor A,41.516,PSI,Good,151.0,pressure_main
+2026-01-14T10:02:31,pressure_sensor_b,Pressure Sensor B,100.466,PSI,Good,151.0,pressure_main
+2026-01-14T10:02:31,flow_meter,Flow Meter,482.6,GPM,Good,151.0,
+2026-01-14T10:02:31,valve_position,Main Valve Position,0.0,%,Good,151.0,
+2026-01-14T10:02:31,vibration_sensor,Pump Vibration,2.455,mm/s,Good,151.0,
+2026-01-14T10:02:31,temperature_sensor,Fluid Temperature,35.089,°C,Good,151.0,
+2026-01-14T10:02:32,pressure_sensor_a,Pressure Sensor A,37.976,PSI,Good,152.0,pressure_main
+2026-01-14T10:02:32,pressure_sensor_b,Pressure Sensor B,101.337,PSI,Good,152.0,pressure_main
+2026-01-14T10:02:32,flow_meter,Flow Meter,490.743,GPM,Good,152.0,
+2026-01-14T10:02:32,valve_position,Main Valve Position,0.0,%,Good,152.0,
+2026-01-14T10:02:32,vibration_sensor,Pump Vibration,1.853,mm/s,Good,152.0,
+2026-01-14T10:02:32,temperature_sensor,Fluid Temperature,35.328,°C,Good,152.0,
+2026-01-14T10:02:33,pressure_sensor_a,Pressure Sensor A,38.377,PSI,Good,153.0,pressure_main
+2026-01-14T10:02:33,pressure_sensor_b,Pressure Sensor B,104.584,PSI,Good,153.0,pressure_main
+2026-01-14T10:02:33,flow_meter,Flow Meter,479.658,GPM,Good,153.0,
+2026-01-14T10:02:33,valve_position,Main Valve Position,0.0,%,Good,153.0,
+2026-01-14T10:02:33,vibration_sensor,Pump Vibration,2.105,mm/s,Good,153.0,
+2026-01-14T10:02:33,temperature_sensor,Fluid Temperature,35.569,°C,Good,153.0,
+2026-01-14T10:02:34,pressure_sensor_a,Pressure Sensor A,36.83,PSI,Good,154.0,pressure_main
+2026-01-14T10:02:34,pressure_sensor_b,Pressure Sensor B,100.684,PSI,Good,154.0,pressure_main
+2026-01-14T10:02:34,flow_meter,Flow Meter,504.893,GPM,Good,154.0,
+2026-01-14T10:02:34,valve_position,Main Valve Position,0.0,%,Good,154.0,
+2026-01-14T10:02:34,vibration_sensor,Pump Vibration,2.418,mm/s,Good,154.0,
+2026-01-14T10:02:34,temperature_sensor,Fluid Temperature,34.575,°C,Good,154.0,
+2026-01-14T10:02:35,pressure_sensor_a,Pressure Sensor A,40.376,PSI,Good,155.0,pressure_main
+2026-01-14T10:02:35,pressure_sensor_b,Pressure Sensor B,101.543,PSI,Good,155.0,pressure_main
+2026-01-14T10:02:35,flow_meter,Flow Meter,514.258,GPM,Good,155.0,
+2026-01-14T10:02:35,valve_position,Main Valve Position,0.0,%,Good,155.0,
+2026-01-14T10:02:35,vibration_sensor,Pump Vibration,2.647,mm/s,Good,155.0,
+2026-01-14T10:02:35,temperature_sensor,Fluid Temperature,36.218,°C,Good,155.0,
+2026-01-14T10:02:36,pressure_sensor_a,Pressure Sensor A,36.708,PSI,Good,156.0,pressure_main
+2026-01-14T10:02:36,pressure_sensor_b,Pressure Sensor B,101.859,PSI,Good,156.0,pressure_main
+2026-01-14T10:02:36,flow_meter,Flow Meter,478.122,GPM,Good,156.0,
+2026-01-14T10:02:36,valve_position,Main Valve Position,0.0,%,Good,156.0,
+2026-01-14T10:02:36,vibration_sensor,Pump Vibration,2.789,mm/s,Good,156.0,
+2026-01-14T10:02:36,temperature_sensor,Fluid Temperature,35.444,°C,Good,156.0,
+2026-01-14T10:02:37,pressure_sensor_a,Pressure Sensor A,41.508,PSI,Good,157.0,pressure_main
+2026-01-14T10:02:37,pressure_sensor_b,Pressure Sensor B,100.312,PSI,Good,157.0,pressure_main
+2026-01-14T10:02:37,flow_meter,Flow Meter,482.131,GPM,Good,157.0,
+2026-01-14T10:02:37,valve_position,Main Valve Position,0.0,%,Good,157.0,
+2026-01-14T10:02:37,vibration_sensor,Pump Vibration,1.993,mm/s,Good,157.0,
+2026-01-14T10:02:37,temperature_sensor,Fluid Temperature,35.755,°C,Good,157.0,
+2026-01-14T10:02:38,pressure_sensor_a,Pressure Sensor A,41.016,PSI,Good,158.0,pressure_main
+2026-01-14T10:02:38,pressure_sensor_b,Pressure Sensor B,101.305,PSI,Good,158.0,pressure_main
+2026-01-14T10:02:38,flow_meter,Flow Meter,506.571,GPM,Good,158.0,
+2026-01-14T10:02:38,valve_position,Main Valve Position,0.0,%,Good,158.0,
+2026-01-14T10:02:38,vibration_sensor,Pump Vibration,2.688,mm/s,Good,158.0,
+2026-01-14T10:02:38,temperature_sensor,Fluid Temperature,35.499,°C,Good,158.0,
+2026-01-14T10:02:39,pressure_sensor_a,Pressure Sensor A,36.753,PSI,Good,159.0,pressure_main
+2026-01-14T10:02:39,pressure_sensor_b,Pressure Sensor B,100.354,PSI,Good,159.0,pressure_main
+2026-01-14T10:02:39,flow_meter,Flow Meter,494.841,GPM,Good,159.0,
+2026-01-14T10:02:39,valve_position,Main Valve Position,0.0,%,Good,159.0,
+2026-01-14T10:02:39,vibration_sensor,Pump Vibration,2.589,mm/s,Good,159.0,
+2026-01-14T10:02:39,temperature_sensor,Fluid Temperature,35.494,°C,Good,159.0,
+2026-01-14T10:02:40,pressure_sensor_a,Pressure Sensor A,37.983,PSI,Good,160.0,pressure_main
+2026-01-14T10:02:40,pressure_sensor_b,Pressure Sensor B,101.986,PSI,Good,160.0,pressure_main
+2026-01-14T10:02:40,flow_meter,Flow Meter,524.42,GPM,Good,160.0,
+2026-01-14T10:02:40,valve_position,Main Valve Position,0.0,%,Good,160.0,
+2026-01-14T10:02:40,vibration_sensor,Pump Vibration,2.673,mm/s,Good,160.0,
+2026-01-14T10:02:40,temperature_sensor,Fluid Temperature,35.465,°C,Good,160.0,
+2026-01-14T10:02:41,pressure_sensor_a,Pressure Sensor A,39.962,PSI,Good,161.0,pressure_main
+2026-01-14T10:02:41,pressure_sensor_b,Pressure Sensor B,103.213,PSI,Good,161.0,pressure_main
+2026-01-14T10:02:41,flow_meter,Flow Meter,517.924,GPM,Good,161.0,
+2026-01-14T10:02:41,valve_position,Main Valve Position,0.0,%,Good,161.0,
+2026-01-14T10:02:41,vibration_sensor,Pump Vibration,2.527,mm/s,Good,161.0,
+2026-01-14T10:02:41,temperature_sensor,Fluid Temperature,35.589,°C,Good,161.0,
+2026-01-14T10:02:42,pressure_sensor_a,Pressure Sensor A,38.25,PSI,Good,162.0,pressure_main
+2026-01-14T10:02:42,pressure_sensor_b,Pressure Sensor B,102.798,PSI,Good,162.0,pressure_main
+2026-01-14T10:02:42,flow_meter,Flow Meter,504.053,GPM,Good,162.0,
+2026-01-14T10:02:42,valve_position,Main Valve Position,0.0,%,Good,162.0,
+2026-01-14T10:02:42,vibration_sensor,Pump Vibration,2.312,mm/s,Good,162.0,
+2026-01-14T10:02:42,temperature_sensor,Fluid Temperature,35.546,°C,Good,162.0,
+2026-01-14T10:02:43,pressure_sensor_a,Pressure Sensor A,38.65,PSI,Good,163.0,pressure_main
+2026-01-14T10:02:43,pressure_sensor_b,Pressure Sensor B,99.944,PSI,Good,163.0,pressure_main
+2026-01-14T10:02:43,flow_meter,Flow Meter,490.201,GPM,Good,163.0,
+2026-01-14T10:02:43,valve_position,Main Valve Position,0.0,%,Good,163.0,
+2026-01-14T10:02:43,vibration_sensor,Pump Vibration,2.983,mm/s,Good,163.0,
+2026-01-14T10:02:43,temperature_sensor,Fluid Temperature,35.271,°C,Good,163.0,
+2026-01-14T10:02:44,pressure_sensor_a,Pressure Sensor A,41.872,PSI,Good,164.0,pressure_main
+2026-01-14T10:02:44,pressure_sensor_b,Pressure Sensor B,100.023,PSI,Good,164.0,pressure_main
+2026-01-14T10:02:44,flow_meter,Flow Meter,491.217,GPM,Good,164.0,
+2026-01-14T10:02:44,valve_position,Main Valve Position,0.0,%,Good,164.0,
+2026-01-14T10:02:44,vibration_sensor,Pump Vibration,2.206,mm/s,Good,164.0,
+2026-01-14T10:02:44,temperature_sensor,Fluid Temperature,34.964,°C,Good,164.0,
+2026-01-14T10:02:45,pressure_sensor_a,Pressure Sensor A,41.671,PSI,Good,165.0,pressure_main
+2026-01-14T10:02:45,pressure_sensor_b,Pressure Sensor B,101.337,PSI,Good,165.0,pressure_main
+2026-01-14T10:02:45,flow_meter,Flow Meter,511.769,GPM,Good,165.0,
+2026-01-14T10:02:45,valve_position,Main Valve Position,0.0,%,Good,165.0,
+2026-01-14T10:02:45,vibration_sensor,Pump Vibration,2.449,mm/s,Good,165.0,
+2026-01-14T10:02:45,temperature_sensor,Fluid Temperature,35.096,°C,Good,165.0,
+2026-01-14T10:02:46,pressure_sensor_a,Pressure Sensor A,42.553,PSI,Good,166.0,pressure_main
+2026-01-14T10:02:46,pressure_sensor_b,Pressure Sensor B,100.041,PSI,Good,166.0,pressure_main
+2026-01-14T10:02:46,flow_meter,Flow Meter,467.258,GPM,Good,166.0,
+2026-01-14T10:02:46,valve_position,Main Valve Position,0.0,%,Good,166.0,
+2026-01-14T10:02:46,vibration_sensor,Pump Vibration,2.825,mm/s,Good,166.0,
+2026-01-14T10:02:46,temperature_sensor,Fluid Temperature,35.311,°C,Good,166.0,
+2026-01-14T10:02:47,pressure_sensor_a,Pressure Sensor A,35.67,PSI,Good,167.0,pressure_main
+2026-01-14T10:02:47,pressure_sensor_b,Pressure Sensor B,101.348,PSI,Good,167.0,pressure_main
+2026-01-14T10:02:47,flow_meter,Flow Meter,484.162,GPM,Good,167.0,
+2026-01-14T10:02:47,valve_position,Main Valve Position,0.0,%,Good,167.0,
+2026-01-14T10:02:47,vibration_sensor,Pump Vibration,2.936,mm/s,Good,167.0,
+2026-01-14T10:02:47,temperature_sensor,Fluid Temperature,34.912,°C,Good,167.0,
+2026-01-14T10:02:48,pressure_sensor_a,Pressure Sensor A,38.838,PSI,Good,168.0,pressure_main
+2026-01-14T10:02:48,pressure_sensor_b,Pressure Sensor B,99.355,PSI,Good,168.0,pressure_main
+2026-01-14T10:02:48,flow_meter,Flow Meter,474.679,GPM,Good,168.0,
+2026-01-14T10:02:48,valve_position,Main Valve Position,0.0,%,Good,168.0,
+2026-01-14T10:02:48,vibration_sensor,Pump Vibration,2.325,mm/s,Good,168.0,
+2026-01-14T10:02:48,temperature_sensor,Fluid Temperature,34.665,°C,Good,168.0,
+2026-01-14T10:02:49,pressure_sensor_a,Pressure Sensor A,37.938,PSI,Good,169.0,pressure_main
+2026-01-14T10:02:49,pressure_sensor_b,Pressure Sensor B,97.876,PSI,Good,169.0,pressure_main
+2026-01-14T10:02:49,flow_meter,Flow Meter,468.405,GPM,Good,169.0,
+2026-01-14T10:02:49,valve_position,Main Valve Position,0.0,%,Good,169.0,
+2026-01-14T10:02:49,vibration_sensor,Pump Vibration,2.11,mm/s,Good,169.0,
+2026-01-14T10:02:49,temperature_sensor,Fluid Temperature,34.987,°C,Good,169.0,
+2026-01-14T10:02:50,pressure_sensor_a,Pressure Sensor A,38.633,PSI,Good,170.0,pressure_main
+2026-01-14T10:02:50,pressure_sensor_b,Pressure Sensor B,98.547,PSI,Good,170.0,pressure_main
+2026-01-14T10:02:50,flow_meter,Flow Meter,498.514,GPM,Good,170.0,
+2026-01-14T10:02:50,valve_position,Main Valve Position,0.0,%,Good,170.0,
+2026-01-14T10:02:50,vibration_sensor,Pump Vibration,2.488,mm/s,Good,170.0,
+2026-01-14T10:02:50,temperature_sensor,Fluid Temperature,35.019,°C,Good,170.0,
+2026-01-14T10:02:51,pressure_sensor_a,Pressure Sensor A,39.072,PSI,Good,171.0,pressure_main
+2026-01-14T10:02:51,pressure_sensor_b,Pressure Sensor B,104.094,PSI,Good,171.0,pressure_main
+2026-01-14T10:02:51,flow_meter,Flow Meter,495.507,GPM,Good,171.0,
+2026-01-14T10:02:51,valve_position,Main Valve Position,0.0,%,Good,171.0,
+2026-01-14T10:02:51,vibration_sensor,Pump Vibration,2.619,mm/s,Good,171.0,
+2026-01-14T10:02:51,temperature_sensor,Fluid Temperature,34.266,°C,Good,171.0,
+2026-01-14T10:02:52,pressure_sensor_a,Pressure Sensor A,38.693,PSI,Good,172.0,pressure_main
+2026-01-14T10:02:52,pressure_sensor_b,Pressure Sensor B,96.471,PSI,Good,172.0,pressure_main
+2026-01-14T10:02:52,flow_meter,Flow Meter,486.175,GPM,Good,172.0,
+2026-01-14T10:02:52,valve_position,Main Valve Position,0.0,%,Good,172.0,
+2026-01-14T10:02:52,vibration_sensor,Pump Vibration,2.593,mm/s,Good,172.0,
+2026-01-14T10:02:52,temperature_sensor,Fluid Temperature,34.936,°C,Good,172.0,
+2026-01-14T10:02:53,pressure_sensor_a,Pressure Sensor A,41.037,PSI,Good,173.0,pressure_main
+2026-01-14T10:02:53,pressure_sensor_b,Pressure Sensor B,98.671,PSI,Good,173.0,pressure_main
+2026-01-14T10:02:53,flow_meter,Flow Meter,501.946,GPM,Good,173.0,
+2026-01-14T10:02:53,valve_position,Main Valve Position,0.0,%,Good,173.0,
+2026-01-14T10:02:53,vibration_sensor,Pump Vibration,2.112,mm/s,Good,173.0,
+2026-01-14T10:02:53,temperature_sensor,Fluid Temperature,35.081,°C,Good,173.0,
+2026-01-14T10:02:54,pressure_sensor_a,Pressure Sensor A,40.84,PSI,Good,174.0,pressure_main
+2026-01-14T10:02:54,pressure_sensor_b,Pressure Sensor B,101.69,PSI,Good,174.0,pressure_main
+2026-01-14T10:02:54,flow_meter,Flow Meter,492.213,GPM,Good,174.0,
+2026-01-14T10:02:54,valve_position,Main Valve Position,0.0,%,Good,174.0,
+2026-01-14T10:02:54,vibration_sensor,Pump Vibration,2.985,mm/s,Good,174.0,
+2026-01-14T10:02:54,temperature_sensor,Fluid Temperature,35.029,°C,Good,174.0,
+2026-01-14T10:02:55,pressure_sensor_a,Pressure Sensor A,39.098,PSI,Good,175.0,pressure_main
+2026-01-14T10:02:55,pressure_sensor_b,Pressure Sensor B,94.999,PSI,Good,175.0,pressure_main
+2026-01-14T10:02:55,flow_meter,Flow Meter,521.534,GPM,Good,175.0,
+2026-01-14T10:02:55,valve_position,Main Valve Position,0.0,%,Good,175.0,
+2026-01-14T10:02:55,vibration_sensor,Pump Vibration,2.408,mm/s,Good,175.0,
+2026-01-14T10:02:55,temperature_sensor,Fluid Temperature,34.763,°C,Good,175.0,
+2026-01-14T10:02:56,pressure_sensor_a,Pressure Sensor A,42.642,PSI,Good,176.0,pressure_main
+2026-01-14T10:02:56,pressure_sensor_b,Pressure Sensor B,102.887,PSI,Good,176.0,pressure_main
+2026-01-14T10:02:56,flow_meter,Flow Meter,497.558,GPM,Good,176.0,
+2026-01-14T10:02:56,valve_position,Main Valve Position,0.0,%,Good,176.0,
+2026-01-14T10:02:56,vibration_sensor,Pump Vibration,2.141,mm/s,Good,176.0,
+2026-01-14T10:02:56,temperature_sensor,Fluid Temperature,35.323,°C,Good,176.0,
+2026-01-14T10:02:57,pressure_sensor_a,Pressure Sensor A,38.757,PSI,Good,177.0,pressure_main
+2026-01-14T10:02:57,pressure_sensor_b,Pressure Sensor B,97.971,PSI,Good,177.0,pressure_main
+2026-01-14T10:02:57,flow_meter,Flow Meter,512.56,GPM,Good,177.0,
+2026-01-14T10:02:57,valve_position,Main Valve Position,0.0,%,Good,177.0,
+2026-01-14T10:02:57,vibration_sensor,Pump Vibration,1.967,mm/s,Good,177.0,
+2026-01-14T10:02:57,temperature_sensor,Fluid Temperature,35.376,°C,Good,177.0,
+2026-01-14T10:02:58,pressure_sensor_a,Pressure Sensor A,40.919,PSI,Good,178.0,pressure_main
+2026-01-14T10:02:58,pressure_sensor_b,Pressure Sensor B,104.311,PSI,Good,178.0,pressure_main
+2026-01-14T10:02:58,flow_meter,Flow Meter,502.798,GPM,Good,178.0,
+2026-01-14T10:02:58,valve_position,Main Valve Position,0.0,%,Good,178.0,
+2026-01-14T10:02:58,vibration_sensor,Pump Vibration,1.985,mm/s,Good,178.0,
+2026-01-14T10:02:58,temperature_sensor,Fluid Temperature,34.885,°C,Good,178.0,
+2026-01-14T10:02:59,pressure_sensor_a,Pressure Sensor A,40.129,PSI,Good,179.0,pressure_main
+2026-01-14T10:02:59,pressure_sensor_b,Pressure Sensor B,100.816,PSI,Good,179.0,pressure_main
+2026-01-14T10:02:59,flow_meter,Flow Meter,513.667,GPM,Good,179.0,
+2026-01-14T10:02:59,valve_position,Main Valve Position,0.0,%,Good,179.0,
+2026-01-14T10:02:59,vibration_sensor,Pump Vibration,2.01,mm/s,Good,179.0,
+2026-01-14T10:02:59,temperature_sensor,Fluid Temperature,35.064,°C,Good,179.0,
