@@ -1,0 +1,12 @@
+timestamp,time_sec,tag_id,trust_score,trust_state,reason_codes
+2026-01-14T10:00:00,0.0,pressure_sensor_a,1.0,trusted,
+2026-01-14T10:00:00,0.0,pressure_sensor_b,1.0,trusted,
+2026-01-14T10:00:00,0.0,flow_meter,1.0,trusted,
+2026-01-14T10:00:00,0.0,valve_position,1.0,trusted,
+2026-01-14T10:00:00,0.0,vibration_sensor,1.0,trusted,
+2026-01-14T10:00:00,0.0,temperature_sensor,1.0,trusted,
+2026-01-14T10:01:00,60.0,pressure_sensor_a,0.7,degraded,RC10
+2026-01-14T10:01:05,65.0,pressure_sensor_a,0.5,degraded,RC10
+2026-01-14T10:01:15,75.0,valve_position,0.3,untrusted,RC11
+2026-01-14T10:01:17,77.0,valve_position,0.1,quarantined,RC11
+2026-01-14T10:01:17,77.0,pressure_sensor_a,0.15,quarantined,"RC10,RC11"

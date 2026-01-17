@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "ceabc9b8-8f55-4c1b-840c-09d8c3bd8bf9",
+    "scenario_id": "mismatched_valve",
+    "scenario_name": "The Mismatched Valve Incident",
+    "seed": 42,
+    "duration_sec": 180.0,
+    "sample_rate": 1.0,
+    "started_at": "2026-01-12 18:10:02.379224",
+    "status": "completed",
+    "sensor_count": 6,
+    "failure_count": 2
+  },
+  {
+    "run_id": "65672a82-096b-497f-9576-f4724d885657",
+    "scenario_id": "mismatched_valve",
+    "scenario_name": "The Mismatched Valve Incident",
+    "seed": 43,
+    "duration_sec": 180.0,
+    "sample_rate": 1.0,
+    "started_at": "2026-01-13 18:10:02.379249",
+    "status": "completed",
+    "sensor_count": 6,
+    "failure_count": 2
+  },
+  {
+    "run_id": "5ee33959-9b5f-4abf-9969-9a9e2b63ff25",
+    "scenario_id": "mismatched_valve",
+    "scenario_name": "The Mismatched Valve Incident",
+    "seed": 44,
+    "duration_sec": 180.0,
+    "sample_rate": 1.0,
+    "started_at": "2026-01-14 18:10:02.379259",
+    "status": "completed",
+    "sensor_count": 6,
+    "failure_count": 2
+  },
+  {
+    "run_id": "9ac00252-c771-4311-ad5b-bef5265a156b",
+    "scenario_id": "mismatched_valve",
+    "scenario_name": "The Mismatched Valve Incident",
+    "seed": 45,
+    "duration_sec": 180.0,
+    "sample_rate": 1.0,
+    "started_at": "2026-01-15 18:10:02.379267",
+    "status": "completed",
+    "sensor_count": 6,
+    "failure_count": 2
+  },
+  {
+    "run_id": "fa09ba75-a476-471b-b78d-453295c89b4f",
+    "scenario_id": "mismatched_valve",
+    "scenario_name": "The Mismatched Valve Incident",
+    "seed": 46,
+    "duration_sec": 180.0,
+    "sample_rate": 1.0,
+    "started_at": "2026-01-16 18:10:02.379275",
+    "status": "completed",
+    "sensor_count": 6,
+    "failure_count": 2
+  }
+]

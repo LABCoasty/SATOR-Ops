@@ -1,0 +1,182 @@
+[
+  {
+    "contradiction_id": "add9a0d6-b82e-4e86-9ed7-5d180d81507e",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:02.129870",
+    "time_sec": 60.0,
+    "primary_tag_id": "pressure_sensor_a",
+    "secondary_tag_ids": [
+      "pressure_sensor_b"
+    ],
+    "reason_code": "RC10",
+    "description": "Redundancy conflict: sensors that should agree are in disagreement",
+    "values": {
+      "pressure_sensor_a": 40.0,
+      "pressure_sensor_b": 100.0
+    },
+    "expected_relationship": "should be equal within tolerance",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "ea2ef5e1-4fe3-403e-b9ff-a04f842966a7",
+    "run_id": "87029089-5c47-4d85-a5e5-ecc301854bc2",
+    "timestamp": "2026-01-12 18:11:17.129870",
+    "time_sec": 75.0,
+    "primary_tag_id": "valve_position",
+    "secondary_tag_ids": [
+      "flow_meter"
+    ],
+    "reason_code": "RC11",
+    "description": "Physics contradiction: flow detected while valve is closed",
+    "values": {
+      "valve_position": 0.0,
+      "flow_meter": 500.0
+    },
+    "expected_relationship": "no flow when valve closed",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "576debdc-cefb-4f0b-bd05-cf26eea84586",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:02.193916",
+    "time_sec": 60.0,
+    "primary_tag_id": "pressure_sensor_a",
+    "secondary_tag_ids": [
+      "pressure_sensor_b"
+    ],
+    "reason_code": "RC10",
+    "description": "Redundancy conflict: sensors that should agree are in disagreement",
+    "values": {
+      "pressure_sensor_a": 40.0,
+      "pressure_sensor_b": 100.0
+    },
+    "expected_relationship": "should be equal within tolerance",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "e886521d-0a90-4c6d-977c-4f033caddb16",
+    "run_id": "b96a6a71-b953-4b63-9c67-4b785c3c73ac",
+    "timestamp": "2026-01-13 18:11:17.193916",
+    "time_sec": 75.0,
+    "primary_tag_id": "valve_position",
+    "secondary_tag_ids": [
+      "flow_meter"
+    ],
+    "reason_code": "RC11",
+    "description": "Physics contradiction: flow detected while valve is closed",
+    "values": {
+      "valve_position": 0.0,
+      "flow_meter": 500.0
+    },
+    "expected_relationship": "no flow when valve closed",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "44151296-239c-4607-b432-11398eacae44",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:02.214806",
+    "time_sec": 60.0,
+    "primary_tag_id": "pressure_sensor_a",
+    "secondary_tag_ids": [
+      "pressure_sensor_b"
+    ],
+    "reason_code": "RC10",
+    "description": "Redundancy conflict: sensors that should agree are in disagreement",
+    "values": {
+      "pressure_sensor_a": 40.0,
+      "pressure_sensor_b": 100.0
+    },
+    "expected_relationship": "should be equal within tolerance",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "94ffa291-5512-4b8f-b670-6f2434ccc1e8",
+    "run_id": "ebe5366b-852d-4c66-a007-0d4b341dca7b",
+    "timestamp": "2026-01-14 18:11:17.214806",
+    "time_sec": 75.0,
+    "primary_tag_id": "valve_position",
+    "secondary_tag_ids": [
+      "flow_meter"
+    ],
+    "reason_code": "RC11",
+    "description": "Physics contradiction: flow detected while valve is closed",
+    "values": {
+      "valve_position": 0.0,
+      "flow_meter": 500.0
+    },
+    "expected_relationship": "no flow when valve closed",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "3d3d1ad0-e1d5-4d2c-ac30-93886b2f3f7d",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:02.240165",
+    "time_sec": 60.0,
+    "primary_tag_id": "pressure_sensor_a",
+    "secondary_tag_ids": [
+      "pressure_sensor_b"
+    ],
+    "reason_code": "RC10",
+    "description": "Redundancy conflict: sensors that should agree are in disagreement",
+    "values": {
+      "pressure_sensor_a": 40.0,
+      "pressure_sensor_b": 100.0
+    },
+    "expected_relationship": "should be equal within tolerance",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "403459f4-829c-4cc3-ba0d-53823a326fbc",
+    "run_id": "4d5bf194-2902-48de-a09d-297239b7f0db",
+    "timestamp": "2026-01-15 18:11:17.240165",
+    "time_sec": 75.0,
+    "primary_tag_id": "valve_position",
+    "secondary_tag_ids": [
+      "flow_meter"
+    ],
+    "reason_code": "RC11",
+    "description": "Physics contradiction: flow detected while valve is closed",
+    "values": {
+      "valve_position": 0.0,
+      "flow_meter": 500.0
+    },
+    "expected_relationship": "no flow when valve closed",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "7a601256-e15d-4e0e-9581-6d6412d5b982",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:02.262932",
+    "time_sec": 60.0,
+    "primary_tag_id": "pressure_sensor_a",
+    "secondary_tag_ids": [
+      "pressure_sensor_b"
+    ],
+    "reason_code": "RC10",
+    "description": "Redundancy conflict: sensors that should agree are in disagreement",
+    "values": {
+      "pressure_sensor_a": 40.0,
+      "pressure_sensor_b": 100.0
+    },
+    "expected_relationship": "should be equal within tolerance",
+    "resolved": false
+  },
+  {
+    "contradiction_id": "9d1f3a73-802d-4aee-a343-c63fae976972",
+    "run_id": "da00ad4c-2e1a-453d-b862-487c6e220c58",
+    "timestamp": "2026-01-16 18:11:17.262932",
+    "time_sec": 75.0,
+    "primary_tag_id": "valve_position",
+    "secondary_tag_ids": [
+      "flow_meter"
+    ],
+    "reason_code": "RC11",
+    "description": "Physics contradiction: flow detected while valve is closed",
+    "values": {
+      "valve_position": 0.0,
+      "flow_meter": 500.0
+    },
+    "expected_relationship": "no flow when valve closed",
+    "resolved": false
+  }
+]

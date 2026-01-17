@@ -1,0 +1,7 @@
+tag_id,name,unit,location,manufacturer,model,calibration_date,baseline_value,min_value,max_value,max_roc,redundancy_group,physics_relationships
+pressure_sensor_a,Pressure Sensor A,PSI,Main Pipeline - Section A,Honeywell,PX2AN1XX100PSCHX,2025-11-15,100.0,0.0,200.0,10.0,pressure_main,"valve_position,flow_meter"
+pressure_sensor_b,Pressure Sensor B,PSI,Main Pipeline - Section A,Honeywell,PX2AN1XX100PSCHX,2025-11-15,100.0,0.0,200.0,10.0,pressure_main,"valve_position,flow_meter"
+flow_meter,Flow Meter,GPM,Main Pipeline - Downstream,Emerson,Rosemount 8700M,2025-10-01,500.0,0.0,1000.0,50.0,,valve_position
+valve_position,Main Valve Position,%,Main Pipeline - Control Valve,Fisher,DVC6200,2025-09-20,100.0,0.0,100.0,50.0,,"flow_meter,pressure_sensor_a,pressure_sensor_b"
+vibration_sensor,Pump Vibration,mm/s,Pump Station - Main Pump,SKF,CMSS 2200,2025-12-01,2.5,0.0,25.0,5.0,,
+temperature_sensor,Fluid Temperature,°C,Main Pipeline - Section B,Omega,TH-22-PT100,2025-08-15,35.0,-20.0,150.0,1.0,,
