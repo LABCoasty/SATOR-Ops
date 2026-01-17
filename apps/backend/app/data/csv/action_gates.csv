@@ -1,0 +1,16 @@
+timestamp,time_sec,action_name,status,reason,requires_confirmation
+2026-01-14T10:00:00,0.0,close_valve,allowed,"Zone confidence high, action permitted.",false
+2026-01-14T10:00:00,0.0,open_valve,allowed,"Zone confidence high, action permitted.",false
+2026-01-14T10:00:00,0.0,start_pump,allowed,"Zone confidence high, action permitted.",false
+2026-01-14T10:00:00,0.0,stop_pump,allowed,"Zone confidence high, action permitted.",false
+2026-01-14T10:00:00,0.0,acknowledge_alarm,allowed,"Zone confidence high, action permitted.",false
+2026-01-14T10:01:00,60.0,close_valve,risky,Zone degraded. Confirmation required.,true
+2026-01-14T10:01:00,60.0,open_valve,risky,Zone degraded. Confirmation required.,true
+2026-01-14T10:01:00,60.0,start_pump,risky,Zone degraded. Confirmation required.,true
+2026-01-14T10:01:00,60.0,stop_pump,risky,Zone degraded. Confirmation required.,true
+2026-01-14T10:01:00,60.0,acknowledge_alarm,risky,Zone degraded. Confirmation required.,true
+2026-01-14T10:01:15,75.0,close_valve,blocked,Control actions blocked due to physics violation.,false
+2026-01-14T10:01:15,75.0,open_valve,blocked,Control actions blocked due to physics violation.,false
+2026-01-14T10:01:15,75.0,start_pump,blocked,Control actions blocked due to physics violation.,false
+2026-01-14T10:01:15,75.0,stop_pump,blocked,Control actions blocked due to physics violation.,false
+2026-01-14T10:01:15,75.0,acknowledge_alarm,risky,Zone has low confidence. Proceed with caution.,true

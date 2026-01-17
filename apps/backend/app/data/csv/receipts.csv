@@ -1,0 +1,2 @@
+timestamp,time_sec,receipt_id,status,drafted_at_sec,operator_id,action_type,action_description,rationale,active_claim,confidence_level,confirmation_status,posture_at_decision,active_contradictions
+2026-01-14T10:01:30,90.0,receipt_001,created,85.0,operator_001,defer,Deferred action pending visual inspection,Cannot trust sensor data - physical verification required,Physics violation detected: valve reports closed but flow continues.,low,conflicting,defer,contradiction_rc11
