@@ -75,6 +75,12 @@ class ReplayEngine:
         self._receipts: List[Dict] = []
         self._sensors: Dict[str, Dict] = {}
         
+        # NEW: Additional CSV data
+        self._claims: List[Dict] = []
+        self._zone_states: List[Dict] = []
+        self._action_gates: List[Dict] = []
+        self._csv_receipts: List[Dict] = []
+        
         # Derived data
         self._markers: List[TimelineMarker] = []
         self._sorted_timestamps: List[datetime] = []
@@ -120,6 +126,38 @@ class ReplayEngine:
         if sensors_path.exists():
             sensors_list = self._read_csv(sensors_path)
             self._sensors = {s["tag_id"]: s for s in sensors_list}
+        
+        # NEW: Claims
+        claims_path = csv_dir / "claims.csv"
+        if claims_path.exists():
+            self._claims = self._read_csv(claims_path)
+            for c in self._claims:
+                c["timestamp"] = self._parse_timestamp(c["timestamp"])
+                c["time_sec"] = float(c.get("time_sec", 0))
+        
+        # NEW: Zone States
+        zone_states_path = csv_dir / "zone_states.csv"
+        if zone_states_path.exists():
+            self._zone_states = self._read_csv(zone_states_path)
+            for z in self._zone_states:
+                z["timestamp"] = self._parse_timestamp(z["timestamp"])
+                z["time_sec"] = float(z.get("time_sec", 0))
+        
+        # NEW: Action Gates
+        action_gates_path = csv_dir / "action_gates.csv"
+        if action_gates_path.exists():
+            self._action_gates = self._read_csv(action_gates_path)
+            for a in self._action_gates:
+                a["timestamp"] = self._parse_timestamp(a["timestamp"])
+                a["time_sec"] = float(a.get("time_sec", 0))
+        
+        # NEW: CSV Receipts
+        receipts_csv_path = csv_dir / "receipts.csv"
+        if receipts_csv_path.exists():
+            self._csv_receipts = self._read_csv(receipts_csv_path)
+            for r in self._csv_receipts:
+                r["timestamp"] = self._parse_timestamp(r["timestamp"])
+                r["time_sec"] = float(r.get("time_sec", 0))
         
         # Set incident bounds from events
         if self._events:
@@ -247,11 +285,10 @@ class ReplayEngine:
         # Get receipt status at time t
         receipt_status = self._get_receipt_status_at(timestamp)
         
-        # Derive claim, posture, confidence from events
-        claim, confirmation_status = self._derive_claim(events_at_t, contradictions)
-        confidence = self._derive_confidence(trust_snapshot)
-        posture, posture_reason = self._derive_posture(events_at_t, contradictions, trust_snapshot)
-        action_gating, allowed_actions = self._derive_action_gating(posture, confidence)
+        # Use CSV data if available, otherwise derive
+        claim, confirmation_status, confidence = self._get_claim_at(time_sec, events_at_t, contradictions)
+        posture, posture_reason = self._get_zone_posture_at(time_sec, events_at_t, contradictions, trust_snapshot)
+        action_gating, allowed_actions = self._get_action_gating_at(time_sec, posture, confidence)
         mode = self._derive_mode(events_at_t)
         next_step = self._derive_next_step(posture, contradictions)
         
@@ -366,62 +403,99 @@ class ReplayEngine:
         return actions
     
     def _get_receipt_status_at(self, timestamp: datetime) -> ReceiptStatus:
-        """Get receipt status at time t."""
-        # Find receipts created before or at timestamp
-        receipts_at_t = [r for r in self._receipts if r["timestamp"] <= timestamp]
+        """Get receipt status at time t from CSV or JSON."""
+        time_sec = self._get_time_sec(timestamp)
         
-        if receipts_at_t:
-            latest = max(receipts_at_t, key=lambda r: r["timestamp"])
+        # First check CSV receipts (preferred)
+        csv_receipts_at_t = [r for r in self._csv_receipts if r["time_sec"] <= time_sec]
+        if csv_receipts_at_t:
+            latest = max(csv_receipts_at_t, key=lambda r: r["time_sec"])
+            status = latest.get("status", "created")
+            receipt_ts = self._incident_start + __import__("datetime").timedelta(seconds=latest["time_sec"]) if self._incident_start else timestamp
             return ReceiptStatus(
                 exists=True,
-                receipt_id=latest["receipt_id"],
-                created_at=latest["timestamp"],
-                label=f"Receipt created at {latest['timestamp'].strftime('%H:%M:%S')}",
+                receipt_id=latest.get("receipt_id", ""),
+                created_at=receipt_ts,
+                label=f"Receipt {status} at {receipt_ts.strftime('%H:%M:%S')}",
             )
+        
+        # Fallback to JSON receipts (using time_sec matching)
+        for r in self._receipts:
+            r_time_sec = r.get("time_sec", 0)
+            if r_time_sec <= time_sec:
+                receipt_ts = self._incident_start + __import__("datetime").timedelta(seconds=r_time_sec) if self._incident_start else r["timestamp"]
+                return ReceiptStatus(
+                    exists=True,
+                    receipt_id=r["receipt_id"],
+                    created_at=receipt_ts,
+                    label=f"Receipt created at {receipt_ts.strftime('%H:%M:%S')}",
+                )
+        
         return ReceiptStatus(exists=False, label="No receipt yet")
     
     # =========================================================================
     # Derivation Logic
     # =========================================================================
     
-    def _derive_claim(
+    def _get_claim_at(
+        self,
+        time_sec: float,
+        events_at_t: List[Dict],
+        contradictions: List[Contradiction]
+    ) -> Tuple[str, ConfirmationStatus, ConfidenceLevel]:
+        """Get claim from claims.csv at time t, or derive if not available."""
+        # Find the latest claim at or before time_sec
+        claims_at_t = [c for c in self._claims if c["time_sec"] <= time_sec]
+        
+        if claims_at_t:
+            latest = max(claims_at_t, key=lambda c: c["time_sec"])
+            claim = latest.get("statement", "System operating normally")
+            status_str = latest.get("confirmation_status", "confirmed").lower()
+            conf_str = latest.get("confidence", "high").lower()
+            
+            status = ConfirmationStatus(status_str) if status_str in ["confirmed", "unconfirmed", "conflicting"] else ConfirmationStatus.CONFIRMED
+            confidence = ConfidenceLevel(conf_str) if conf_str in ["high", "medium", "low"] else ConfidenceLevel.HIGH
+            
+            return claim, status, confidence
+        
+        # Fallback: derive from events/contradictions
+        return self._derive_claim_fallback(events_at_t, contradictions)
+    
+    def _derive_claim_fallback(
         self, 
         events_at_t: List[Dict], 
         contradictions: List[Contradiction]
-    ) -> Tuple[str, ConfirmationStatus]:
-        """Derive the active claim at time t."""
+    ) -> Tuple[str, ConfirmationStatus, ConfidenceLevel]:
+        """Fallback: derive claim from events."""
         if contradictions:
-            # Most recent contradiction
             latest = max(contradictions, key=lambda c: c.timestamp)
             claim = latest.description
             status = ConfirmationStatus.CONFLICTING
+            confidence = ConfidenceLevel.LOW
         elif events_at_t:
-            # Latest significant event
             for e in reversed(events_at_t):
                 if e.get("event_type") in ["failure_injection", "contradiction_detected", "mode_change"]:
                     claim = e.get("description", "System operating normally")
-                    status = ConfirmationStatus.UNCONFIRMED
-                    return claim, status
+                    return claim, ConfirmationStatus.UNCONFIRMED, ConfidenceLevel.MEDIUM
             claim = "System operating normally"
             status = ConfirmationStatus.CONFIRMED
+            confidence = ConfidenceLevel.HIGH
         else:
             claim = "System operating normally"
             status = ConfirmationStatus.CONFIRMED
+            confidence = ConfidenceLevel.HIGH
         
-        return claim, status
+        return claim, status, confidence
     
-    def _derive_confidence(self, trust: TrustSnapshot) -> ConfidenceLevel:
-        """Derive confidence level from trust snapshot."""
-        return trust.zone_confidence
-    
-    def _derive_posture(
+    def _get_zone_posture_at(
         self,
+        time_sec: float,
         events_at_t: List[Dict],
         contradictions: List[Contradiction],
         trust: TrustSnapshot
     ) -> Tuple[Posture, str]:
-        """Derive recommended posture at time t."""
-        # Check for operator DEFER action
+        """Get posture from zone_states.csv at time t, or derive if not available."""
+        # Check for operator actions first (these override)
         for e in reversed(events_at_t):
             if e.get("event_type") == "operator_action":
                 desc = e.get("description", "").lower()
@@ -430,29 +504,55 @@ class ReplayEngine:
                 elif "escalate" in desc:
                     return Posture.ESCALATE, "Operator escalated"
         
-        # Check for DECISION MODE
-        for e in reversed(events_at_t):
-            if e.get("event_type") == "mode_change" and "decision" in e.get("description", "").lower():
-                return Posture.VERIFY, "System entered decision mode - verification required"
+        # Find zone state from CSV
+        zone_states_at_t = [z for z in self._zone_states if z["time_sec"] <= time_sec]
         
-        # Check for contradictions
-        if contradictions:
-            return Posture.VERIFY, "Contradictions detected - verification required"
+        if zone_states_at_t:
+            latest = max(zone_states_at_t, key=lambda z: z["time_sec"])
+            posture_str = latest.get("recommended_posture", "monitor").lower()
+            rationale = latest.get("posture_rationale", "")
+            
+            posture = Posture(posture_str) if posture_str in ["monitor", "verify", "escalate", "contain", "defer"] else Posture.MONITOR
+            return posture, rationale
         
-        # Check trust level
+        # Fallback: derive from trust state
         if trust.zone_trust_state == TrustState.QUARANTINED:
             return Posture.CONTAIN, "Sensors quarantined - contain situation"
         elif trust.zone_trust_state in [TrustState.UNTRUSTED, TrustState.DEGRADED]:
             return Posture.VERIFY, "Degraded trust - verify sensor data"
+        elif contradictions:
+            return Posture.VERIFY, "Contradictions detected - verification required"
         
         return Posture.MONITOR, "All sensors reporting normally"
     
-    def _derive_action_gating(
-        self, 
+    def _get_action_gating_at(
+        self,
+        time_sec: float,
         posture: Posture, 
         confidence: ConfidenceLevel
     ) -> Tuple[ActionGating, List[str]]:
-        """Derive what actions are allowed given posture and confidence."""
+        """Get action gating from action_gates.csv at time t."""
+        # Get action gates at time t
+        gates_at_t = [a for a in self._action_gates if a["time_sec"] <= time_sec]
+        
+        if gates_at_t:
+            # Group by time and get latest set
+            latest_time = max(a["time_sec"] for a in gates_at_t)
+            latest_gates = [a for a in gates_at_t if a["time_sec"] == latest_time]
+            
+            # Determine overall gating from individual actions
+            blocked_actions = [a["action_name"] for a in latest_gates if a["status"] == "blocked"]
+            risky_actions = [a["action_name"] for a in latest_gates if a["status"] == "risky"]
+            allowed_actions = [a["action_name"] for a in latest_gates if a["status"] == "allowed"]
+            
+            if blocked_actions:
+                return ActionGating.BLOCKED, allowed_actions + risky_actions
+            elif risky_actions:
+                return ActionGating.RISKY, allowed_actions
+            else:
+                return ActionGating.ALLOWED, allowed_actions
+        
+        # Fallback: derive from posture/confidence
         if posture == Posture.CONTAIN:
             return ActionGating.BLOCKED, ["Acknowledge", "Request support"]
         elif posture in [Posture.VERIFY, Posture.ESCALATE]:
