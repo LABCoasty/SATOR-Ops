@@ -1,35 +1,37 @@
-# SATOR Ops API Dependencies
-
-# Core Framework
-fastapi[all]>=0.109.0
-uvicorn[standard]>=0.27.0
-pydantic>=2.6.0
+# Core dependencies
+fastapi>=0.109.0
+uvicorn>=0.27.0
+pydantic>=2.5.0
 pydantic-settings>=2.1.0
+numpy>=1.26.0
+pandas>=2.1.0
+python-dateutil>=2.8.0
+
+# Testing
+pytest>=7.4.0
+pytest-xprocess>=0.23.0
+pytest-asyncio>=0.21.0
 
 # Database
-sqlalchemy>=2.0.25
-asyncpg>=0.29.0
-alembic>=1.13.0
+pymongo>=4.6.0
+motor>=3.3.0
 
-# AI/ML - PyTorch
-torch>=2.2.0
-transformers>=4.37.0
+# Sponsor integrations (install as needed)
+# Note: These are optional sidecars - core system works without them
+# LeanMCP - Primary
+mcp>=0.1.0
+
+# Kairo - Primary (Solana)
+# Note: anchorpy requires pytest-xprocess for its pytest plugin
+solana>=0.30.0
+anchorpy>=0.18.0
+
+# Arize - Secondary (optional)
+arize>=7.0.0
+
+# Browserbase - Secondary (optional)
+browserbase>=0.1.0
 
 # Utilities
 python-dotenv>=1.0.0
 httpx>=0.26.0
-websockets>=12.0
-
-# Primary Sponsors
-# kairo-sdk  # TODO: Add when available
-# leanmcp    # TODO: Add when available
-
-# Secondary Sponsors (Optional)
-arize>=7.0.0
-# browserbase  # TODO: Add when available
-
-# Development
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
-black>=24.1.0
-ruff>=0.2.0
