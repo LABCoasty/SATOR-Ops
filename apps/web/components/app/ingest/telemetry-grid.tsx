@@ -1,82 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { TrendingUp, TrendingDown, Minus } from "lucide-react"
+import { useState, useEffect } from "react"
+import { TrendingUp, TrendingDown, Minus, Loader2, WifiOff } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-interface TelemetryChannel {
-  id: string
-  name: string
-  value: number
-  unit: string
-  trend: "up" | "down" | "stable"
-  status: "normal" | "warning" | "critical"
-  sparkline: number[]
-  summary: string
-}
-
-const channels: TelemetryChannel[] = [
-  {
-    id: "temp_01",
-    name: "Core Temperature",
-    value: 72.4,
-    unit: "°C",
-    trend: "up",
-    status: "normal",
-    sparkline: [68, 69, 70, 71, 70, 72, 72.4],
-    summary: "Operating within normal parameters. Slight upward trend over the last hour.",
-  },
-  {
-    id: "pressure_01",
-    name: "System Pressure",
-    value: 14.7,
-    unit: "PSI",
-    trend: "stable",
-    status: "normal",
-    sparkline: [14.6, 14.7, 14.7, 14.8, 14.7, 14.7, 14.7],
-    summary: "Stable pressure reading. No anomalies detected.",
-  },
-  {
-    id: "flow_01",
-    name: "Flow Rate A",
-    value: 234,
-    unit: "L/min",
-    trend: "down",
-    status: "warning",
-    sparkline: [250, 248, 245, 240, 238, 236, 234],
-    summary: "Declining flow rate detected. May indicate partial blockage or pump degradation.",
-  },
-  {
-    id: "vibration_01",
-    name: "Vibration Sensor",
-    value: 0.42,
-    unit: "mm/s",
-    trend: "up",
-    status: "warning",
-    sparkline: [0.35, 0.36, 0.38, 0.39, 0.4, 0.41, 0.42],
-    summary: "Vibration levels increasing. Approaching upper threshold.",
-  },
-  {
-    id: "power_01",
-    name: "Power Draw",
-    value: 847,
-    unit: "kW",
-    trend: "stable",
-    status: "normal",
-    sparkline: [845, 846, 848, 847, 846, 847, 847],
-    summary: "Consistent power consumption. Operating efficiently.",
-  },
-  {
-    id: "humidity_01",
-    name: "Ambient Humidity",
-    value: 45,
-    unit: "%",
-    trend: "down",
-    status: "normal",
-    sparkline: [52, 50, 48, 47, 46, 45, 45],
-    summary: "Humidity decreasing. Within acceptable range for operations.",
-  },
-]
+import { useTelemetry, type TelemetryChannel } from "@/hooks/use-telemetry"
 
 const TrendIcon = ({ trend }: { trend: "up" | "down" | "stable" }) => {
   switch (trend) {
@@ -122,13 +49,40 @@ const Sparkline = ({ data, status }: { data: number[]; status: string }) => {
 }
 
 export function TelemetryGrid() {
+  const { channels, loading, error } = useTelemetry()
   const [expanded, setExpanded] = useState<string | null>(null)
+
+  if (loading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading telemetry...</span>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 flex items-center justify-center">
+        <WifiOff className="h-6 w-6 text-destructive" />
+        <span className="ml-2 text-destructive">Failed to connect: {error}</span>
+      </div>
+    )
+  }
 
   return (
     <div className="rounded-lg border border-border bg-card">
       <div className="border-b border-border px-4 py-3">
-        <h2 className="font-semibold">Live Telemetry Channels</h2>
-        <p className="text-xs text-muted-foreground">Real-time data streams with plain-language summaries</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="font-semibold">Live Telemetry Channels</h2>
+            <p className="text-xs text-muted-foreground">Real-time data streams with plain-language summaries</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
+            <span className="text-xs text-muted-foreground">{channels.length} channels</span>
+          </div>
+        </div>
       </div>
       <div className="divide-y divide-border">
         {channels.map((channel) => (
@@ -148,12 +102,13 @@ export function TelemetryGrid() {
                     )}
                   />
                   <span className="text-sm font-medium">{channel.name}</span>
+                  <span className="text-xs text-muted-foreground">({channel.source})</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <Sparkline data={channel.sparkline} status={channel.status} />
                   <div className="flex items-center gap-2 min-w-[80px] justify-end">
                     <span className="font-mono text-sm font-medium">
-                      {channel.value}
+                      {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
                       <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
                     </span>
                     <span
@@ -170,8 +125,12 @@ export function TelemetryGrid() {
               </div>
             </button>
             {expanded === channel.id && (
-              <div className="mt-3 ml-5 rounded-md bg-muted/50 p-3">
+              <div className="mt-3 ml-5 rounded-md bg-muted/50 p-3 space-y-2">
                 <p className="text-sm text-muted-foreground leading-relaxed">{channel.summary}</p>
+                <div className="flex gap-4 text-xs text-muted-foreground">
+                  <span>Min: {channel.min_threshold}{channel.unit}</span>
+                  <span>Max: {channel.max_threshold}{channel.unit}</span>
+                </div>
               </div>
             )}
           </div>

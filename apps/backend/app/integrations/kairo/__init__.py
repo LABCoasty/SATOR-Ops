@@ -1,16 +1,23 @@
 """
-Kairo AI Sec Integration (Primary Sponsor)
+Kairo AI Sec - Blockchain integration for secure artifact anchoring.
 
-On-chain audit receipt anchoring on Solana.
-Provides cryptographic proof that audit records existed at a specific time.
+Provides on-chain anchoring of artifact hashes for tamper-evident audit trail.
 """
 
-from .anchor import AuditAnchor, KairoAnchor, NoOpAnchor
-from .client import KairoClient
+from .anchor import (
+    KairoAnchorService,
+    AnchorRecord,
+    AnchorRequest,
+    AnchorResult,
+    get_anchor_service,
+    compute_artifact_hash,
+)
 
 __all__ = [
-    "AuditAnchor",
-    "KairoAnchor",
-    "NoOpAnchor",
-    "KairoClient",
+    "KairoAnchorService",
+    "AnchorRecord",
+    "AnchorRequest",
+    "AnchorResult",
+    "get_anchor_service",
+    "compute_artifact_hash",
 ]

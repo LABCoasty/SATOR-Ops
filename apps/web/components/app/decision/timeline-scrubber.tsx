@@ -1,33 +1,35 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, ChevronRight, Play, Pause, FileText } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play, Pause, FileText, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-
-interface TimelineEvent {
-  time: string
-  timestamp: number
-  label: string
-  trustScore: number
-  hasContradiction: boolean
-}
-
-const events: TimelineEvent[] = [
-  { time: "14:28:00", timestamp: 0, label: "Baseline", trustScore: 0.94, hasContradiction: false },
-  { time: "14:30:15", timestamp: 1, label: "Anomaly detected", trustScore: 0.88, hasContradiction: false },
-  { time: "14:32:42", timestamp: 2, label: "Sensor conflict", trustScore: 0.71, hasContradiction: true },
-  { time: "14:35:08", timestamp: 3, label: "Manual override", trustScore: 0.76, hasContradiction: false },
-  { time: "14:38:30", timestamp: 4, label: "Stabilized", trustScore: 0.87, hasContradiction: false },
-  { time: "14:41:00", timestamp: 5, label: "Current", trustScore: 0.87, hasContradiction: false },
-]
+import { useTimeline } from "@/hooks/use-decisions"
 
 export function TimelineScrubber() {
+  const { events, loading, error } = useTimeline()
   const [selectedIndex, setSelectedIndex] = useState(5)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const selectedEvent = events[selectedIndex]
+  if (loading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading timeline...</span>
+      </div>
+    )
+  }
+
+  if (error || events.length === 0) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-4">
+        <p className="text-center text-muted-foreground">No timeline events available</p>
+      </div>
+    )
+  }
+
+  const selectedEvent = events[Math.min(selectedIndex, events.length - 1)]
 
   return (
     <div className="rounded-lg border border-border bg-card p-4 space-y-4">
@@ -82,12 +84,12 @@ export function TimelineScrubber() {
                 "relative h-4 w-4 rounded-full border-2 transition-all",
                 index === selectedIndex
                   ? "border-primary bg-primary scale-125"
-                  : event.hasContradiction
+                  : event.has_contradiction
                     ? "border-warning bg-warning/50 hover:scale-110"
                     : "border-muted-foreground bg-muted hover:scale-110 hover:border-foreground",
               )}
             >
-              {event.hasContradiction && index !== selectedIndex && (
+              {event.has_contradiction && index !== selectedIndex && (
                 <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-warning" />
               )}
             </button>
@@ -102,7 +104,7 @@ export function TimelineScrubber() {
             <span className="font-mono text-lg font-bold">{selectedEvent.time}</span>
             <p className="text-sm text-muted-foreground">{selectedEvent.label}</p>
           </div>
-          {selectedEvent.hasContradiction && (
+          {selectedEvent.has_contradiction && (
             <span className="rounded-md bg-warning/20 px-2 py-1 text-xs font-medium text-warning">
               Contradiction detected
             </span>
@@ -114,14 +116,14 @@ export function TimelineScrubber() {
             <p
               className={cn(
                 "font-mono text-lg font-bold",
-                selectedEvent.trustScore >= 0.85
+                selectedEvent.trust_score >= 0.85
                   ? "text-success"
-                  : selectedEvent.trustScore >= 0.7
+                  : selectedEvent.trust_score >= 0.7
                     ? "text-warning"
                     : "text-destructive",
               )}
             >
-              {selectedEvent.trustScore.toFixed(2)}
+              {selectedEvent.trust_score.toFixed(2)}
             </p>
           </div>
           <Button asChild variant="outline" size="sm" className="gap-2 bg-transparent">
@@ -132,6 +134,11 @@ export function TimelineScrubber() {
           </Button>
         </div>
       </div>
+
+      {/* Event Description */}
+      {selectedEvent.description && (
+        <p className="text-sm text-muted-foreground px-1">{selectedEvent.description}</p>
+      )}
     </div>
   )
 }

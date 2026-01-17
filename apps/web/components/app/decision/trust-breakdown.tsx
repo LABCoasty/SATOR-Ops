@@ -1,31 +1,37 @@
 "use client"
 
-import { Scale, AlertCircle, HelpCircle, FileText, Info } from "lucide-react"
+import { Scale, AlertCircle, HelpCircle, FileText, Info, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTrustBreakdown } from "@/hooks/use-decisions"
 
-interface TrustFactor {
-  label: string
-  value: number
-  impact: "positive" | "negative" | "neutral"
-  icon: typeof Scale
+const iconMap: Record<string, typeof Scale> = {
+  "Evidence Corroboration": Scale,
+  "Source Reliability Avg": FileText,
+  "Contradiction Penalty": AlertCircle,
+  "Data Freshness": Info,
+  "Unknown Factors": HelpCircle,
 }
 
-const factors: TrustFactor[] = [
-  { label: "Evidence Corroboration", value: 0.92, impact: "positive", icon: Scale },
-  { label: "Source Reliability Avg", value: 0.86, impact: "positive", icon: FileText },
-  { label: "Contradiction Penalty", value: -0.08, impact: "negative", icon: AlertCircle },
-  { label: "Data Freshness", value: 0.95, impact: "positive", icon: Info },
-  { label: "Unknown Factors", value: -0.05, impact: "negative", icon: HelpCircle },
-]
-
-const reasonCodes = [
-  { code: "TR_0x12A", description: "High sensor corroboration" },
-  { code: "TR_0x08B", description: "Minor flow sensor divergence" },
-  { code: "TR_0x04C", description: "External feed staleness" },
-]
-
 export function TrustBreakdown() {
-  const compositeScore = 0.87
+  const { breakdown, loading, error } = useTrustBreakdown()
+
+  if (loading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (error || !breakdown) {
+    return (
+      <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-center text-destructive text-sm">
+        Failed to load trust breakdown
+      </div>
+    )
+  }
+
+  const compositeScore = breakdown.composite_score
 
   return (
     <div className="rounded-lg border border-border bg-card">
@@ -61,41 +67,44 @@ export function TrustBreakdown() {
       {/* Factor Breakdown */}
       <div className="px-4 py-3 space-y-3">
         <h4 className="text-sm font-medium">Contributing Factors</h4>
-        {factors.map((factor) => (
-          <div key={factor.label} className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <factor.icon
+        {breakdown.factors.map((factor) => {
+          const IconComponent = iconMap[factor.label] || Scale
+          return (
+            <div key={factor.label} className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <IconComponent
+                  className={cn(
+                    "h-4 w-4",
+                    factor.impact === "positive" && "text-success",
+                    factor.impact === "negative" && "text-warning",
+                    factor.impact === "neutral" && "text-muted-foreground",
+                  )}
+                />
+                <span className="text-sm text-muted-foreground">{factor.label}</span>
+              </div>
+              <span
                 className={cn(
-                  "h-4 w-4",
+                  "font-mono text-sm",
                   factor.impact === "positive" && "text-success",
                   factor.impact === "negative" && "text-warning",
-                  factor.impact === "neutral" && "text-muted-foreground",
+                  factor.impact === "neutral" && "text-foreground",
                 )}
-              />
-              <span className="text-sm text-muted-foreground">{factor.label}</span>
+              >
+                {factor.value >= 0 ? "+" : ""}
+                {typeof factor.value === "number" && factor.value < 1 && factor.value > -1
+                  ? factor.value.toFixed(2)
+                  : factor.value}
+              </span>
             </div>
-            <span
-              className={cn(
-                "font-mono text-sm",
-                factor.impact === "positive" && "text-success",
-                factor.impact === "negative" && "text-warning",
-                factor.impact === "neutral" && "text-foreground",
-              )}
-            >
-              {factor.value >= 0 ? "+" : ""}
-              {typeof factor.value === "number" && factor.value < 1 && factor.value > -1
-                ? factor.value.toFixed(2)
-                : factor.value}
-            </span>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Reason Codes */}
       <div className="border-t border-border px-4 py-3">
         <h4 className="text-sm font-medium mb-2">Reason Codes</h4>
         <div className="space-y-2">
-          {reasonCodes.map((rc) => (
+          {breakdown.reason_codes.map((rc) => (
             <div key={rc.code} className="flex items-center justify-between rounded-md bg-muted/30 px-2 py-1.5">
               <code className="text-xs font-mono text-primary">{rc.code}</code>
               <span className="text-xs text-muted-foreground">{rc.description}</span>

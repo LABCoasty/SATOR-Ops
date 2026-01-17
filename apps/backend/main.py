@@ -1,101 +1,56 @@
-"""
-SATOR Ops - Decision Infrastructure for Physical Systems
-
-FastAPI application entry point.
-"""
-
 from contextlib import asynccontextmanager
-from pathlib import Path
+from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
-from config import config, replay, temporal
-from app.api import agent_tools, audit, replay, simulation
-from app.api.routes import decisions, evidence, artifacts, telemetry, replay, temporal
+from app.api.routes import decisions, evidence, telemetry
+from app.api.routes import artifacts as artifacts_original
+from app.api.routes import scenarios, incidents, vision
 from app.api.websocket import router as websocket_router
 from app.config import settings
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Application lifespan management"""
-    # Startup: ensure data directories exist
-    config.get_data_path("telemetry")
-    config.get_data_path("events")
-    config.get_data_path("audit")
-
-    print("SATOR Ops starting with config:")
-    print(f"  - Data directory: {config.data_dir}")
-    print(f"  - Simulation seed: {config.simulation_seed}")
-    print(f"  - LeanMCP enabled: {config.enable_leanmcp}")
-    print(f"  - Kairo enabled: {config.enable_kairo}")
-    print(f"  - Arize enabled: {config.enable_arize}")
-    print(f"  - Browserbase enabled: {config.enable_browserbase}")
-
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     yield
-
-    # Shutdown: cleanup if needed
-    print("SATOR Ops shutting down")
 
 
 app = FastAPI(
-    title="SATOR Ops",
-    description="Decision Infrastructure for Physical Systems - A Decision Compiler that structures messy, unreliable reality into formal decision states and immutable records.",
+    title="SATOR API",
+    description="Decision Infrastructure for Physical Systems",
     version="0.1.0",
     lifespan=lifespan,
 )
 
-# CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure appropriately for production
+    allow_origins=["*"] if settings.api_env == "development" else settings.allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Original routes
 app.include_router(decisions.router, prefix="/api/decisions", tags=["decisions"])
 app.include_router(evidence.router, prefix="/api/evidence", tags=["evidence"])
-app.include_router(artifacts.router, prefix="/api/artifacts", tags=["artifacts"])
+app.include_router(artifacts_original.router, prefix="/api/artifacts", tags=["artifacts"])
 app.include_router(telemetry.router, prefix="/api/telemetry", tags=["telemetry"])
-app.include_router(replay.router, prefix="/api/replay", tags=["replay"])
-app.include_router(temporal.router, prefix="/api/temporal", tags=["temporal"])
+
+# New SATOR routes
+app.include_router(scenarios.router, prefix="/api", tags=["scenarios"])
+app.include_router(incidents.router, prefix="/api", tags=["incidents"])
+app.include_router(vision.router, prefix="/api", tags=["vision"])
+
+# WebSocket
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
-app.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
-app.include_router(replay.router, prefix="/replay", tags=["Replay"])
-app.include_router(audit.router, prefix="/audit", tags=["Audit"])
-app.include_router(agent_tools.router, prefix="/agent", tags=["Agent Tools"])
 
 
 @app.get("/")
 async def root():
-    """Serve the HTML interface"""
-    from fastapi.responses import FileResponse
-    static_dir = Path(__file__).parent / "app" / "static"
-    index_file = static_dir / "index.html"
-    if index_file.exists():
-        return FileResponse(index_file)
-    return {
-        "name": "SATOR Ops",
-        "version": "0.1.0",
-        "status": "operational",
-        "integrations": {
-            "leanmcp": config.enable_leanmcp,
-            "kairo": config.enable_kairo,
-            "arize": config.enable_arize,
-            "browserbase": config.enable_browserbase,
-        }
-    }
+    return {"name": "SATOR API", "version": "0.1.0", "status": "operational"}
 
 
 @app.get("/health")
-async def health():
-    """Simple health check endpoint"""
+async def health_check():
     return {"status": "healthy"}
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
