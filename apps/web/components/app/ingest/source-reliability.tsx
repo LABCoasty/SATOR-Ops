@@ -1,24 +1,8 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { CheckCircle, AlertTriangle, XCircle, Clock } from "lucide-react"
-
-interface Source {
-  id: string
-  name: string
-  reliability: number
-  lastUpdate: string
-  status: "online" | "degraded" | "offline"
-}
-
-const sources: Source[] = [
-  { id: "s1", name: "Primary Sensor Array", reliability: 0.98, lastUpdate: "2s ago", status: "online" },
-  { id: "s2", name: "Backup Telemetry", reliability: 0.95, lastUpdate: "5s ago", status: "online" },
-  { id: "s3", name: "External Feed Alpha", reliability: 0.87, lastUpdate: "12s ago", status: "online" },
-  { id: "s4", name: "External Feed Beta", reliability: 0.72, lastUpdate: "45s ago", status: "degraded" },
-  { id: "s5", name: "Legacy System Link", reliability: 0.65, lastUpdate: "2m ago", status: "degraded" },
-  { id: "s6", name: "Remote Station C", reliability: 0, lastUpdate: "15m ago", status: "offline" },
-]
+import { CheckCircle, AlertTriangle, XCircle, Clock, Loader2 } from "lucide-react"
+import { useDataSources } from "@/hooks/use-telemetry"
 
 const StatusIcon = ({ status }: { status: "online" | "degraded" | "offline" }) => {
   switch (status) {
@@ -32,6 +16,30 @@ const StatusIcon = ({ status }: { status: "online" | "degraded" | "offline" }) =
 }
 
 export function SourceReliability() {
+  const { sources, loading, error } = useDataSources()
+
+  if (loading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-center text-destructive text-sm">
+        Failed to load sources
+      </div>
+    )
+  }
+
+  // Calculate composite reliability
+  const onlineSources = sources.filter(s => s.status !== "offline")
+  const compositeReliability = onlineSources.length > 0
+    ? onlineSources.reduce((sum, s) => sum + s.reliability, 0) / onlineSources.length
+    : 0
+
   return (
     <div className="rounded-lg border border-border bg-card">
       <div className="border-b border-border px-4 py-3">
@@ -72,7 +80,7 @@ export function SourceReliability() {
               </div>
               <div className="flex items-center gap-1 text-[10px] text-muted-foreground min-w-[50px]">
                 <Clock className="h-3 w-3" />
-                {source.lastUpdate}
+                {source.last_update}
               </div>
             </div>
           </div>
@@ -83,7 +91,7 @@ export function SourceReliability() {
       <div className="border-t border-border px-4 py-3">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Composite reliability</span>
-          <span className="font-mono font-medium text-primary">0.86</span>
+          <span className="font-mono font-medium text-primary">{compositeReliability.toFixed(2)}</span>
         </div>
       </div>
     </div>

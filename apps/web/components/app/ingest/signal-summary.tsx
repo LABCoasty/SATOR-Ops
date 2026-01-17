@@ -1,37 +1,7 @@
 "use client"
 
-import { Activity, AlertTriangle, CheckCircle, HelpCircle } from "lucide-react"
-
-const summaryCards = [
-  {
-    label: "Active Signals",
-    value: "47",
-    subtext: "12 sources reporting",
-    icon: Activity,
-    status: "normal" as const,
-  },
-  {
-    label: "Healthy",
-    value: "41",
-    subtext: "Within expected range",
-    icon: CheckCircle,
-    status: "success" as const,
-  },
-  {
-    label: "Warnings",
-    value: "4",
-    subtext: "Deviation detected",
-    icon: AlertTriangle,
-    status: "warning" as const,
-  },
-  {
-    label: "Unknown",
-    value: "2",
-    subtext: "Awaiting data",
-    icon: HelpCircle,
-    status: "muted" as const,
-  },
-]
+import { Activity, AlertTriangle, CheckCircle, HelpCircle, Loader2 } from "lucide-react"
+import { useSignalSummary } from "@/hooks/use-telemetry"
 
 const statusColors = {
   normal: "text-foreground",
@@ -41,6 +11,60 @@ const statusColors = {
 }
 
 export function SignalSummary() {
+  const { summary, loading, error } = useSignalSummary()
+
+  if (loading) {
+    return (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="rounded-lg border border-border bg-card p-4 animate-pulse">
+            <div className="h-4 bg-muted rounded w-24 mb-2" />
+            <div className="h-8 bg-muted rounded w-16" />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (error || !summary) {
+    return (
+      <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-center text-destructive">
+        Failed to load signal summary
+      </div>
+    )
+  }
+
+  const summaryCards = [
+    {
+      label: "Active Signals",
+      value: summary.active_signals.toString(),
+      subtext: `${summary.sources_reporting} sources reporting`,
+      icon: Activity,
+      status: "normal" as const,
+    },
+    {
+      label: "Healthy",
+      value: summary.healthy.toString(),
+      subtext: "Within expected range",
+      icon: CheckCircle,
+      status: "success" as const,
+    },
+    {
+      label: "Warnings",
+      value: summary.warnings.toString(),
+      subtext: "Deviation detected",
+      icon: AlertTriangle,
+      status: "warning" as const,
+    },
+    {
+      label: "Unknown",
+      value: summary.unknown.toString(),
+      subtext: "Awaiting data",
+      icon: HelpCircle,
+      status: "muted" as const,
+    },
+  ]
+
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {summaryCards.map((card) => (

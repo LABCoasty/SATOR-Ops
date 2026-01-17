@@ -4,7 +4,9 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import decisions, evidence, artifacts, telemetry
+from app.api.routes import decisions, evidence, telemetry
+from app.api.routes import artifacts as artifacts_original
+from app.api.routes import scenarios, incidents, vision
 from app.api.websocket import router as websocket_router
 from app.config import settings
 
@@ -29,10 +31,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Original routes
 app.include_router(decisions.router, prefix="/api/decisions", tags=["decisions"])
 app.include_router(evidence.router, prefix="/api/evidence", tags=["evidence"])
-app.include_router(artifacts.router, prefix="/api/artifacts", tags=["artifacts"])
+app.include_router(artifacts_original.router, prefix="/api/artifacts", tags=["artifacts"])
 app.include_router(telemetry.router, prefix="/api/telemetry", tags=["telemetry"])
+
+# New SATOR routes
+app.include_router(scenarios.router, prefix="/api", tags=["scenarios"])
+app.include_router(incidents.router, prefix="/api", tags=["incidents"])
+app.include_router(vision.router, prefix="/api", tags=["vision"])
+
+# WebSocket
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
 
