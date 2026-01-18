@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws"
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const WS_BASE = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000"
 
 export interface TelemetryChannel {
   id: string
@@ -47,7 +47,7 @@ export function useTelemetry() {
 
   const fetchChannels = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/telemetry/channels`)
+      const response = await fetch(`${API_BASE}/api/telemetry/channels`)
       if (!response.ok) throw new Error("Failed to fetch telemetry")
       const data = await response.json()
       setChannels(data)
@@ -77,7 +77,7 @@ export function useDataSources() {
   useEffect(() => {
     async function fetchSources() {
       try {
-        const response = await fetch(`${API_URL}/telemetry/sources`)
+        const response = await fetch(`${API_BASE}/api/telemetry/sources`)
         if (!response.ok) throw new Error("Failed to fetch sources")
         const data = await response.json()
         setSources(data)
@@ -102,7 +102,7 @@ export function useSignalSummary() {
 
   const fetchSummary = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/telemetry/summary`)
+      const response = await fetch(`${API_BASE}/api/telemetry/summary`)
       if (!response.ok) throw new Error("Failed to fetch summary")
       const data = await response.json()
       setSummary(data)
@@ -144,7 +144,7 @@ export function useTelemetryWebSocket() {
 
     const connect = () => {
       try {
-        ws = new WebSocket(`${WS_URL}/ws/telemetry`)
+        ws = new WebSocket(`${WS_BASE}/ws/telemetry`)
         wsRef.current = ws
 
         ws.onopen = () => {

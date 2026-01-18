@@ -285,7 +285,7 @@ async def generate_artifact(scenario_id: str):
     status = _scenario_states.get(scenario_id)
     
     # Get incidents for this scenario
-    incidents = incident_manager.get_incidents_by_scenario(scenario_id)
+    incidents = incident_manager.get_incidents_for_scenario(scenario_id)
     
     if not incidents:
         # Create a demo artifact if no incidents exist
@@ -337,11 +337,12 @@ async def generate_artifact(scenario_id: str):
     # Use the first incident to build the artifact
     incident = incidents[0]
     
-    # Get decision cards for this incident
-    decision_cards = decision_engine.get_decisions_for_incident(incident.incident_id)
+    # Get active decision cards (filter by incident if possible)
+    all_decisions = decision_engine.get_active_decisions()
+    decision_cards = [d for d in all_decisions if getattr(d, 'incident_id', None) == incident.incident_id]
     
-    # Get trust receipts
-    trust_receipts = decision_engine.get_trust_receipts(incident.incident_id)
+    # Get trust receipts from artifact builder
+    trust_receipts = artifact_builder.get_trust_receipts(incident.incident_id)
     
     # Get audit trail
     audit_events = audit_logger.get_incident_trail(incident.incident_id)
