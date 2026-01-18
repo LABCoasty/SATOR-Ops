@@ -11,11 +11,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from config import config, replay, temporal
-from app.api import agent_tools, audit, replay, simulation
-from app.api.routes import decisions, evidence, artifacts, telemetry, replay, temporal
+# Configuration
+from config import config
+
+# API Routers (Main Branch)
+from app.api import agent_tools, audit, simulation
+from app.api import replay as replay_v2  # New Replay Engine
+
+# API Routers (Temporal Branch - preserving frontend compatibility)
+from app.api.routes import decisions, evidence, artifacts, telemetry, temporal
+from app.api.routes import replay as replay_v1  # Legacy/Frontend Replay Engine
 from app.api.websocket import router as websocket_router
-from app.config import settings
 
 
 @asynccontextmanager
@@ -56,15 +62,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount Routers
+# ---------------------------------------------------------
+# Legacy/Frontend Compatible Routes (from Temporal Branch)
 app.include_router(decisions.router, prefix="/api/decisions", tags=["decisions"])
 app.include_router(evidence.router, prefix="/api/evidence", tags=["evidence"])
 app.include_router(artifacts.router, prefix="/api/artifacts", tags=["artifacts"])
 app.include_router(telemetry.router, prefix="/api/telemetry", tags=["telemetry"])
-app.include_router(replay.router, prefix="/api/replay", tags=["replay"])
+app.include_router(replay_v1.router, prefix="/api/replay", tags=["replay (v1)"])  # Used by Frontend
 app.include_router(temporal.router, prefix="/api/temporal", tags=["temporal"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
+
+# New Core Routes (from Main Branch)
 app.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
-app.include_router(replay.router, prefix="/replay", tags=["Replay"])
+app.include_router(replay_v2.router, prefix="/replay", tags=["Replay (v2)"])      # New Implementation
 app.include_router(audit.router, prefix="/audit", tags=["Audit"])
 app.include_router(agent_tools.router, prefix="/agent", tags=["Agent Tools"])
 
