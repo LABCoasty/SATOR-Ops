@@ -4,6 +4,8 @@ Kairo Anchor - On-chain artifact anchoring via Solana Devnet.
 Anchors artifact hashes to blockchain for tamper-evident audit trail.
 Stores: hashes for each artifact section, bundle root, event chain.
 Full artifact stored in MongoDB, only commitments on-chain.
+
+Includes Kairo AI security validation before anchoring.
 """
 
 import hashlib
@@ -13,6 +15,8 @@ from datetime import datetime
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel, Field
 from enum import IntEnum
+
+from .client import KairoClient, KairoDecision, get_kairo_client
 
 
 # ============================================================================
@@ -78,6 +82,9 @@ class AnchorRecord(BaseModel):
     packet_uri: str = ""  # MongoDB doc ID or IPFS CID
     verification_url: Optional[str] = None
     explorer_url: Optional[str] = None
+    
+    # Kairo security analysis
+    kairo_analysis: Optional[Dict[str, Any]] = None  # Store Kairo analysis results
 
 
 class AnchorRequest(BaseModel):
@@ -246,16 +253,65 @@ class KairoAnchorService:
         self._artifacts_db: Dict[str, Dict[str, Any]] = {}  # Mock MongoDB
         self._next_incident_id = 1
     
-    def anchor_artifact(self, request: AnchorRequest) -> AnchorResult:
+    async def anchor_artifact_async(self, request: AnchorRequest) -> AnchorResult:
         """
-        Anchor an artifact on-chain.
+        Anchor an artifact on-chain (async version with Kairo security check).
         
-        1. Compute all section hashes
-        2. Store full artifact in MongoDB
-        3. Write hashes to Solana
-        4. Return anchor record
+        1. Validate anchor program security with Kairo (if enabled)
+        2. Compute all section hashes
+        3. Store full artifact in MongoDB
+        4. Write hashes to Solana
+        5. Return anchor record
         """
+        kairo_analysis = None
+        
         try:
+            # Security check: Validate anchor program with Kairo before anchoring
+            kairo_client = get_kairo_client()
+            if kairo_client.enabled:
+                try:
+                    # For Solana/Anchor programs, we can use deploy_check for network validation
+                    # Note: Kairo API currently supports Solidity, but deploy_check can validate
+                    # the deployment context even for Rust/Anchor programs
+                    network_info = {
+                        "chain_id": 103,  # Solana devnet
+                        "name": "devnet"
+                    }
+                    
+                    # Run deploy check (this validates the deployment is safe)
+                    analysis = await kairo_client.deploy_check(
+                        project_id="sator_ops",  # You may want to make this configurable
+                        contract_name="sator_anchor",
+                        network=network_info
+                    )
+                    
+                    kairo_analysis = {
+                        "decision": analysis.decision.value,
+                        "decision_reason": analysis.decision_reason,
+                        "risk_score": analysis.risk_score,
+                        "is_safe": analysis.is_safe,
+                        "warnings": analysis.warnings,
+                        "recommendations": analysis.recommendations,
+                        "timestamp": datetime.utcnow().isoformat()
+                    }
+                    
+                    # Log the analysis result
+                    if analysis.decision.value == "BLOCK":
+                        print(f"⚠️  Kairo security check BLOCKED anchoring: {analysis.decision_reason}")
+                        # Following sidecar pattern - warn but don't block
+                    elif analysis.decision.value == "WARN":
+                        print(f"⚠️  Kairo security check WARNED: {analysis.decision_reason}")
+                    else:
+                        print(f"✅ Kairo security check passed: {analysis.decision.value}")
+                        
+                except Exception as e:
+                    # If Kairo check fails, log but don't block (sidecar pattern)
+                    print(f"⚠️  Kairo security check failed (non-blocking): {e}")
+                    kairo_analysis = {
+                        "error": str(e),
+                        "timestamp": datetime.utcnow().isoformat()
+                    }
+            
             # Compute hashes
             hashes = compute_artifact_hashes(request.artifact_data)
             
@@ -290,9 +346,97 @@ class KairoAnchorService:
                 pda_address=pda_address,
                 packet_uri=mongo_doc_id,
                 status="pending_approval" if requires_approval else "pending",
+                kairo_analysis=kairo_analysis,  # Store Kairo analysis results
             )
             
             # Simulate Solana transaction (in production, use actual SDK)
+            anchor_record = self._submit_to_solana(anchor_record)
+            
+            # Store record
+            self._anchors[anchor_record.anchor_id] = anchor_record
+            
+            return AnchorResult(
+                success=True,
+                anchor_record=anchor_record,
+                tx_hash=anchor_record.tx_hash,
+                verification_url=anchor_record.verification_url,
+            )
+            
+        except Exception as e:
+            return AnchorResult(
+                success=False,
+                error=str(e),
+            )
+    
+    def anchor_artifact(self, request: AnchorRequest) -> AnchorResult:
+        """
+        Anchor an artifact on-chain (synchronous wrapper).
+        
+        For async Kairo checks, this runs in a new event loop.
+        """
+        import asyncio
+        
+        try:
+            # Try to get existing event loop
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # If loop is running, we can't use run_until_complete
+                # Fall back to sync version without Kairo check
+                return self._anchor_artifact_sync(request)
+            else:
+                # Run async version
+                return loop.run_until_complete(self.anchor_artifact_async(request))
+        except RuntimeError:
+            # No event loop, create one
+            return asyncio.run(self.anchor_artifact_async(request))
+        except Exception as e:
+            # Fallback to sync version on error
+            print(f"Warning: Async anchoring failed, using sync: {e}")
+            return self._anchor_artifact_sync(request)
+    
+    def _anchor_artifact_sync(self, request: AnchorRequest) -> AnchorResult:
+        """
+        Synchronous anchor without Kairo async checks.
+        Used as fallback when async is not available.
+        """
+        try:
+            # Compute hashes
+            hashes = compute_artifact_hashes(request.artifact_data)
+            
+            # Generate incident ID
+            incident_id = self._next_incident_id
+            self._next_incident_id += 1
+            
+            # Derive PDA
+            pda_address = derive_pda_address(incident_id, self.PROGRAM_ID)
+            
+            # Store artifact
+            mongo_doc_id = f"mongo_{request.artifact_id}"
+            self._artifacts_db[mongo_doc_id] = {
+                "artifact": request.artifact_data,
+                "stored_at": datetime.utcnow().isoformat(),
+            }
+            
+            # Determine if approval is needed
+            requires_approval = request.operator_role == OperatorRole.EMPLOYEE
+            
+            # Create anchor record (without Kairo analysis in sync mode)
+            anchor_record = AnchorRecord(
+                anchor_id=f"anchor_{request.artifact_id}",
+                artifact_id=request.artifact_id,
+                incident_id=request.incident_id,
+                scenario_id=request.scenario_id,
+                hashes=hashes,
+                operator_id=request.operator_id,
+                operator_role=request.operator_role,
+                operator_pubkey=request.operator_pubkey,
+                requires_approval=requires_approval,
+                pda_address=pda_address,
+                packet_uri=mongo_doc_id,
+                status="pending_approval" if requires_approval else "pending",
+            )
+            
+            # Simulate Solana transaction
             anchor_record = self._submit_to_solana(anchor_record)
             
             # Store record

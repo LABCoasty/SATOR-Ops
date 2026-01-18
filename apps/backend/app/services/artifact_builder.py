@@ -366,11 +366,16 @@ class ArtifactBuilderService:
             operator_id="sator-ops",
         )
         
+        # Use sync version (which internally handles async Kairo checks)
         result = anchor_service.anchor_artifact(request)
         
         if result.success and result.anchor_record:
             # Update artifact with anchor info
-            artifact.on_chain_anchor = result.anchor_record.model_dump()
+            anchor_data = result.anchor_record.model_dump()
+            # Include Kairo analysis in anchor data
+            if result.anchor_record.kairo_analysis:
+                anchor_data["kairo_analysis"] = result.anchor_record.kairo_analysis
+            artifact.on_chain_anchor = anchor_data
             
             # Log anchoring
             audit_logger = get_audit_logger()
