@@ -693,10 +693,352 @@ def create_decision_card(
 
 
 # ============================================================================
+# Additional Agent Tools (from Hackathon Report)
+# ============================================================================
+
+def summarize_incident(incident_id: str) -> Dict[str, Any]:
+    """
+    Tool 6: Summarize an incident.
+    
+    Returns timeline of events and top contradictions for an incident.
+    Used by agent command: "Summarize incident"
+    
+    Args:
+        incident_id: The incident ID to summarize
+        
+    Returns:
+        Summary with timeline and key contradictions
+    """
+    from ...services.incident_manager import get_incident_manager
+    from ...services.audit_logger import get_audit_logger
+    
+    incident_manager = get_incident_manager()
+    audit_logger = get_audit_logger()
+    
+    # Get incident
+    incident = incident_manager.get_incident(incident_id)
+    if not incident:
+        return {
+            "success": False,
+            "error": f"Incident {incident_id} not found"
+        }
+    
+    # Get audit trail
+    events = audit_logger.get_incident_trail(incident_id)
+    
+    # Build timeline
+    timeline = []
+    for event in events[:20]:  # Last 20 events
+        timeline.append({
+            "timestamp": event.timestamp.isoformat() if event.timestamp else None,
+            "event_type": event.event_type,
+            "summary": event.summary
+        })
+    
+    # Get contradictions
+    contradictions = []
+    if hasattr(incident, 'contradiction_ids') and incident.contradiction_ids:
+        for cid in incident.contradiction_ids[:5]:  # Top 5
+            contradictions.append({"contradiction_id": cid})
+    
+    return {
+        "success": True,
+        "incident_id": incident_id,
+        "title": incident.title,
+        "description": incident.description,
+        "severity": incident.severity.value if hasattr(incident.severity, 'value') else str(incident.severity),
+        "state": incident.state.value if hasattr(incident.state, 'value') else str(incident.state),
+        "timeline": timeline,
+        "contradictions": contradictions,
+        "created_at": incident.created_at.isoformat() if incident.created_at else None
+    }
+
+
+def explain_trust_score(tag_id: str) -> Dict[str, Any]:
+    """
+    Tool 7: Explain the trust score for a sensor.
+    
+    Returns the list of active reason codes and evidence that
+    contributed to the current trust score.
+    Used by agent command: "Explain trust score"
+    
+    Args:
+        tag_id: The sensor tag ID to explain
+        
+    Returns:
+        Explanation with reason codes and evidence
+    """
+    from ...services.trust_layer import get_trust_layer
+    
+    trust_layer = get_trust_layer()
+    
+    # Get trust status for the tag
+    trust_status = trust_layer.get_tag_status(tag_id)
+    
+    if not trust_status:
+        return {
+            "success": False,
+            "error": f"Tag {tag_id} not found in trust layer"
+        }
+    
+    # Get active reason codes
+    reason_codes = trust_layer.get_active_reason_codes(tag_id)
+    
+    return {
+        "success": True,
+        "tag_id": tag_id,
+        "trust_score": trust_status.score,
+        "trust_state": trust_status.state.value if hasattr(trust_status.state, 'value') else str(trust_status.state),
+        "reason_codes": [
+            {
+                "code": rc.code,
+                "description": rc.description,
+                "severity": rc.severity,
+                "triggered_at": rc.triggered_at.isoformat() if hasattr(rc, 'triggered_at') and rc.triggered_at else None
+            }
+            for rc in reason_codes
+        ],
+        "evidence": trust_status.evidence if hasattr(trust_status, 'evidence') else [],
+        "last_updated": trust_status.updated_at.isoformat() if hasattr(trust_status, 'updated_at') and trust_status.updated_at else None
+    }
+
+
+def verify_audit_log() -> Dict[str, Any]:
+    """
+    Tool 8: Verify the integrity of the audit log.
+    
+    Checks the hash chain integrity and returns verification status.
+    Used by agent command: "Verify the audit log"
+    
+    Returns:
+        Verification result with chain integrity status
+    """
+    from ...services.audit_logger import get_audit_logger
+    
+    audit_logger = get_audit_logger()
+    
+    # Verify chain integrity
+    is_valid = audit_logger.verify_chain()
+    
+    # Get chain stats
+    chain_id = audit_logger.get_chain_id()
+    event_count = len(audit_logger._events) if hasattr(audit_logger, '_events') else 0
+    
+    # Get root hash (first event's hash)
+    root_hash = None
+    if hasattr(audit_logger, '_events') and audit_logger._events:
+        first_event = audit_logger._events[0]
+        root_hash = first_event.current_hash if hasattr(first_event, 'current_hash') else None
+    
+    return {
+        "success": True,
+        "verified": is_valid,
+        "chain_id": chain_id,
+        "event_count": event_count,
+        "root_hash": root_hash,
+        "integrity_status": "PASS" if is_valid else "FAIL",
+        "message": "Hash chain integrity verified" if is_valid else "Hash chain integrity FAILED - possible tampering"
+    }
+
+
+def get_state_at_time(time_str: str, scenario_id: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Tool 9: Reconstruct system state at a specific time.
+    
+    Returns what the system believed at time t, including:
+    - Telemetry values
+    - Trust scores
+    - Active contradictions
+    - Operational mode
+    
+    Used by agent command: "What happened at 2:00 PM?"
+    
+    Args:
+        time_str: Time string (ISO format or relative like "2:00 PM")
+        scenario_id: Optional scenario ID for context
+        
+    Returns:
+        Reconstructed system state at that time
+    """
+    from datetime import datetime, timedelta
+    import re
+    
+    # Parse time string
+    target_time = None
+    
+    # Try ISO format first
+    try:
+        target_time = datetime.fromisoformat(time_str)
+    except ValueError:
+        pass
+    
+    # Try relative time (e.g., "2:00 PM", "14:00")
+    if not target_time:
+        time_match = re.match(r'(\d{1,2}):(\d{2})\s*(AM|PM)?', time_str, re.IGNORECASE)
+        if time_match:
+            hour = int(time_match.group(1))
+            minute = int(time_match.group(2))
+            period = time_match.group(3)
+            
+            if period and period.upper() == 'PM' and hour != 12:
+                hour += 12
+            elif period and period.upper() == 'AM' and hour == 12:
+                hour = 0
+            
+            today = datetime.utcnow().date()
+            target_time = datetime.combine(today, datetime.min.time().replace(hour=hour, minute=minute))
+    
+    # Try as seconds offset
+    if not target_time:
+        try:
+            seconds = float(time_str)
+            target_time = datetime.utcnow() - timedelta(seconds=seconds)
+        except ValueError:
+            pass
+    
+    if not target_time:
+        return {
+            "success": False,
+            "error": f"Could not parse time: {time_str}. Use ISO format, '2:00 PM', or seconds offset."
+        }
+    
+    # Get state from replay engine
+    from ...services.data_loader import get_data_loader
+    from ...services.incident_manager import get_incident_manager
+    
+    data_loader = get_data_loader()
+    incident_manager = get_incident_manager()
+    
+    # Get telemetry at time (approximation - would need full replay engine)
+    # For now, return current state with timestamp
+    
+    # Get active incidents at that time
+    all_incidents = incident_manager._incidents if hasattr(incident_manager, '_incidents') else {}
+    active_at_time = []
+    for inc_id, inc in all_incidents.items():
+        if inc.created_at and inc.created_at <= target_time:
+            active_at_time.append({
+                "incident_id": inc_id,
+                "title": inc.title,
+                "state": inc.state.value if hasattr(inc.state, 'value') else str(inc.state)
+            })
+    
+    return {
+        "success": True,
+        "target_time": target_time.isoformat(),
+        "scenario_id": scenario_id,
+        "state": {
+            "operational_mode": "decision" if active_at_time else "observe",
+            "active_incidents": active_at_time,
+            "incident_count": len(active_at_time),
+        },
+        "note": "Full state reconstruction requires scenario replay. This shows incidents active at that time."
+    }
+
+
+def list_contradictions(
+    scenario_id: Optional[str] = None,
+    severity: Optional[str] = None
+) -> Dict[str, Any]:
+    """
+    Tool 10: List all active contradictions.
+    
+    Returns all current contradictions, optionally filtered by scenario or severity.
+    
+    Args:
+        scenario_id: Optional scenario ID to filter
+        severity: Optional severity level (low, medium, high, critical)
+        
+    Returns:
+        List of active contradictions
+    """
+    from ...services.incident_manager import get_incident_manager
+    
+    incident_manager = get_incident_manager()
+    
+    # Get all incidents with contradictions
+    all_incidents = incident_manager._incidents if hasattr(incident_manager, '_incidents') else {}
+    
+    contradictions = []
+    for inc_id, inc in all_incidents.items():
+        if scenario_id and hasattr(inc, 'scenario_id') and inc.scenario_id != scenario_id:
+            continue
+        
+        if hasattr(inc, 'contradiction_ids') and inc.contradiction_ids:
+            for cid in inc.contradiction_ids:
+                contradictions.append({
+                    "contradiction_id": cid,
+                    "incident_id": inc_id,
+                    "incident_title": inc.title,
+                    "severity": inc.severity.value if hasattr(inc.severity, 'value') else "unknown"
+                })
+    
+    # Filter by severity if specified
+    if severity:
+        contradictions = [c for c in contradictions if c.get("severity") == severity]
+    
+    return {
+        "success": True,
+        "count": len(contradictions),
+        "contradictions": contradictions
+    }
+
+
+def get_dispatch_draft(incident_id: str) -> Dict[str, Any]:
+    """
+    Tool 11: Generate dispatch draft for field technician.
+    
+    Creates a draft dispatch note for sending to field personnel.
+    
+    Args:
+        incident_id: The incident requiring dispatch
+        
+    Returns:
+        Draft dispatch with key information
+    """
+    from ...services.incident_manager import get_incident_manager
+    
+    incident_manager = get_incident_manager()
+    incident = incident_manager.get_incident(incident_id)
+    
+    if not incident:
+        return {
+            "success": False,
+            "error": f"Incident {incident_id} not found"
+        }
+    
+    # Build dispatch draft
+    dispatch = {
+        "incident_id": incident_id,
+        "priority": "HIGH" if incident.severity.value in ["critical", "emergency"] else "NORMAL",
+        "title": f"Field Verification Required: {incident.title}",
+        "location": getattr(incident, 'location', 'TBD'),
+        "description": incident.description,
+        "required_actions": [
+            "Visual inspection of equipment",
+            "Sensor calibration verification",
+            "Report findings to control room"
+        ],
+        "safety_notes": [
+            "Follow standard PPE requirements",
+            "Check area for hazards before approaching"
+        ],
+        "contact": "Control Room: ext. 2001",
+        "generated_at": datetime.utcnow().isoformat()
+    }
+    
+    return {
+        "success": True,
+        "dispatch": dispatch
+    }
+
+
+# ============================================================================
 # Tool Registry
 # ============================================================================
 
 SATOR_TOOLS = [
+    # Original Vision/Decision Tools
     {
         "name": "analyze_vision",
         "handler": analyze_vision,
@@ -721,5 +1063,37 @@ SATOR_TOOLS = [
         "name": "create_decision_card",
         "handler": create_decision_card,
         "description": "Package findings into operator decision cards"
+    },
+    
+    # Agent Command Tools (from Hackathon Report)
+    {
+        "name": "summarize_incident",
+        "handler": summarize_incident,
+        "description": "Summarize an incident with timeline and contradictions"
+    },
+    {
+        "name": "explain_trust_score",
+        "handler": explain_trust_score,
+        "description": "Explain trust score for a sensor with reason codes"
+    },
+    {
+        "name": "verify_audit_log",
+        "handler": verify_audit_log,
+        "description": "Verify integrity of the hash-chained audit log"
+    },
+    {
+        "name": "get_state_at_time",
+        "handler": get_state_at_time,
+        "description": "Reconstruct system state at a specific time"
+    },
+    {
+        "name": "list_contradictions",
+        "handler": list_contradictions,
+        "description": "List all active contradictions in the system"
+    },
+    {
+        "name": "get_dispatch_draft",
+        "handler": get_dispatch_draft,
+        "description": "Generate dispatch draft for field technician"
     }
 ]

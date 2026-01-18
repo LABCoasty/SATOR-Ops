@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon } from "lucide-react"
+import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon, Bot } from "lucide-react"
 import { useState, ReactNode } from "react"
 
 type NavItem = {
@@ -26,6 +26,13 @@ const navItems: NavItem[] = [
     href: "/app/decision",
     icon: GitBranch,
     mode: "decision" as const,
+  },
+  {
+    label: "MCP Agent",
+    href: "/app/agent",
+    icon: Bot,
+    mode: "decision" as const,
+    badge: "11 tools",
   },
   {
     label: "Create Artifact",
