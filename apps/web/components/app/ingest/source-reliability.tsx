@@ -31,54 +31,110 @@ export function SourceReliability() {
   const { sources: apiSources, loading, error } = useDataSources()
   const simulation = useOptionalSimulationContext()
 
-  // Generate simulation sources with dynamic reliability based on time
+  // Generate simulation sources with dynamic reliability based on time and scenario
   const simulationSources = useMemo(() => {
     if (!simulation?.isRunning || !simulation?.state) {
       return []
     }
 
     const timeSec = simulation.state.current_time_sec
-    const trustScore = simulation.state.trust_score
+    const activeScenario = simulation.activeScenario
+    
+    // Check if this is a vision scenario with video shown (after 5 seconds)
+    const isVisionScenario = activeScenario === "scenario2" || activeScenario === "scenario3" || activeScenario === "scenario4"
+    const isScenario4 = activeScenario === "scenario4"
+    const videoShown = timeSec >= 5
+    
+    // Degradation factor: 0 before video, then ramps up to 1 over remaining 15 seconds
+    const degradationFactor = videoShown ? Math.min(1, (timeSec - 5) / 15) : 0
 
     return SOURCE_DEFS.map(def => {
-      // Adjust reliability based on simulation time and events
       let reliability = def.baseReliability
       let status: "online" | "degraded" | "offline" = "online"
       let lastUpdate = "2s ago"
 
-      // Remote Station C goes offline after 30s
-      if (def.id === "remote_station_c") {
-        if (timeSec > 30) {
-          reliability = 0
-          status = "offline"
-          lastUpdate = "15m ago"
+      if (isVisionScenario && videoShown) {
+        // For Scenario 4 (Data Center), all sources degrade much more dramatically
+        if (isScenario4) {
+          if (def.id === "primary_sensor_array") {
+            // Primary sensors start failing due to electrical interference
+            reliability = def.baseReliability - (degradationFactor * 0.4) + Math.sin(timeSec * 2) * 0.1
+            status = reliability < 0.7 ? "degraded" : reliability < 0.5 ? "offline" : "online"
+            lastUpdate = reliability < 0.8 ? `${Math.floor(degradationFactor * 30) + 5}s ago` : "2s ago"
+          }
+          else if (def.id === "backup_telemetry") {
+            // Backup telemetry also affected by arc flash conditions
+            reliability = def.baseReliability - (degradationFactor * 0.35)
+            status = reliability < 0.75 ? "degraded" : "online"
+            lastUpdate = `${Math.floor(degradationFactor * 20) + 3}s ago`
+          }
+          else if (def.id === "external_feed_alpha") {
+            // External feeds lose connection
+            reliability = def.baseReliability - (degradationFactor * 0.5)
+            status = reliability < 0.6 ? "degraded" : reliability < 0.4 ? "offline" : "online"
+            lastUpdate = `${Math.floor(degradationFactor * 45) + 10}s ago`
+          }
+          else if (def.id === "external_feed_beta") {
+            // Goes offline quickly
+            reliability = Math.max(0, def.baseReliability - (degradationFactor * 0.7))
+            status = reliability < 0.5 ? "offline" : reliability < 0.65 ? "degraded" : "online"
+            lastUpdate = reliability < 0.5 ? "2m ago" : `${Math.floor(degradationFactor * 60)}s ago`
+          }
+          else if (def.id === "legacy_system_link") {
+            // Legacy system completely fails
+            reliability = Math.max(0, def.baseReliability - (degradationFactor * 0.65))
+            status = reliability < 0.3 ? "offline" : reliability < 0.5 ? "degraded" : "online"
+            lastUpdate = reliability < 0.3 ? "5m ago" : "1m ago"
+          }
+          else if (def.id === "remote_station_c") {
+            // Already offline, stays offline
+            reliability = 0
+            status = "offline"
+            lastUpdate = "15m ago"
+          }
         } else {
-          reliability = 0.45 - (timeSec / 100)
-          status = reliability > 0.3 ? "degraded" : "offline"
+          // Normal vision scenario degradation (scenario 2 & 3)
+          if (def.id === "remote_station_c") {
+            reliability = Math.max(0, 0.45 - (degradationFactor * 0.5))
+            status = reliability <= 0 ? "offline" : "degraded"
+            lastUpdate = reliability <= 0 ? "15m ago" : "2m ago"
+          }
+          else if (def.id === "external_feed_beta") {
+            reliability = Math.max(0.4, def.baseReliability - (degradationFactor * 0.3))
+            status = reliability < 0.6 ? "degraded" : "online"
+            lastUpdate = `${Math.floor(degradationFactor * 40) + 10}s ago`
+          }
+          else if (def.id === "external_feed_alpha") {
+            reliability = Math.max(0.6, def.baseReliability - (degradationFactor * 0.2))
+            status = reliability < 0.8 ? "degraded" : "online"
+            lastUpdate = `${Math.floor(degradationFactor * 20) + 5}s ago`
+          }
+          else if (def.id === "legacy_system_link") {
+            reliability = def.baseReliability - (degradationFactor * 0.2) + Math.sin(timeSec) * 0.05
+            status = reliability < 0.55 ? "degraded" : "online"
+            lastUpdate = "1m ago"
+          }
+          else {
+            // Primary and backup degrade slightly
+            reliability = def.baseReliability - (degradationFactor * 0.1)
+            lastUpdate = `${Math.floor(timeSec % 5)}s ago`
+          }
+        }
+      } else {
+        // Before video shows - stable baseline
+        if (def.id === "remote_station_c") {
+          reliability = 0.45
+          status = "degraded"
           lastUpdate = "2m ago"
         }
-      }
-      // External feeds degrade over time
-      else if (def.id === "external_feed_beta") {
-        reliability = Math.max(0.5, def.baseReliability - (timeSec / 200))
-        status = reliability < 0.7 ? "degraded" : "online"
-        lastUpdate = `${Math.floor(timeSec / 10) * 10 + 45}s ago`
-      }
-      else if (def.id === "external_feed_alpha") {
-        reliability = Math.max(0.75, def.baseReliability - (timeSec / 300))
-        status = reliability < 0.85 ? "degraded" : "online"
-        lastUpdate = `${Math.floor(timeSec / 5) * 2 + 12}s ago`
-      }
-      // Legacy system has intermittent issues
-      else if (def.id === "legacy_system_link") {
-        reliability = def.baseReliability + Math.sin(timeSec / 10) * 0.05
-        status = reliability < 0.65 ? "degraded" : "online"
-        lastUpdate = "2m ago"
-      }
-      // Primary and backup stay relatively stable
-      else {
-        reliability = Math.max(0.9, def.baseReliability - (timeSec / 1000))
-        lastUpdate = `${Math.floor(timeSec % 10)}s ago`
+        else if (def.id === "external_feed_beta") {
+          reliability = def.baseReliability
+          status = reliability < 0.75 ? "degraded" : "online"
+          lastUpdate = "30s ago"
+        }
+        else {
+          lastUpdate = `${Math.floor(timeSec % 10)}s ago`
+        }
       }
 
       return {
@@ -90,7 +146,7 @@ export function SourceReliability() {
         type: def.type
       }
     })
-  }, [simulation?.isRunning, simulation?.state])
+  }, [simulation?.isRunning, simulation?.state, simulation?.activeScenario])
 
   // Use simulation data when running, otherwise use API data
   const sources = simulation?.isRunning && simulationSources.length > 0 

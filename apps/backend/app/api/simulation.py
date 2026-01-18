@@ -323,7 +323,7 @@ _enhanced_sim_decisions: Dict[str, List[DecisionRequest]] = {}
 
 
 class EnhancedStartRequest(BaseModel):
-    scenario_type: str = Field(..., description="'scenario1' or 'scenario2'")
+    scenario_type: str = Field(..., description="'scenario1', 'scenario2', 'scenario3', or 'scenario4'")
     operator_id: str = Field(default="default_operator")
 
 

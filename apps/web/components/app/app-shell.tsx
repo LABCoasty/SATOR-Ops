@@ -5,7 +5,6 @@ import { useState, useCallback, useEffect, useRef } from "react"
 import { AppSidebar } from "./app-sidebar"
 import { AppTopBar } from "./app-top-bar"
 import { AgentButton } from "./agent-button"
-import { VideoAlertModal, type Scenario2Result } from "./vision/video-alert-modal"
 import { DecisionPrompt, EventToast, type DecisionPromptData } from "./decision-prompt"
 import { useSimulationContext, type SimulationEvent } from "@/contexts/simulation-context"
 import { Progress } from "@/components/ui/progress"
@@ -13,16 +12,13 @@ import { cn } from "@/lib/utils"
 
 export type AppMode = "ingest" | "decision" | "artifact"
 
-// YouTube video URL for Scenario 2 video modal
-const YOUTUBE_VIDEO_ID = "IPpKZx854VQ"
-const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`
-
 export function AppShell({ children }: { children: React.ReactNode }) {
   // Enhanced simulation state from context
   const {
     state: simState,
     events,
     decisions,
+    activeScenario,
     isRunning,
     isLoading: simLoading,
     startSimulation,
@@ -57,20 +53,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await startSimulation("scenario1")
   }, [startSimulation])
 
-  // Scenario 2 video modal state (kept for legacy video alert support)
-  const [scenario2ModalOpen, setScenario2ModalOpen] = useState(false)
-  const [scenario2Processing] = useState(false)
-  const [scenario2Progress] = useState(0)
-  const [scenario2Message] = useState("")
-  const [scenario2Result] = useState<Scenario2Result | null>(null)
-
   const handleScenario2 = useCallback(async () => {
-    // Start the enhanced simulation for scenario 2
     await startSimulation("scenario2")
   }, [startSimulation])
 
-  // Get current decision to show (first pending decision)
-  const currentDecision = decisions.length > 0 ? decisions[0] : null
+  const handleScenario3 = useCallback(async () => {
+    await startSimulation("scenario3")
+  }, [startSimulation])
+
+  const handleScenario4 = useCallback(async () => {
+    await startSimulation("scenario4")
+  }, [startSimulation])
+
+  // Scenario 2, 3 & 4 handle their own decisions in the ingest page
+  const isScenario2 = activeScenario === "scenario2"
+  const isScenario3 = activeScenario === "scenario3"
+  const isScenario4 = activeScenario === "scenario4"
+  const isVisionScenario = isScenario2 || isScenario3 || isScenario4
+
+  // Get current decision to show (first pending decision) - only for scenario 1
+  const currentDecision = !isVisionScenario && decisions.length > 0 ? decisions[0] : null
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
@@ -83,8 +85,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <AppTopBar
           onScenario1={handleScenario1}
           onScenario2={handleScenario2}
+          onScenario3={handleScenario3}
+          onScenario4={handleScenario4}
           scenario1Loading={simLoading && !simState}
-          scenario2Loading={simLoading || scenario2Processing}
+          scenario2Loading={simLoading && isScenario2}
+          scenario3Loading={simLoading && isScenario3}
+          scenario4Loading={simLoading && isScenario4}
         />
 
         {/* Simulation Progress Bar */}
@@ -141,24 +147,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      {/* Event Toast */}
-      {currentEventToast && (
+      {/* Event Toast - hide for vision scenarios (handled in ingest page) */}
+      {currentEventToast && !isVisionScenario && (
         <EventToast
           event={currentEventToast}
           onClose={() => setCurrentEventToast(null)}
         />
       )}
-
-      {/* Scenario 2 Video Alert Modal - Only shown after processing completes */}
-      <VideoAlertModal
-        open={scenario2ModalOpen && !scenario2Processing}
-        onOpenChange={setScenario2ModalOpen}
-        processing={false}
-        progress={scenario2Progress}
-        progressMessage={scenario2Message}
-        result={scenario2Result}
-        videoUrl={YOUTUBE_EMBED_URL}
-      />
     </div>
   )
 }

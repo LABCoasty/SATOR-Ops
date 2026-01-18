@@ -2,6 +2,8 @@ import { DecisionContext } from "@/components/app/decision/decision-context"
 import { TimelineScrubber } from "@/components/app/decision/timeline-scrubber"
 import { ContradictionsPanel } from "@/components/app/decision/contradictions-panel"
 import { TrustBreakdown } from "@/components/app/decision/trust-breakdown"
+import { EventLog } from "@/components/app/decision/event-log"
+import { OperatorDecisionsLog } from "@/components/app/decision/operator-decisions-log"
 
 export default function DecisionPage() {
   return (
@@ -23,13 +25,19 @@ export default function DecisionPage() {
 
       {/* Main Content Grid */}
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Decision Context - Main Center Area */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Left Column - Event Log & Operator Decisions */}
+        <div className="space-y-6">
+          <EventLog />
+          <OperatorDecisionsLog />
+        </div>
+
+        {/* Center Column - Decision Context & Contradictions */}
+        <div className="space-y-6">
           <DecisionContext />
           <ContradictionsPanel />
         </div>
 
-        {/* Trust Breakdown - Right Panel */}
+        {/* Right Column - Trust Breakdown */}
         <div>
           <TrustBreakdown />
         </div>

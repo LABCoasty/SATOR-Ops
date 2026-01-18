@@ -23,11 +23,15 @@ const modes = [
 interface AppTopBarProps {
   onScenario1?: () => void
   onScenario2?: () => void
+  onScenario3?: () => void
+  onScenario4?: () => void
   scenario1Loading?: boolean
   scenario2Loading?: boolean
+  scenario3Loading?: boolean
+  scenario4Loading?: boolean
 }
 
-export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario2Loading }: AppTopBarProps) {
+export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, scenario1Loading, scenario2Loading, scenario3Loading, scenario4Loading }: AppTopBarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const currentMode = modes.find((m) => pathname.startsWith(m.path)) || modes[0]
@@ -38,6 +42,8 @@ export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario
     sources: 12,
     lastSync: "2s ago",
   }
+
+  const isAnyLoading = scenario1Loading || scenario2Loading || scenario3Loading || scenario4Loading
 
   const handleScenario1 = () => {
     router.push("/app/ingest")
@@ -50,6 +56,20 @@ export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario
     router.push("/app/ingest")
     if (onScenario2) {
       onScenario2()
+    }
+  }
+
+  const handleScenario3 = () => {
+    router.push("/app/ingest")
+    if (onScenario3) {
+      onScenario3()
+    }
+  }
+
+  const handleScenario4 = () => {
+    router.push("/app/ingest")
+    if (onScenario4) {
+      onScenario4()
     }
   }
 
@@ -77,7 +97,7 @@ export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               onClick={handleScenario1} 
-              disabled={scenario1Loading || scenario2Loading}
+              disabled={isAnyLoading}
               className="cursor-pointer"
             >
               {scenario1Loading ? (
@@ -88,13 +108,13 @@ export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario
               <div>
                 <div className="font-medium">Scenario 1: Valve Incident</div>
                 <div className="text-xs text-muted-foreground">
-                  {scenario1Loading ? "Starting 60s simulation..." : "60s telemetry simulation with decisions"}
+                  {scenario1Loading ? "Starting 20s simulation..." : "20s telemetry simulation with decisions"}
                 </div>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={handleScenario2} 
-              disabled={scenario1Loading || scenario2Loading}
+              disabled={isAnyLoading}
               className="cursor-pointer"
             >
               {scenario2Loading ? (
@@ -103,9 +123,43 @@ export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario
                 <Video className="h-4 w-4 mr-2 text-primary" />
               )}
               <div>
-                <div className="font-medium">Scenario 2: Vision Analysis</div>
+                <div className="font-medium">Scenario 2: Oil Rig Analysis</div>
                 <div className="text-xs text-muted-foreground">
-                  {scenario2Loading ? "Starting 60s simulation..." : "60s AI vision simulation with decisions"}
+                  {scenario2Loading ? "Starting 20s simulation..." : "20s AI vision simulation with decisions"}
+                </div>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={handleScenario3} 
+              disabled={isAnyLoading}
+              className="cursor-pointer"
+            >
+              {scenario3Loading ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin text-blue-500" />
+              ) : (
+                <Video className="h-4 w-4 mr-2 text-blue-500" />
+              )}
+              <div>
+                <div className="font-medium">Scenario 3: Water Pipe Leakage</div>
+                <div className="text-xs text-muted-foreground">
+                  {scenario3Loading ? "Starting 20s simulation..." : "20s water infrastructure monitoring"}
+                </div>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={handleScenario4} 
+              disabled={isAnyLoading}
+              className="cursor-pointer"
+            >
+              {scenario4Loading ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin text-orange-500" />
+              ) : (
+                <Video className="h-4 w-4 mr-2 text-orange-500" />
+              )}
+              <div>
+                <div className="font-medium">Scenario 4: Data Center Arc Flash</div>
+                <div className="text-xs text-muted-foreground">
+                  {scenario4Loading ? "Starting 20s simulation..." : "20s electrical hazard monitoring"}
                 </div>
               </div>
             </DropdownMenuItem>
