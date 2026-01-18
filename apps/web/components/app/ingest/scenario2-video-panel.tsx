@@ -21,6 +21,12 @@ const SCENARIO_CONFIG = {
     badge: "SCENARIO 3",
     badgeColor: "default" as const,
   },
+  scenario4: {
+    videoUrl: "/data_center.mp4",
+    title: "Data Center Monitoring",
+    badge: "SCENARIO 4",
+    badgeColor: "orange" as const,
+  },
 }
 
 interface Scenario2VideoPanelProps {
@@ -55,17 +61,18 @@ export function Scenario2VideoPanel({ events, currentTimeSec, scenario = "scenar
   const currentIssue = detectedIssues[currentIssueIndex]
 
   return (
-    <div className="rounded-lg border border-border bg-card overflow-hidden animate-in fade-in slide-in-from-left-4 duration-500">
+    <div className="rounded-lg border border-border bg-card overflow-hidden animate-in fade-in duration-500">
       {/* Header */}
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Video className="h-4 w-4 text-primary" />
           <h2 className="font-semibold">{config.title}</h2>
-          <Badge 
-            variant={config.badgeColor === "destructive" ? "destructive" : "default"} 
+          <Badge
+            variant={config.badgeColor === "destructive" ? "destructive" : "default"}
             className={cn(
               "text-xs animate-pulse",
-              config.badgeColor !== "destructive" && "bg-blue-500 text-white"
+              config.badgeColor === "default" && "bg-blue-500 text-white",
+              config.badgeColor === "orange" && "bg-orange-500 text-white"
             )}
           >
             {config.badge}

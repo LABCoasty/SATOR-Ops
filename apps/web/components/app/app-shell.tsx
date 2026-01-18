@@ -61,10 +61,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await startSimulation("scenario3")
   }, [startSimulation])
 
-  // Scenario 2 & 3 handle their own decisions in the ingest page
+  const handleScenario4 = useCallback(async () => {
+    await startSimulation("scenario4")
+  }, [startSimulation])
+
+  // Scenario 2, 3 & 4 handle their own decisions in the ingest page
   const isScenario2 = activeScenario === "scenario2"
   const isScenario3 = activeScenario === "scenario3"
-  const isVisionScenario = isScenario2 || isScenario3
+  const isScenario4 = activeScenario === "scenario4"
+  const isVisionScenario = isScenario2 || isScenario3 || isScenario4
 
   // Get current decision to show (first pending decision) - only for scenario 1
   const currentDecision = !isVisionScenario && decisions.length > 0 ? decisions[0] : null
@@ -81,9 +86,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           onScenario1={handleScenario1}
           onScenario2={handleScenario2}
           onScenario3={handleScenario3}
+          onScenario4={handleScenario4}
           scenario1Loading={simLoading && !simState}
           scenario2Loading={simLoading && isScenario2}
           scenario3Loading={simLoading && isScenario3}
+          scenario4Loading={simLoading && isScenario4}
         />
 
         {/* Simulation Progress Bar */}

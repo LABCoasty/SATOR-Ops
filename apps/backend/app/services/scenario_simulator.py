@@ -85,7 +85,7 @@ class ScenarioState(BaseModel):
     phase: str = "monitoring"  # monitoring, alert, decision, resolution
 
 
-# Scenario 1: Fixed Data Scenario - The Valve Incident
+# Scenario 1: Fixed Data Scenario - The Valve Incident (20 seconds)
 SCENARIO_1_EVENTS: List[ScenarioEvent] = [
     ScenarioEvent(
         event_id="s1_start",
@@ -96,14 +96,14 @@ SCENARIO_1_EVENTS: List[ScenarioEvent] = [
     ),
     ScenarioEvent(
         event_id="s1_temp_rise",
-        time_sec=8,
+        time_sec=3,
         title="Temperature Anomaly Detected",
         description="Core temperature rising above normal baseline. Currently at 74.2°C.",
         severity=EventSeverity.WARNING,
     ),
     ScenarioEvent(
         event_id="s1_decision_1",
-        time_sec=15,
+        time_sec=5,
         title="Temperature Alert",
         description="Core temperature has exceeded warning threshold (75°C). Flow Rate A showing 6% deviation from expected values.",
         severity=EventSeverity.WARNING,
@@ -111,18 +111,18 @@ SCENARIO_1_EVENTS: List[ScenarioEvent] = [
         decision_type=DecisionType.BINARY,
         decision_options=["Continue Monitoring", "Initiate Diagnostic"],
         decision_prompt="Temperature is elevated but within operational limits. Do you want to initiate a diagnostic check or continue monitoring?",
-        auto_resolve_sec=15,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s1_pressure_spike",
-        time_sec=25,
+        time_sec=8,
         title="Pressure Fluctuation",
         description="System pressure showing irregular patterns. Backup telemetry confirms deviation.",
         severity=EventSeverity.WARNING,
     ),
     ScenarioEvent(
         event_id="s1_contradiction",
-        time_sec=35,
+        time_sec=12,
         title="Sensor Contradiction Detected",
         description="CRITICAL: Flow Rate A (233.8 L/min) and Flow Rate B (249.7 L/min) show 6.8% divergence. External feeds show conflicting data.",
         severity=EventSeverity.CRITICAL,
@@ -135,11 +135,11 @@ SCENARIO_1_EVENTS: List[ScenarioEvent] = [
             "Request Manual Verification"
         ],
         decision_prompt="Conflicting sensor readings detected. Which data source should be prioritized for the trust calculation?",
-        auto_resolve_sec=20,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s1_decision_2",
-        time_sec=45,
+        time_sec=15,
         title="Escalation Required",
         description="Trust score dropped to 0.72. Multiple contradictions unresolved. Remote Station C is offline.",
         severity=EventSeverity.CRITICAL,
@@ -152,18 +152,18 @@ SCENARIO_1_EVENTS: List[ScenarioEvent] = [
             "Override with Manual Decision"
         ],
         decision_prompt="Trust score is below acceptable threshold. How do you want to proceed with the decision artifact?",
-        auto_resolve_sec=20,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s1_resolution",
-        time_sec=55,
+        time_sec=18,
         title="Scenario Resolution",
         description="All operator decisions recorded. Generating decision artifact with full audit trail.",
         severity=EventSeverity.INFO,
     ),
 ]
 
-# Scenario 2: Live Vision Scenario - Oil Rig
+# Scenario 2: Live Vision Scenario - Oil Rig (20 seconds)
 SCENARIO_2_EVENTS: List[ScenarioEvent] = [
     ScenarioEvent(
         event_id="s2_start",
@@ -174,14 +174,14 @@ SCENARIO_2_EVENTS: List[ScenarioEvent] = [
     ),
     ScenarioEvent(
         event_id="s2_first_detection",
-        time_sec=10,
+        time_sec=3,
         title="Object Detected",
         description="Vision system detected potential safety concern in frame.",
         severity=EventSeverity.WARNING,
     ),
     ScenarioEvent(
         event_id="s2_decision_1",
-        time_sec=18,
+        time_sec=6,
         title="Safety Event Classification",
         description="AI detected possible safety violation. Confidence: 78%",
         severity=EventSeverity.WARNING,
@@ -189,18 +189,18 @@ SCENARIO_2_EVENTS: List[ScenarioEvent] = [
         decision_type=DecisionType.BINARY,
         decision_options=["Confirm Safety Event", "Mark as False Positive"],
         decision_prompt="The vision system detected a potential safety concern but confidence is moderate. Please review and classify.",
-        auto_resolve_sec=15,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s2_telemetry_correlation",
-        time_sec=28,
+        time_sec=9,
         title="Cross-Validation Alert",
         description="Vision detection correlating with sensor anomalies. Temperature spike coincides with detected event.",
         severity=EventSeverity.CRITICAL,
     ),
     ScenarioEvent(
         event_id="s2_decision_2",
-        time_sec=38,
+        time_sec=12,
         title="Incident Confirmation Required",
         description="Multiple indicators suggest genuine safety incident. Vision + Telemetry + External feed all show anomalies.",
         severity=EventSeverity.CRITICAL,
@@ -213,11 +213,11 @@ SCENARIO_2_EVENTS: List[ScenarioEvent] = [
             "Dismiss - Insufficient Evidence"
         ],
         decision_prompt="Cross-validation complete. Multiple data sources indicate potential incident. How should this be classified?",
-        auto_resolve_sec=20,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s2_prediction",
-        time_sec=48,
+        time_sec=16,
         title="Predictive Alert",
         description="Based on current trends, AI predicts escalation within 5 minutes if unaddressed.",
         severity=EventSeverity.CRITICAL,
@@ -230,18 +230,18 @@ SCENARIO_2_EVENTS: List[ScenarioEvent] = [
             "Escalate to Management"
         ],
         decision_prompt="Predictive model suggests potential escalation. What preventive action should be taken?",
-        auto_resolve_sec=15,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s2_resolution",
-        time_sec=58,
+        time_sec=19,
         title="Scenario Complete",
         description="All events processed. Decision artifact ready for review.",
         severity=EventSeverity.INFO,
     ),
 ]
 
-# Scenario 3: Water Pipe Leakage Monitoring
+# Scenario 3: Water Pipe Leakage Monitoring (20 seconds)
 SCENARIO_3_EVENTS: List[ScenarioEvent] = [
     ScenarioEvent(
         event_id="s3_start",
@@ -252,14 +252,14 @@ SCENARIO_3_EVENTS: List[ScenarioEvent] = [
     ),
     ScenarioEvent(
         event_id="s3_moisture_detected",
-        time_sec=8,
+        time_sec=3,
         title="Moisture Anomaly Detected",
         description="Vision system detected unusual moisture patterns near pipe junction.",
         severity=EventSeverity.WARNING,
     ),
     ScenarioEvent(
         event_id="s3_decision_1",
-        time_sec=16,
+        time_sec=6,
         title="Leak Classification Required",
         description="AI detected possible water leak. Visual analysis confidence: 82%",
         severity=EventSeverity.WARNING,
@@ -267,25 +267,25 @@ SCENARIO_3_EVENTS: List[ScenarioEvent] = [
         decision_type=DecisionType.BINARY,
         decision_options=["Confirm Leak Detected", "Mark as Condensation"],
         decision_prompt="The vision system detected moisture accumulation that may indicate a leak. Please review and classify.",
-        auto_resolve_sec=15,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s3_pressure_drop",
-        time_sec=25,
+        time_sec=8,
         title="Pressure Drop Detected",
         description="Water pressure sensors showing 12% decrease from baseline. Correlates with visual detection.",
         severity=EventSeverity.CRITICAL,
     ),
     ScenarioEvent(
         event_id="s3_flow_correlation",
-        time_sec=32,
+        time_sec=10,
         title="Flow Rate Discrepancy",
         description="Inlet flow (450 L/min) differs from outlet flow (398 L/min). 52 L/min unaccounted.",
         severity=EventSeverity.CRITICAL,
     ),
     ScenarioEvent(
         event_id="s3_decision_2",
-        time_sec=40,
+        time_sec=13,
         title="Leak Severity Assessment",
         description="Multiple indicators confirm water loss. Vision + Flow + Pressure all indicate leak.",
         severity=EventSeverity.CRITICAL,
@@ -298,11 +298,11 @@ SCENARIO_3_EVENTS: List[ScenarioEvent] = [
             "Request Inspection Team"
         ],
         decision_prompt="Confirmed water leak detected. Based on flow discrepancy of 52 L/min, classify severity and response.",
-        auto_resolve_sec=20,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s3_damage_prediction",
-        time_sec=50,
+        time_sec=16,
         title="Infrastructure Risk Alert",
         description="AI predicts potential structural impact if leak continues. Estimated water loss: 3,120 L/hour.",
         severity=EventSeverity.CRITICAL,
@@ -315,13 +315,98 @@ SCENARIO_3_EVENTS: List[ScenarioEvent] = [
             "Escalate to Utility Management"
         ],
         decision_prompt="Continued leakage may cause structural damage. Recommend immediate action.",
-        auto_resolve_sec=15,
+        auto_resolve_sec=5,
     ),
     ScenarioEvent(
         event_id="s3_resolution",
-        time_sec=58,
+        time_sec=19,
         title="Scenario Complete",
         description="Water leak monitoring complete. Decision artifact generated with full timeline.",
+        severity=EventSeverity.INFO,
+    ),
+]
+
+# Scenario 4: Data Center Arc Flash Monitoring (20 seconds)
+SCENARIO_4_EVENTS: List[ScenarioEvent] = [
+    ScenarioEvent(
+        event_id="s4_start",
+        time_sec=0,
+        title="Data Center Monitoring Started",
+        description="Video feed connected. AI monitoring electrical infrastructure for arc flash hazards.",
+        severity=EventSeverity.INFO,
+    ),
+    ScenarioEvent(
+        event_id="s4_thermal_anomaly",
+        time_sec=3,
+        title="Thermal Anomaly Detected",
+        description="Infrared sensors detecting elevated temperature on Bus Bar 3. Currently 15°C above baseline.",
+        severity=EventSeverity.WARNING,
+    ),
+    ScenarioEvent(
+        event_id="s4_decision_1",
+        time_sec=6,
+        title="Electrical Hazard Classification",
+        description="Vision system detected potential arc flash precursor. Thermal signature confidence: 85%",
+        severity=EventSeverity.WARNING,
+        requires_decision=True,
+        decision_type=DecisionType.BINARY,
+        decision_options=["Confirm Electrical Hazard", "Mark as Normal Variation"],
+        decision_prompt="The vision system detected thermal buildup that may indicate arc flash risk. Please review and classify.",
+        auto_resolve_sec=5,
+    ),
+    ScenarioEvent(
+        event_id="s4_current_spike",
+        time_sec=8,
+        title="Current Spike Detected",
+        description="PDU monitoring shows 340% current spike on Circuit 7. Duration: 0.3 seconds.",
+        severity=EventSeverity.CRITICAL,
+    ),
+    ScenarioEvent(
+        event_id="s4_smoke_detection",
+        time_sec=10,
+        title="Smoke Particles Detected",
+        description="Vision AI detected smoke particles near switchgear. Correlating with thermal data.",
+        severity=EventSeverity.CRITICAL,
+    ),
+    ScenarioEvent(
+        event_id="s4_decision_2",
+        time_sec=13,
+        title="Arc Flash Risk Assessment",
+        description="Multiple indicators confirm electrical fault. Vision + Thermal + Current all indicate imminent arc flash.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.MULTI_CHOICE,
+        decision_options=[
+            "Immediate Power Isolation",
+            "Controlled Shutdown Sequence",
+            "Deploy Fire Suppression",
+            "Request Electrical Team"
+        ],
+        decision_prompt="Confirmed arc flash risk. Potential incident energy: 8.2 cal/cm². Recommend immediate action.",
+        auto_resolve_sec=5,
+    ),
+    ScenarioEvent(
+        event_id="s4_evacuation_alert",
+        time_sec=16,
+        title="Personnel Safety Alert",
+        description="AI recommends immediate evacuation of Server Room B. Arc flash boundary: 12 feet.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.ESCALATE,
+        decision_options=[
+            "Initiate Emergency Shutdown",
+            "Sound Evacuation Alarm",
+            "Continue Monitoring",
+            "Escalate to Facility Manager"
+        ],
+        decision_prompt="Personnel safety at risk. Arc flash incident probability: 78%. Recommend evacuation.",
+        auto_resolve_sec=5,
+    ),
+    ScenarioEvent(
+        event_id="s4_resolution",
+        time_sec=19,
+        title="Scenario Complete",
+        description="Arc flash monitoring complete. Decision artifact generated with full timeline.",
         severity=EventSeverity.INFO,
     ),
 ]
@@ -333,7 +418,7 @@ class ScenarioSimulator:
     
     scenario_id: str
     events: List[ScenarioEvent]
-    duration_sec: float = 60.0
+    duration_sec: float = 20.0
     state: ScenarioState = field(default=None)
     _running: bool = False
     _task: Optional[asyncio.Task] = None
@@ -532,33 +617,126 @@ class ScenarioSimulator:
                 self.state.pending_decisions.remove(dec_id)
     
     def _generate_telemetry(self) -> TelemetryUpdate:
-        """Generate telemetry data for current time."""
+        """Generate telemetry data for current time with scenario-specific anomalies."""
         t = self.state.current_time_sec
-        
-        # Base values with time-based variations
-        base_temp = 72.0 + (t / 60) * 5 + random.uniform(-0.5, 0.5)
-        base_pressure = 14.5 + random.uniform(-0.3, 0.3)
-        base_flow_a = 230 + (t / 60) * 10 + random.uniform(-2, 2)
-        base_flow_b = 245 + (t / 60) * 8 + random.uniform(-2, 2)
-        
-        # Add anomalies at critical times
         anomalies = []
-        if 30 <= t <= 45:
-            base_temp += 3
+        
+        # Detect which scenario we're running
+        is_scenario2 = self.scenario_id.startswith("scenario2")
+        is_scenario3 = self.scenario_id.startswith("scenario3")
+        is_scenario4 = self.scenario_id.startswith("scenario4")
+        is_vision_scenario = is_scenario2 or is_scenario3 or is_scenario4
+        
+        # Progress factor (0 to 1) - how far into the scenario we are
+        progress = min(1.0, t / 20.0)
+        
+        # After 5 seconds (when video appears), start degrading sensors
+        video_shown = t >= 5.0
+        degradation_factor = max(0, (t - 5) / 15.0) if video_shown else 0  # 0 to 1 over remaining 15 seconds
+        
+        # Base values - start normal, then degrade
+        if is_vision_scenario and video_shown:
+            # Temperature rises dramatically
+            base_temp = 72.0 + (degradation_factor * 15) + random.uniform(-0.5, 0.5)
+            # Pressure drops
+            base_pressure = 14.5 - (degradation_factor * 4) + random.uniform(-0.3, 0.3)
+            # Flow rates diverge
+            base_flow_a = 230 - (degradation_factor * 50) + random.uniform(-5, 5)
+            base_flow_b = 245 + (degradation_factor * 20) + random.uniform(-3, 3)
+            # Vibration increases
+            base_vibration = 0.3 + (degradation_factor * 1.5) + random.uniform(0, 0.3)
+            # Power fluctuates wildly for scenario 4
+            if is_scenario4:
+                base_power = 850 + (degradation_factor * 400) * random.uniform(0.5, 1.5) + random.uniform(-50, 50)
+            else:
+                base_power = 850 - (degradation_factor * 100) + random.uniform(-20, 20)
+            # Humidity changes
+            base_humidity = 43 + (degradation_factor * 25 if is_scenario3 else degradation_factor * 10) + random.uniform(-3, 3)
+        else:
+            # Normal baseline values
+            base_temp = 72.0 + random.uniform(-0.5, 0.5)
+            base_pressure = 14.5 + random.uniform(-0.3, 0.3)
+            base_flow_a = 230 + random.uniform(-2, 2)
+            base_flow_b = 245 + random.uniform(-2, 2)
+            base_vibration = 0.3 + random.uniform(0, 0.1)
+            base_power = 850 + random.uniform(-10, 10)
+            base_humidity = 43 + random.uniform(-2, 2)
+        
+        # Determine status based on thresholds
+        def get_status(value, warning_threshold, critical_threshold, higher_is_worse=True):
+            if higher_is_worse:
+                if value >= critical_threshold:
+                    return "critical"
+                elif value >= warning_threshold:
+                    return "warning"
+            else:
+                if value <= critical_threshold:
+                    return "critical"
+                elif value <= warning_threshold:
+                    return "warning"
+            return "normal"
+        
+        # Build channels with dynamic status
+        temp_status = get_status(base_temp, 78, 85, higher_is_worse=True)
+        pressure_status = get_status(base_pressure, 12, 10, higher_is_worse=False)
+        flow_divergence = abs(base_flow_a - base_flow_b)
+        flow_a_status = get_status(flow_divergence, 20, 40, higher_is_worse=True)
+        vibration_status = get_status(base_vibration, 1.0, 1.5, higher_is_worse=True)
+        power_status = get_status(abs(base_power - 850), 100, 200, higher_is_worse=True)
+        humidity_status = get_status(base_humidity, 55, 65, higher_is_worse=True) if is_scenario3 else "normal"
+        
+        # Track anomalies
+        if temp_status != "normal":
             anomalies.append("temperature_spike")
-        if 35 <= t <= 50:
-            base_flow_a -= 15
+        if pressure_status != "normal":
+            anomalies.append("pressure_drop")
+        if flow_a_status != "normal":
             anomalies.append("flow_divergence")
+        if vibration_status != "normal":
+            anomalies.append("vibration_alert")
+        if power_status != "normal":
+            anomalies.append("power_fluctuation")
+        if humidity_status != "normal":
+            anomalies.append("humidity_alert")
         
         channels = {
-            "core_temp": {"value": round(base_temp, 1), "unit": "°C", "status": "warning" if base_temp > 75 else "normal"},
-            "pressure": {"value": round(base_pressure, 1), "unit": "PSI", "status": "normal"},
-            "flow_a": {"value": round(base_flow_a, 1), "unit": "L/min", "status": "warning" if abs(base_flow_a - base_flow_b) > 10 else "normal"},
+            "core_temp": {"value": round(base_temp, 1), "unit": "°C", "status": temp_status},
+            "pressure": {"value": round(max(8, base_pressure), 1), "unit": "PSI", "status": pressure_status},
+            "flow_a": {"value": round(max(150, base_flow_a), 1), "unit": "L/min", "status": flow_a_status},
             "flow_b": {"value": round(base_flow_b, 1), "unit": "L/min", "status": "normal"},
-            "vibration": {"value": round(0.3 + random.uniform(0, 0.2), 2), "unit": "mm/s", "status": "normal"},
-            "power": {"value": round(850 + random.uniform(-10, 10), 1), "unit": "kW", "status": "normal"},
-            "humidity": {"value": round(43 + random.uniform(-2, 2), 1), "unit": "%", "status": "normal"},
+            "vibration": {"value": round(base_vibration, 2), "unit": "mm/s", "status": vibration_status},
+            "power": {"value": round(base_power, 1), "unit": "kW", "status": power_status},
+            "humidity": {"value": round(base_humidity, 1), "unit": "%", "status": humidity_status},
         }
+        
+        # For Scenario 4 (Data Center), add electrical-specific channels
+        if is_scenario4:
+            electrical_load = 75 + (degradation_factor * 25) + random.uniform(-5, 5) if video_shown else 75 + random.uniform(-2, 2)
+            bus_temp = 45 + (degradation_factor * 35) + random.uniform(-2, 2) if video_shown else 45 + random.uniform(-1, 1)
+            arc_risk = min(100, degradation_factor * 100 + random.uniform(-5, 5)) if video_shown else random.uniform(0, 5)
+            
+            channels["electrical_load"] = {
+                "value": round(min(100, electrical_load), 1),
+                "unit": "%",
+                "status": get_status(electrical_load, 85, 95, higher_is_worse=True)
+            }
+            channels["bus_bar_temp"] = {
+                "value": round(bus_temp, 1),
+                "unit": "°C",
+                "status": get_status(bus_temp, 65, 75, higher_is_worse=True)
+            }
+            channels["arc_flash_risk"] = {
+                "value": round(arc_risk, 1),
+                "unit": "%",
+                "status": get_status(arc_risk, 50, 75, higher_is_worse=True)
+            }
+            
+            if channels["electrical_load"]["status"] != "normal":
+                anomalies.append("electrical_overload")
+            if channels["bus_bar_temp"]["status"] != "normal":
+                anomalies.append("thermal_buildup")
+            if channels["arc_flash_risk"]["status"] != "normal":
+                anomalies.append("arc_flash_warning")
         
         return TelemetryUpdate(
             time_sec=t,
@@ -584,21 +762,28 @@ def create_simulator(scenario_type: str) -> ScenarioSimulator:
         simulator = ScenarioSimulator(
             scenario_id=scenario_id,
             events=SCENARIO_1_EVENTS,
-            duration_sec=60.0
+            duration_sec=20.0
         )
     elif scenario_type == "scenario2" or scenario_type == "live-vision-demo":
         scenario_id = f"scenario2_{int(datetime.utcnow().timestamp())}"
         simulator = ScenarioSimulator(
             scenario_id=scenario_id,
             events=SCENARIO_2_EVENTS,
-            duration_sec=60.0
+            duration_sec=20.0
         )
     elif scenario_type == "scenario3" or scenario_type == "water-pipe-leakage":
         scenario_id = f"scenario3_{int(datetime.utcnow().timestamp())}"
         simulator = ScenarioSimulator(
             scenario_id=scenario_id,
             events=SCENARIO_3_EVENTS,
-            duration_sec=60.0
+            duration_sec=20.0
+        )
+    elif scenario_type == "scenario4" or scenario_type == "data-center-arc-flash":
+        scenario_id = f"scenario4_{int(datetime.utcnow().timestamp())}"
+        simulator = ScenarioSimulator(
+            scenario_id=scenario_id,
+            events=SCENARIO_4_EVENTS,
+            duration_sec=20.0
         )
     else:
         raise ValueError(f"Unknown scenario type: {scenario_type}")
