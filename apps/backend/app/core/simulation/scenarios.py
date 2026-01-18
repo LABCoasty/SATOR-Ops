@@ -380,7 +380,7 @@ class ScenarioRunner:
 
 def get_available_scenarios() -> list[dict]:
     """Get list of available golden scenarios"""
-    return [
+    out = [
         {
             "scenario_id": spec.scenario_id,
             "name": spec.name,
@@ -391,3 +391,13 @@ def get_available_scenarios() -> list[dict]:
         }
         for spec in GOLDEN_SCENARIOS.values()
     ]
+    out.append({
+        "scenario_id": "video_disaster",
+        "name": "Video Disaster (Live)",
+        "description": "Disaster scenario driven by live video via Overshoot.ai. Connect a camera or video stream, run Overshoot with a disaster-detection prompt and outputSchema from GET /ingest/overshoot/schema, then POST JSON to /ingest/overshoot. Telemetry and events are written to CSV for ingest.",
+        "duration_sec": 0,
+        "sensor_count": 6,
+        "failure_count": 0,
+        "source": "overshoot",
+    })
+    return out

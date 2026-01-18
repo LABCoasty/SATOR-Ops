@@ -22,16 +22,22 @@ class SimulationEngine:
     Main simulation engine that orchestrates signal generation and failure injection.
     
     This is the "story machine" that produces deterministic telemetry data
-    with controlled failures for demo purposes.
+    with controlled failures for demo purposes. Supports a separate
+    video_disaster scenario driven by Overshoot.ai ingest.
     """
-    
+
     def __init__(self, seed: int = 42):
+        from config import config
+        from app.core.overshoot import VideoDisasterManager
+
         self.seed = seed
         self.generator = SignalGenerator(seed=seed)
         self.injector = FailureModeInjector()
         self.scenario_runner = ScenarioRunner(self.generator, self.injector)
+        self.video_manager = VideoDisasterManager(config.get_data_path("generated"))
         self._active_scenario: str | None = None
         self._current_time: float = 0.0
+        self._video_mode: bool = False
     
     def start_scenario(self, scenario_name: str) -> dict:
         """Start a named Golden Scenario"""

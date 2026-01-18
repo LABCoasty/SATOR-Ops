@@ -1,40 +1,26 @@
 "use client"
 
-import { AlertTriangle, ArrowRight } from "lucide-react"
+import { AlertTriangle, ArrowRight, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useContradictions, type Contradiction } from "@/hooks/use-decisions"
 
-interface Contradiction {
-  id: string
-  sources: [string, string]
-  values: [string, string]
-  severity: "low" | "medium" | "high"
-  resolution: string
-}
-
-const contradictions: Contradiction[] = [
-  {
-    id: "c1",
-    sources: ["Flow Sensor A", "Flow Sensor B"],
-    values: ["234 L/min", "248 L/min"],
-    severity: "medium",
-    resolution: "Using weighted average (0.87/0.72). Sensor B calibration pending.",
-  },
-  {
-    id: "c2",
-    sources: ["External Feed Alpha", "External Feed Beta"],
-    values: ["Clear conditions", "Light precipitation"],
-    severity: "low",
-    resolution: "Feed Beta update delayed. Using Alpha (higher reliability).",
-  },
-]
-
-const severityColors = {
+const severityColors: Record<Contradiction["severity"], string> = {
   low: "border-muted text-muted-foreground",
   medium: "border-warning text-warning",
   high: "border-destructive text-destructive",
 }
 
 export function ContradictionsPanel() {
+  const { contradictions, loading } = useContradictions()
+
+  if (loading) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
   return (
     <div className="rounded-lg border border-border bg-card">
       <div className="border-b border-border px-4 py-3">
@@ -57,7 +43,6 @@ export function ContradictionsPanel() {
         ) : (
           contradictions.map((c) => (
             <div key={c.id} className="px-4 py-3 space-y-3">
-              {/* Contradiction display */}
               <div className="flex items-center gap-3">
                 <div className={cn("rounded-md border px-3 py-2 text-center flex-1", severityColors[c.severity])}>
                   <p className="text-xs opacity-70">{c.sources[0]}</p>
@@ -69,8 +54,6 @@ export function ContradictionsPanel() {
                   <p className="font-mono text-sm font-medium">{c.values[1]}</p>
                 </div>
               </div>
-
-              {/* Resolution */}
               <div className="rounded-md bg-muted/50 px-3 py-2">
                 <span className="text-xs font-medium text-muted-foreground">Resolution: </span>
                 <span className="text-xs text-muted-foreground">{c.resolution}</span>

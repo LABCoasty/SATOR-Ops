@@ -103,3 +103,59 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Hide sidebar and navigation during print */
+  aside,
+  nav,
+  header {
+    display: none !important;
+  }
+
+  main {
+    margin: 0 !important;
+    padding: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Ensure cards have visible borders in print */
+  .rounded-lg {
+    border: 1px solid #ddd !important;
+    background: white !important;
+  }
+
+  /* Make text readable in print */
+  .text-muted-foreground {
+    color: #666 !important;
+  }
+
+  .text-foreground {
+    color: #000 !important;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid;
+  }
+}

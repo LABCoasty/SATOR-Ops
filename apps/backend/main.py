@@ -1,59 +1,66 @@
-"""
-SATOR Ops - Decision Infrastructure for Physical Systems
-
-FastAPI application entry point.
-"""
-
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 
 # Configuration
 from config import config
 
-# API Routers (Main Branch)
-from app.api import agent_tools, audit, simulation
-from app.api import replay as replay_v2  # New Replay Engine
-
-# API Routers (Temporal Branch - preserving frontend compatibility)
-from app.api.routes import decisions, evidence, artifacts, telemetry, temporal
-from app.api.routes import replay as replay_v1  # Legacy/Frontend Replay Engine
+# API Routers (Main Branch + Legacy)
+from app.api import agent_tools, audit, ingest, overshoot_test, replay as replay_v2, simulation, scenario2_video
+from app.api.routes import decisions, evidence, telemetry, scenarios, incidents, vision, temporal
+from app.api.routes import replay as replay_v1
+from app.api.routes import artifacts as artifacts_original
 from app.api.websocket import router as websocket_router
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Application lifespan management"""
-    # Startup: ensure data directories exist
-    config.get_data_path("telemetry")
-    config.get_data_path("events")
-    config.get_data_path("audit")
-
-    print("SATOR Ops starting with config:")
-    print(f"  - Data directory: {config.data_dir}")
-    print(f"  - Simulation seed: {config.simulation_seed}")
-    print(f"  - LeanMCP enabled: {config.enable_leanmcp}")
-    print(f"  - Kairo enabled: {config.enable_kairo}")
-    print(f"  - Arize enabled: {config.enable_arize}")
-    print(f"  - Browserbase enabled: {config.enable_browserbase}")
-
-    yield
-
-    # Shutdown: cleanup if needed
-    print("SATOR Ops shutting down")
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Application lifespan - initialize vision processing queue with LeanMCP."""
+    try:
+        import asyncio
+        from app.services.vision_processor import get_vision_queue
+        
+        # Start vision processing queue on startup
+        vision_queue = get_vision_queue()
+        vision_queue.start()
+        
+        # Create background task for queue processing
+        loop = asyncio.get_running_loop()
+        background_task = loop.create_task(vision_queue._background_processor())
+        
+        print(f"✅ Vision processing queue started (delay: {config.vision_processing_delay_ms}ms)")
+        print("✅ LeanMCP background processor running")
+        
+        # Initialize legacy data paths if needed
+        config.get_data_path("telemetry")
+        config.get_data_path("events")
+        config.get_data_path("audit")
+        
+        yield
+        
+        # Stop vision queue on shutdown
+        vision_queue.stop()
+        background_task.cancel()
+        try:
+            await background_task
+        except asyncio.CancelledError:
+            pass
+        print("Vision processing queue stopped")
+    except ImportError:
+        # Fallback if vision service dependencies missing
+        print("⚠️ Vision processor not available, starting without it")
+        yield
 
 
 app = FastAPI(
-    title="SATOR Ops",
-    description="Decision Infrastructure for Physical Systems - A Decision Compiler that structures messy, unreliable reality into formal decision states and immutable records.",
+    title="SATOR API",
+    description="Decision Infrastructure for Physical Systems",
     version="0.1.0",
     lifespan=lifespan,
 )
 
-# CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Configure appropriately for production
@@ -62,35 +69,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount Routers
-# ---------------------------------------------------------
 # Legacy/Frontend Compatible Routes (from Temporal Branch)
 app.include_router(decisions.router, prefix="/api/decisions", tags=["decisions"])
 app.include_router(evidence.router, prefix="/api/evidence", tags=["evidence"])
-app.include_router(artifacts.router, prefix="/api/artifacts", tags=["artifacts"])
+app.include_router(artifacts_original.router, prefix="/api/artifacts", tags=["artifacts"])
 app.include_router(telemetry.router, prefix="/api/telemetry", tags=["telemetry"])
 app.include_router(replay_v1.router, prefix="/api/replay", tags=["replay (v1)"])  # Used by Frontend
 app.include_router(temporal.router, prefix="/api/temporal", tags=["temporal"])
+
+# New SATOR Routes (from Main Branch)
+app.include_router(scenarios.router, prefix="/api", tags=["scenarios"])
+app.include_router(incidents.router, prefix="/api", tags=["incidents"])
+app.include_router(vision.router, prefix="/api", tags=["vision"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
-# New Core Routes (from Main Branch)
+# New Core Routes
 app.include_router(simulation.router, prefix="/simulation", tags=["Simulation"])
-app.include_router(replay_v2.router, prefix="/replay", tags=["Replay (v2)"])      # New Implementation
+app.include_router(replay_v2.router, prefix="/replay", tags=["Replay (v2)"])
 app.include_router(audit.router, prefix="/audit", tags=["Audit"])
+app.include_router(ingest.router, prefix="/ingest", tags=["Ingest"])
 app.include_router(agent_tools.router, prefix="/agent", tags=["Agent Tools"])
+app.include_router(scenario2_video.router, prefix="/scenario2", tags=["Scenario 2"])
+
+try:
+    app.include_router(overshoot_test.router, prefix="/overshoot-test", tags=["Overshoot Testing"])
+    print("✅ Overshoot test router loaded")
+except Exception as e:
+    print(f"⚠️  Failed to load overshoot_test router: {e}")
 
 
 @app.get("/")
 async def root():
-    """Serve the HTML interface"""
-    from fastapi.responses import FileResponse
-    static_dir = Path(__file__).parent / "app" / "static"
-    index_file = static_dir / "index.html"
-    if index_file.exists():
-        return FileResponse(index_file)
     return {
-        "name": "SATOR Ops",
-        "version": "0.1.0",
+        "name": "SATOR API", 
+        "version": "0.1.0", 
         "status": "operational",
         "integrations": {
             "leanmcp": config.enable_leanmcp,
@@ -102,8 +114,7 @@ async def root():
 
 
 @app.get("/health")
-async def health():
-    """Simple health check endpoint"""
+async def health_check():
     return {"status": "healthy"}
 
 
