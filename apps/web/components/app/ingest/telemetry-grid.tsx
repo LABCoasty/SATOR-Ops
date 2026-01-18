@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Minus, Loader2, WifiOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTelemetry, type TelemetryChannel } from "@/hooks/use-telemetry"
 import { useOptionalSimulationContext } from "@/contexts/simulation-context"
+import { TelemetryDetailModal } from "./telemetry-detail-modal"
 
 const TrendIcon = ({ trend }: { trend: "up" | "down" | "stable" }) => {
   switch (trend) {
@@ -63,29 +64,45 @@ const CHANNEL_DEFS = [
 export function TelemetryGrid() {
   const { channels: apiChannels, loading, error } = useTelemetry()
   const simulation = useOptionalSimulationContext()
-  const [expanded, setExpanded] = useState<string | null>(null)
+  const [selectedChannel, setSelectedChannel] = useState<TelemetryChannel | null>(null)
   
-  // Track sparkline history for simulation data
+  // Track full history for each channel (more data points for the detail modal)
+  const [fullHistory, setFullHistory] = useState<Record<string, number[]>>({})
+  
+  // Track sparkline history for simulation data (last 10 points for inline display)
   const [sparklineHistory, setSparklineHistory] = useState<Record<string, number[]>>({})
 
-  // Update sparkline history when simulation telemetry changes
+  // Update history when simulation telemetry changes
   useEffect(() => {
     if (simulation?.isRunning && simulation?.telemetry?.channels) {
+      // Update full history (keep up to 50 points)
+      setFullHistory(prev => {
+        const newHistory = { ...prev }
+        Object.entries(simulation.telemetry!.channels).forEach(([key, data]) => {
+          const value = (data as { value: number }).value
+          const history = prev[key] || []
+          newHistory[key] = [...history.slice(-49), value]
+        })
+        return newHistory
+      })
+      
+      // Update sparkline history (keep last 10 for inline display)
       setSparklineHistory(prev => {
         const newHistory = { ...prev }
         Object.entries(simulation.telemetry!.channels).forEach(([key, data]) => {
           const value = (data as { value: number }).value
           const history = prev[key] || []
-          newHistory[key] = [...history.slice(-9), value] // Keep last 10 values
+          newHistory[key] = [...history.slice(-9), value]
         })
         return newHistory
       })
     }
   }, [simulation?.isRunning, simulation?.telemetry])
 
-  // Reset sparkline history when simulation stops
+  // Reset history when simulation stops
   useEffect(() => {
     if (!simulation?.isRunning) {
+      setFullHistory({})
       setSparklineHistory({})
     }
   }, [simulation?.isRunning])
@@ -128,6 +145,11 @@ export function TelemetryGrid() {
     ? simulationChannels 
     : apiChannels
 
+  // Handle channel click
+  const handleChannelClick = (channel: TelemetryChannel) => {
+    setSelectedChannel(channel)
+  }
+
   if (loading && !simulation?.isRunning) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
@@ -147,31 +169,32 @@ export function TelemetryGrid() {
   }
 
   return (
-    <div className="rounded-lg border border-border bg-card">
-      <div className="border-b border-border px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="font-semibold">Live Telemetry Channels</h2>
-            <p className="text-xs text-muted-foreground">Real-time data streams with plain-language summaries</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className={cn(
-              "h-2 w-2 rounded-full animate-pulse",
-              simulation?.isRunning ? "bg-primary" : "bg-success"
-            )} />
-            <span className="text-xs text-muted-foreground">
-              {channels.length} channels
-              {simulation?.isRunning && " (LIVE SIM)"}
-            </span>
+    <>
+      <div className="rounded-lg border border-border bg-card">
+        <div className="border-b border-border px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-semibold">Live Telemetry Channels</h2>
+              <p className="text-xs text-muted-foreground">Click any channel for detailed view</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={cn(
+                "h-2 w-2 rounded-full animate-pulse",
+                simulation?.isRunning ? "bg-primary" : "bg-success"
+              )} />
+              <span className="text-xs text-muted-foreground">
+                {channels.length} channels
+                {simulation?.isRunning && " (LIVE SIM)"}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="divide-y divide-border">
-        {channels.map((channel) => (
-          <div key={channel.id} className="px-4 py-3">
-            <button
-              onClick={() => setExpanded(expanded === channel.id ? null : channel.id)}
-              className="w-full text-left"
+        <div className="divide-y divide-border">
+          {channels.map((channel) => (
+            <div 
+              key={channel.id} 
+              className="px-4 py-3 cursor-pointer hover:bg-muted/50 transition-colors"
+              onClick={() => handleChannelClick(channel)}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -205,20 +228,21 @@ export function TelemetryGrid() {
                   </div>
                 </div>
               </div>
-            </button>
-            {expanded === channel.id && (
-              <div className="mt-3 ml-5 rounded-md bg-muted/50 p-3 space-y-2">
-                <p className="text-sm text-muted-foreground leading-relaxed">{channel.summary}</p>
-                <div className="flex gap-4 text-xs text-muted-foreground">
-                  <span>Min: {channel.min_threshold}{channel.unit}</span>
-                  <span>Max: {channel.max_threshold}{channel.unit}</span>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Detail Modal */}
+      {selectedChannel && (
+        <TelemetryDetailModal
+          channel={selectedChannel}
+          history={fullHistory[selectedChannel.id] || selectedChannel.sparkline}
+          onClose={() => setSelectedChannel(null)}
+          currentTimeSec={simulation?.state?.current_time_sec || 0}
+        />
+      )}
+    </>
   )
 }
 

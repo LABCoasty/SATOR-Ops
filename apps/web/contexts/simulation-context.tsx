@@ -48,12 +48,27 @@ export interface SimulationTelemetry {
   trust_score: number
 }
 
+export interface CompletedDecision {
+  decision_id: string
+  event_id: string
+  time_sec: number
+  title: string
+  description: string
+  severity: "info" | "warning" | "critical"
+  response: string
+  response_time_sec: number
+  timestamp: Date
+  explanation?: string
+  recommendation?: string
+}
+
 interface SimulationContextType {
   // State
   simulationId: string | null
   state: SimulationState | null
   events: SimulationEvent[]
   decisions: SimulationDecision[]
+  completedDecisions: CompletedDecision[]
   telemetry: SimulationTelemetry | null
   
   // Status
@@ -65,6 +80,7 @@ interface SimulationContextType {
   startSimulation: (scenarioType: "scenario1" | "scenario2") => Promise<void>
   stopSimulation: () => Promise<void>
   submitDecision: (decisionId: string, response: string) => Promise<boolean>
+  updateDecisionDocumentation: (decisionId: string, explanation?: string, recommendation?: string) => void
 }
 
 const SimulationContext = createContext<SimulationContextType | null>(null)
@@ -87,6 +103,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
   const [state, setState] = useState<SimulationState | null>(null)
   const [events, setEvents] = useState<SimulationEvent[]>([])
   const [decisions, setDecisions] = useState<SimulationDecision[]>([])
+  const [completedDecisions, setCompletedDecisions] = useState<CompletedDecision[]>([])
   const [telemetry, setTelemetry] = useState<SimulationTelemetry | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -173,6 +190,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
     setError(null)
     setEvents([])
     setDecisions([])
+    setCompletedDecisions([])
     setTelemetry(null)
     lastEventTimeSec.current = 0
     
@@ -239,6 +257,9 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
   const submitDecision = useCallback(async (decisionId: string, response: string): Promise<boolean> => {
     if (!simulationId) return false
     
+    // Find the pending decision to get its details
+    const pendingDecision = decisions.find(d => d.decision_id === decisionId)
+    
     try {
       const res = await fetch(
         `${API_URL}/simulation/enhanced/${simulationId}/decisions/${decisionId}`,
@@ -250,6 +271,22 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
       )
       
       if (res.ok) {
+        // Add to completed decisions
+        if (pendingDecision) {
+          const completed: CompletedDecision = {
+            decision_id: pendingDecision.decision_id,
+            event_id: pendingDecision.event_id,
+            time_sec: pendingDecision.time_sec,
+            title: pendingDecision.title,
+            description: pendingDecision.description,
+            severity: pendingDecision.severity,
+            response: response,
+            response_time_sec: (state?.current_time_sec || 0) - pendingDecision.time_sec,
+            timestamp: new Date()
+          }
+          setCompletedDecisions(prev => [...prev, completed])
+        }
+        
         // Remove from pending decisions
         setDecisions(prev => prev.filter(d => d.decision_id !== decisionId))
         
@@ -268,7 +305,21 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
       console.error("Submit decision error:", err)
       return false
     }
-  }, [simulationId])
+  }, [simulationId, decisions, state?.current_time_sec])
+  
+  // Update decision documentation (explanation and recommendation)
+  const updateDecisionDocumentation = useCallback((decisionId: string, explanation?: string, recommendation?: string) => {
+    setCompletedDecisions(prev => prev.map(d => {
+      if (d.decision_id === decisionId) {
+        return {
+          ...d,
+          explanation: explanation ?? d.explanation,
+          recommendation: recommendation ?? d.recommendation
+        }
+      }
+      return d
+    }))
+  }, [])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -284,13 +335,15 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
     state,
     events,
     decisions,
+    completedDecisions,
     telemetry,
     isRunning: state?.status === "running",
     isLoading,
     error,
     startSimulation,
     stopSimulation,
-    submitDecision
+    submitDecision,
+    updateDecisionDocumentation
   }
 
   return (
