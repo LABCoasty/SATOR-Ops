@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, Video } from "lucide-react"
+import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft } from "lucide-react"
 import { useState } from "react"
 
 const navItems = [
@@ -12,13 +12,6 @@ const navItems = [
     href: "/app/ingest",
     icon: Radio,
     mode: "ingest" as const,
-  },
-  {
-    label: "Vision",
-    href: "/app/vision",
-    icon: Video,
-    mode: "vision" as const,
-    badge: "Live",
   },
   {
     label: "Decision / Trust",

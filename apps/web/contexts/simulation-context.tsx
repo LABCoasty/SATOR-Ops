@@ -61,7 +61,7 @@ export interface CompletedDecision {
   explanation?: string
   recommendation?: string
 }
-export type ScenarioType = "scenario1" | "scenario2" | "scenario3"
+export type ScenarioType = "scenario1" | "scenario2" | "scenario3" | "scenario4"
 
 interface SimulationContextType {
   // State
@@ -217,7 +217,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
         simulation_id: data.simulation_id,
         status: "running",
         current_time_sec: 0,
-        total_duration_sec: 60,
+        total_duration_sec: 20,
         progress_percent: 0,
         trust_score: 0.95,
         phase: "monitoring",
