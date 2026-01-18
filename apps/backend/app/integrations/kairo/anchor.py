@@ -294,7 +294,7 @@ class KairoAnchorService:
             logger.warning(f"Failed to initialize MongoDB for blockchain anchors: {e}")
             logger.info("Falling back to in-memory storage for blockchain anchors")
     
-    def anchor_artifact(self, request: AnchorRequest) -> AnchorResult:
+    async def anchor_artifact_async(self, request: AnchorRequest) -> AnchorResult:
         """
         Anchor an artifact on-chain (async version with Kairo security check).
         
