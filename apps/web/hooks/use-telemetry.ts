@@ -3,8 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
-const API_URL = `${API_BASE}/api`
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws"
+const WS_BASE = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000"
 
 export interface TelemetryChannel {
   id: string
@@ -48,7 +47,7 @@ export function useTelemetry() {
 
   const fetchChannels = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/telemetry/channels`)
+      const response = await fetch(`${API_BASE}/api/telemetry/channels`)
       if (!response.ok) throw new Error("Failed to fetch telemetry")
       const data = await response.json()
       setChannels(data)
@@ -78,7 +77,7 @@ export function useDataSources() {
   useEffect(() => {
     async function fetchSources() {
       try {
-        const response = await fetch(`${API_URL}/telemetry/sources`)
+        const response = await fetch(`${API_BASE}/api/telemetry/sources`)
         if (!response.ok) throw new Error("Failed to fetch sources")
         const data = await response.json()
         setSources(data)
@@ -103,7 +102,7 @@ export function useSignalSummary() {
 
   const fetchSummary = useCallback(async () => {
     try {
-      const response = await fetch(`${API_URL}/telemetry/summary`)
+      const response = await fetch(`${API_BASE}/api/telemetry/summary`)
       if (!response.ok) throw new Error("Failed to fetch summary")
       const data = await response.json()
       setSummary(data)
@@ -131,38 +130,73 @@ export function useTelemetryWebSocket() {
   const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
-    const ws = new WebSocket(`${WS_URL}/ws/telemetry`)
-    wsRef.current = ws
-
-    ws.onopen = () => {
-      setConnected(true)
-      console.log("WebSocket connected")
+    // Check if WebSocket is supported
+    if (typeof WebSocket === 'undefined') {
+      console.warn("WebSocket not supported in this browser")
+      return
     }
 
-    ws.onmessage = (event) => {
+    let ws: WebSocket | null = null
+    let reconnectTimeout: NodeJS.Timeout | null = null
+    let reconnectAttempts = 0
+    const maxReconnectAttempts = 5
+    const reconnectDelay = 3000
+
+    const connect = () => {
       try {
-        const data = JSON.parse(event.data)
-        if (data.type === "telemetry_update") {
-          setChannels(data.channels)
-          setSummary(data.summary)
+        ws = new WebSocket(`${WS_BASE}/ws/telemetry`)
+        wsRef.current = ws
+
+        ws.onopen = () => {
+          setConnected(true)
+          reconnectAttempts = 0
+          console.log("WebSocket connected")
         }
-      } catch (err) {
-        console.error("WebSocket message error:", err)
+
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data)
+            if (data.type === "telemetry_update") {
+              setChannels(data.channels)
+              setSummary(data.summary)
+            }
+          } catch (err) {
+            console.error("WebSocket message error:", err)
+          }
+        }
+
+        ws.onclose = (event) => {
+          setConnected(false)
+          console.log("WebSocket disconnected", event.code, event.reason)
+          
+          // Attempt to reconnect if not a normal closure
+          if (event.code !== 1000 && reconnectAttempts < maxReconnectAttempts) {
+            reconnectAttempts++
+            console.log(`Attempting to reconnect (${reconnectAttempts}/${maxReconnectAttempts})...`)
+            reconnectTimeout = setTimeout(connect, reconnectDelay)
+          }
+        }
+
+        ws.onerror = (error) => {
+          console.error("WebSocket error:", error)
+          setConnected(false)
+        }
+      } catch (error) {
+        console.error("Failed to create WebSocket:", error)
+        setConnected(false)
       }
     }
 
-    ws.onclose = () => {
-      setConnected(false)
-      console.log("WebSocket disconnected")
-    }
-
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error)
-      setConnected(false)
-    }
+    connect()
 
     return () => {
-      ws.close()
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout)
+      }
+      if (ws) {
+        ws.close(1000, "Component unmounting")
+      }
+      wsRef.current = null
     }
   }, [])
 
