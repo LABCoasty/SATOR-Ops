@@ -1,0 +1,520 @@
+"""
+Scenario Simulator Service - Manages 60-second scenario simulations with decision events.
+
+This service handles:
+- Timeline-based scenario progression
+- Real-time telemetry updates
+- Critical decision events at key time points
+- Operator response tracking
+"""
+
+import asyncio
+import random
+from datetime import datetime
+from typing import Dict, List, Optional, Callable, Any
+from enum import Enum
+from pydantic import BaseModel
+from dataclasses import dataclass, field
+
+
+class EventSeverity(str, Enum):
+    INFO = "info"
+    WARNING = "warning"
+    CRITICAL = "critical"
+
+
+class DecisionType(str, Enum):
+    ACKNOWLEDGE = "acknowledge"  # Simple acknowledgment
+    BINARY = "binary"  # Yes/No decision
+    MULTI_CHOICE = "multi_choice"  # Multiple options
+    ESCALATE = "escalate"  # Escalation decision
+
+
+class ScenarioEvent(BaseModel):
+    """A time-based event in the scenario."""
+    event_id: str
+    time_sec: float
+    title: str
+    description: str
+    severity: EventSeverity
+    requires_decision: bool = False
+    decision_type: Optional[DecisionType] = None
+    decision_options: Optional[List[str]] = None
+    decision_prompt: Optional[str] = None
+    auto_resolve_sec: Optional[float] = None  # Auto-resolve after X seconds if no response
+
+
+class DecisionRequest(BaseModel):
+    """A decision request sent to the operator."""
+    decision_id: str
+    event_id: str
+    scenario_id: str
+    time_sec: float
+    title: str
+    description: str
+    severity: EventSeverity
+    decision_type: DecisionType
+    options: List[str]
+    prompt: str
+    created_at: datetime
+    expires_at: Optional[datetime] = None
+    responded: bool = False
+    response: Optional[str] = None
+    response_time_sec: Optional[float] = None
+
+
+class TelemetryUpdate(BaseModel):
+    """Real-time telemetry update."""
+    time_sec: float
+    channels: Dict[str, Any]
+    anomalies: List[str] = []
+    trust_score: float = 0.95
+
+
+class ScenarioState(BaseModel):
+    """Current state of a running scenario."""
+    scenario_id: str
+    status: str  # idle, running, paused, completed, error
+    started_at: Optional[datetime] = None
+    current_time_sec: float = 0.0
+    total_duration_sec: float = 60.0
+    events_triggered: List[str] = []
+    pending_decisions: List[str] = []
+    decisions_made: int = 0
+    trust_score: float = 0.95
+    phase: str = "monitoring"  # monitoring, alert, decision, resolution
+
+
+# Scenario 1: Fixed Data Scenario - The Valve Incident
+SCENARIO_1_EVENTS: List[ScenarioEvent] = [
+    ScenarioEvent(
+        event_id="s1_start",
+        time_sec=0,
+        title="Scenario Started",
+        description="Monitoring system initialized. All sensors reporting normal.",
+        severity=EventSeverity.INFO,
+    ),
+    ScenarioEvent(
+        event_id="s1_temp_rise",
+        time_sec=8,
+        title="Temperature Anomaly Detected",
+        description="Core temperature rising above normal baseline. Currently at 74.2°C.",
+        severity=EventSeverity.WARNING,
+    ),
+    ScenarioEvent(
+        event_id="s1_decision_1",
+        time_sec=15,
+        title="Temperature Alert",
+        description="Core temperature has exceeded warning threshold (75°C). Flow Rate A showing 6% deviation from expected values.",
+        severity=EventSeverity.WARNING,
+        requires_decision=True,
+        decision_type=DecisionType.BINARY,
+        decision_options=["Continue Monitoring", "Initiate Diagnostic"],
+        decision_prompt="Temperature is elevated but within operational limits. Do you want to initiate a diagnostic check or continue monitoring?",
+        auto_resolve_sec=15,
+    ),
+    ScenarioEvent(
+        event_id="s1_pressure_spike",
+        time_sec=25,
+        title="Pressure Fluctuation",
+        description="System pressure showing irregular patterns. Backup telemetry confirms deviation.",
+        severity=EventSeverity.WARNING,
+    ),
+    ScenarioEvent(
+        event_id="s1_contradiction",
+        time_sec=35,
+        title="Sensor Contradiction Detected",
+        description="CRITICAL: Flow Rate A (233.8 L/min) and Flow Rate B (249.7 L/min) show 6.8% divergence. External feeds show conflicting data.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.MULTI_CHOICE,
+        decision_options=[
+            "Trust Primary Sensors",
+            "Trust External Feed Alpha", 
+            "Trust External Feed Beta",
+            "Request Manual Verification"
+        ],
+        decision_prompt="Conflicting sensor readings detected. Which data source should be prioritized for the trust calculation?",
+        auto_resolve_sec=20,
+    ),
+    ScenarioEvent(
+        event_id="s1_decision_2",
+        time_sec=45,
+        title="Escalation Required",
+        description="Trust score dropped to 0.72. Multiple contradictions unresolved. Remote Station C is offline.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.ESCALATE,
+        decision_options=[
+            "Approve Current Assessment",
+            "Request Additional Evidence",
+            "Escalate to Supervisor",
+            "Override with Manual Decision"
+        ],
+        decision_prompt="Trust score is below acceptable threshold. How do you want to proceed with the decision artifact?",
+        auto_resolve_sec=20,
+    ),
+    ScenarioEvent(
+        event_id="s1_resolution",
+        time_sec=55,
+        title="Scenario Resolution",
+        description="All operator decisions recorded. Generating decision artifact with full audit trail.",
+        severity=EventSeverity.INFO,
+    ),
+]
+
+# Scenario 2: Live Vision Scenario
+SCENARIO_2_EVENTS: List[ScenarioEvent] = [
+    ScenarioEvent(
+        event_id="s2_start",
+        time_sec=0,
+        title="Vision Analysis Started",
+        description="Video feed connected. AI vision system analyzing frames.",
+        severity=EventSeverity.INFO,
+    ),
+    ScenarioEvent(
+        event_id="s2_first_detection",
+        time_sec=10,
+        title="Object Detected",
+        description="Vision system detected potential safety concern in frame.",
+        severity=EventSeverity.WARNING,
+    ),
+    ScenarioEvent(
+        event_id="s2_decision_1",
+        time_sec=18,
+        title="Safety Event Classification",
+        description="AI detected possible safety violation. Confidence: 78%",
+        severity=EventSeverity.WARNING,
+        requires_decision=True,
+        decision_type=DecisionType.BINARY,
+        decision_options=["Confirm Safety Event", "Mark as False Positive"],
+        decision_prompt="The vision system detected a potential safety concern but confidence is moderate. Please review and classify.",
+        auto_resolve_sec=15,
+    ),
+    ScenarioEvent(
+        event_id="s2_telemetry_correlation",
+        time_sec=28,
+        title="Cross-Validation Alert",
+        description="Vision detection correlating with sensor anomalies. Temperature spike coincides with detected event.",
+        severity=EventSeverity.CRITICAL,
+    ),
+    ScenarioEvent(
+        event_id="s2_decision_2",
+        time_sec=38,
+        title="Incident Confirmation Required",
+        description="Multiple indicators suggest genuine safety incident. Vision + Telemetry + External feed all show anomalies.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.MULTI_CHOICE,
+        decision_options=[
+            "Confirm Incident - High Priority",
+            "Confirm Incident - Standard Priority",
+            "Request Additional Analysis",
+            "Dismiss - Insufficient Evidence"
+        ],
+        decision_prompt="Cross-validation complete. Multiple data sources indicate potential incident. How should this be classified?",
+        auto_resolve_sec=20,
+    ),
+    ScenarioEvent(
+        event_id="s2_prediction",
+        time_sec=48,
+        title="Predictive Alert",
+        description="Based on current trends, AI predicts escalation within 5 minutes if unaddressed.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.ESCALATE,
+        decision_options=[
+            "Initiate Preventive Action",
+            "Alert On-Site Team",
+            "Continue Monitoring",
+            "Escalate to Management"
+        ],
+        decision_prompt="Predictive model suggests potential escalation. What preventive action should be taken?",
+        auto_resolve_sec=15,
+    ),
+    ScenarioEvent(
+        event_id="s2_resolution",
+        time_sec=58,
+        title="Scenario Complete",
+        description="All events processed. Decision artifact ready for review.",
+        severity=EventSeverity.INFO,
+    ),
+]
+
+
+@dataclass
+class ScenarioSimulator:
+    """Manages scenario simulation with real-time updates."""
+    
+    scenario_id: str
+    events: List[ScenarioEvent]
+    duration_sec: float = 60.0
+    state: ScenarioState = field(default=None)
+    _running: bool = False
+    _task: Optional[asyncio.Task] = None
+    _event_callbacks: List[Callable] = field(default_factory=list)
+    _telemetry_callbacks: List[Callable] = field(default_factory=list)
+    _decision_callbacks: List[Callable] = field(default_factory=list)
+    _pending_decisions: Dict[str, DecisionRequest] = field(default_factory=dict)
+    
+    def __post_init__(self):
+        self.state = ScenarioState(
+            scenario_id=self.scenario_id,
+            status="idle",
+            total_duration_sec=self.duration_sec
+        )
+        self._event_callbacks = []
+        self._telemetry_callbacks = []
+        self._decision_callbacks = []
+        self._pending_decisions = {}
+    
+    def on_event(self, callback: Callable):
+        """Register callback for scenario events."""
+        self._event_callbacks.append(callback)
+    
+    def on_telemetry(self, callback: Callable):
+        """Register callback for telemetry updates."""
+        self._telemetry_callbacks.append(callback)
+    
+    def on_decision_required(self, callback: Callable):
+        """Register callback for decision requests."""
+        self._decision_callbacks.append(callback)
+    
+    async def start(self):
+        """Start the scenario simulation."""
+        if self._running:
+            return
+        
+        self._running = True
+        self.state.status = "running"
+        self.state.started_at = datetime.utcnow()
+        self.state.current_time_sec = 0
+        self.state.events_triggered = []
+        self.state.pending_decisions = []
+        self.state.decisions_made = 0
+        self.state.trust_score = 0.95
+        self.state.phase = "monitoring"
+        
+        self._task = asyncio.create_task(self._run_simulation())
+    
+    async def stop(self):
+        """Stop the scenario simulation."""
+        self._running = False
+        if self._task:
+            self._task.cancel()
+            try:
+                await self._task
+            except asyncio.CancelledError:
+                pass
+        self.state.status = "stopped"
+    
+    async def submit_decision(self, decision_id: str, response: str) -> bool:
+        """Submit an operator decision."""
+        if decision_id not in self._pending_decisions:
+            return False
+        
+        decision = self._pending_decisions[decision_id]
+        decision.responded = True
+        decision.response = response
+        decision.response_time_sec = self.state.current_time_sec - decision.time_sec
+        
+        # Remove from pending
+        if decision_id in self.state.pending_decisions:
+            self.state.pending_decisions.remove(decision_id)
+        self.state.decisions_made += 1
+        
+        # Adjust trust score based on response time
+        if decision.response_time_sec < 5:
+            self.state.trust_score = min(1.0, self.state.trust_score + 0.02)
+        elif decision.response_time_sec > 15:
+            self.state.trust_score = max(0.5, self.state.trust_score - 0.03)
+        
+        return True
+    
+    def get_pending_decisions(self) -> List[DecisionRequest]:
+        """Get all pending decision requests."""
+        return list(self._pending_decisions.values())
+    
+    async def _run_simulation(self):
+        """Main simulation loop."""
+        update_interval = 0.75  # Update every 0.75 seconds for fast updates
+        event_index = 0
+        
+        while self._running and self.state.current_time_sec < self.duration_sec:
+            # Check for events to trigger
+            while (event_index < len(self.events) and 
+                   self.events[event_index].time_sec <= self.state.current_time_sec):
+                event = self.events[event_index]
+                await self._trigger_event(event)
+                event_index += 1
+            
+            # Generate telemetry update
+            telemetry = self._generate_telemetry()
+            for callback in self._telemetry_callbacks:
+                try:
+                    if asyncio.iscoroutinefunction(callback):
+                        await callback(telemetry)
+                    else:
+                        callback(telemetry)
+                except Exception as e:
+                    print(f"Telemetry callback error: {e}")
+            
+            # Check for expired decisions
+            await self._check_decision_timeouts()
+            
+            # Wait for next update
+            await asyncio.sleep(update_interval)
+            self.state.current_time_sec += update_interval
+        
+        # Scenario complete
+        self._running = False
+        self.state.status = "completed"
+        self.state.phase = "resolution"
+    
+    async def _trigger_event(self, event: ScenarioEvent):
+        """Trigger a scenario event."""
+        self.state.events_triggered.append(event.event_id)
+        
+        # Update phase based on severity
+        if event.severity == EventSeverity.CRITICAL:
+            self.state.phase = "decision"
+        elif event.severity == EventSeverity.WARNING:
+            self.state.phase = "alert"
+        
+        # Adjust trust score for critical events
+        if event.severity == EventSeverity.CRITICAL:
+            self.state.trust_score = max(0.5, self.state.trust_score - 0.08)
+        elif event.severity == EventSeverity.WARNING:
+            self.state.trust_score = max(0.6, self.state.trust_score - 0.03)
+        
+        # Notify event callbacks
+        for callback in self._event_callbacks:
+            try:
+                if asyncio.iscoroutinefunction(callback):
+                    await callback(event)
+                else:
+                    callback(event)
+            except Exception as e:
+                print(f"Event callback error: {e}")
+        
+        # Create decision request if needed
+        if event.requires_decision:
+            decision = DecisionRequest(
+                decision_id=f"dec_{event.event_id}_{int(self.state.current_time_sec)}",
+                event_id=event.event_id,
+                scenario_id=self.scenario_id,
+                time_sec=self.state.current_time_sec,
+                title=event.title,
+                description=event.description,
+                severity=event.severity,
+                decision_type=event.decision_type,
+                options=event.decision_options or [],
+                prompt=event.decision_prompt or "",
+                created_at=datetime.utcnow(),
+            )
+            
+            if event.auto_resolve_sec:
+                from datetime import timedelta
+                decision.expires_at = datetime.utcnow() + timedelta(seconds=event.auto_resolve_sec)
+            
+            self._pending_decisions[decision.decision_id] = decision
+            self.state.pending_decisions.append(decision.decision_id)
+            
+            # Notify decision callbacks
+            for callback in self._decision_callbacks:
+                try:
+                    if asyncio.iscoroutinefunction(callback):
+                        await callback(decision)
+                    else:
+                        callback(decision)
+                except Exception as e:
+                    print(f"Decision callback error: {e}")
+    
+    async def _check_decision_timeouts(self):
+        """Check for expired decision requests."""
+        now = datetime.utcnow()
+        expired = []
+        
+        for dec_id, decision in self._pending_decisions.items():
+            if decision.expires_at and now >= decision.expires_at and not decision.responded:
+                decision.responded = True
+                decision.response = "AUTO_TIMEOUT"
+                expired.append(dec_id)
+                self.state.trust_score = max(0.5, self.state.trust_score - 0.05)
+        
+        for dec_id in expired:
+            if dec_id in self.state.pending_decisions:
+                self.state.pending_decisions.remove(dec_id)
+    
+    def _generate_telemetry(self) -> TelemetryUpdate:
+        """Generate telemetry data for current time."""
+        t = self.state.current_time_sec
+        
+        # Base values with time-based variations
+        base_temp = 72.0 + (t / 60) * 5 + random.uniform(-0.5, 0.5)
+        base_pressure = 14.5 + random.uniform(-0.3, 0.3)
+        base_flow_a = 230 + (t / 60) * 10 + random.uniform(-2, 2)
+        base_flow_b = 245 + (t / 60) * 8 + random.uniform(-2, 2)
+        
+        # Add anomalies at critical times
+        anomalies = []
+        if 30 <= t <= 45:
+            base_temp += 3
+            anomalies.append("temperature_spike")
+        if 35 <= t <= 50:
+            base_flow_a -= 15
+            anomalies.append("flow_divergence")
+        
+        channels = {
+            "core_temp": {"value": round(base_temp, 1), "unit": "°C", "status": "warning" if base_temp > 75 else "normal"},
+            "pressure": {"value": round(base_pressure, 1), "unit": "PSI", "status": "normal"},
+            "flow_a": {"value": round(base_flow_a, 1), "unit": "L/min", "status": "warning" if abs(base_flow_a - base_flow_b) > 10 else "normal"},
+            "flow_b": {"value": round(base_flow_b, 1), "unit": "L/min", "status": "normal"},
+            "vibration": {"value": round(0.3 + random.uniform(0, 0.2), 2), "unit": "mm/s", "status": "normal"},
+            "power": {"value": round(850 + random.uniform(-10, 10), 1), "unit": "kW", "status": "normal"},
+            "humidity": {"value": round(43 + random.uniform(-2, 2), 1), "unit": "%", "status": "normal"},
+        }
+        
+        return TelemetryUpdate(
+            time_sec=t,
+            channels=channels,
+            anomalies=anomalies,
+            trust_score=self.state.trust_score
+        )
+
+
+# Global simulator instances
+_simulators: Dict[str, ScenarioSimulator] = {}
+
+
+def get_simulator(scenario_id: str) -> Optional[ScenarioSimulator]:
+    """Get an existing simulator instance."""
+    return _simulators.get(scenario_id)
+
+
+def create_simulator(scenario_type: str) -> ScenarioSimulator:
+    """Create a new scenario simulator."""
+    if scenario_type == "scenario1" or scenario_type == "fixed-valve-incident":
+        scenario_id = f"scenario1_{int(datetime.utcnow().timestamp())}"
+        simulator = ScenarioSimulator(
+            scenario_id=scenario_id,
+            events=SCENARIO_1_EVENTS,
+            duration_sec=60.0
+        )
+    elif scenario_type == "scenario2" or scenario_type == "live-vision-demo":
+        scenario_id = f"scenario2_{int(datetime.utcnow().timestamp())}"
+        simulator = ScenarioSimulator(
+            scenario_id=scenario_id,
+            events=SCENARIO_2_EVENTS,
+            duration_sec=60.0
+        )
+    else:
+        raise ValueError(f"Unknown scenario type: {scenario_type}")
+    
+    _simulators[scenario_id] = simulator
+    return simulator
+
+
+def get_all_simulators() -> Dict[str, ScenarioSimulator]:
+    """Get all simulator instances."""
+    return _simulators
