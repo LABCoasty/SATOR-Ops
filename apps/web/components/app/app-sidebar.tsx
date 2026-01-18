@@ -3,10 +3,18 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft } from "lucide-react"
-import { useState } from "react"
+import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon } from "lucide-react"
+import { useState, ReactNode } from "react"
 
-const navItems = [
+type NavItem = {
+  label: string
+  href: string
+  icon: LucideIcon
+  mode: "ingest" | "decision" | "artifact"
+  badge?: ReactNode
+}
+
+const navItems: NavItem[] = [
   {
     label: "Data Ingest",
     href: "/app/ingest",
@@ -77,7 +85,7 @@ export function AppSidebar() {
               {!collapsed && (
                 <span className="flex items-center gap-2">
                   {item.label}
-                  {"badge" in item && item.badge && (
+                  {item.badge && (
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
                       {item.badge}
                     </span>

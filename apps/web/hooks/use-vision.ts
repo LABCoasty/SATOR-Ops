@@ -262,44 +262,79 @@ export function useVisionWebSocket() {
   const wsRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
-    const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws"
-    const ws = new WebSocket(`${WS_URL}/vision`)
-    wsRef.current = ws
-
-    ws.onopen = () => {
-      setConnected(true)
-      console.log("Vision WebSocket connected")
+    // Check if WebSocket is supported
+    if (typeof WebSocket === 'undefined') {
+      console.warn("WebSocket not supported in this browser")
+      return
     }
 
-    ws.onmessage = (event) => {
+    const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws"
+    let ws: WebSocket | null = null
+    let reconnectTimeout: NodeJS.Timeout | null = null
+    let reconnectAttempts = 0
+    const maxReconnectAttempts = 5
+    const reconnectDelay = 3000
+
+    const connect = () => {
       try {
-        const data = JSON.parse(event.data)
-        if (data.type === "vision_frame") {
-          setFrame(data.frame)
-          if (data.frame.safety_events?.length > 0) {
-            setSafetyEvents(prev => [
-              ...data.frame.safety_events,
-              ...prev.slice(0, 19) // Keep last 20
-            ])
+        ws = new WebSocket(`${WS_URL}/vision`)
+        wsRef.current = ws
+
+        ws.onopen = () => {
+          setConnected(true)
+          reconnectAttempts = 0
+          console.log("Vision WebSocket connected")
+        }
+
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data)
+            if (data.type === "vision_frame") {
+              setFrame(data.frame)
+              if (data.frame.safety_events?.length > 0) {
+                setSafetyEvents(prev => [
+                  ...data.frame.safety_events,
+                  ...prev.slice(0, 19) // Keep last 20
+                ])
+              }
+            }
+          } catch (err) {
+            console.error("Vision WebSocket message error:", err)
           }
         }
-      } catch (err) {
-        console.error("Vision WebSocket message error:", err)
+
+        ws.onclose = (event) => {
+          setConnected(false)
+          console.log("Vision WebSocket disconnected", event.code, event.reason)
+          
+          // Attempt to reconnect if not a normal closure
+          if (event.code !== 1000 && reconnectAttempts < maxReconnectAttempts) {
+            reconnectAttempts++
+            console.log(`Attempting to reconnect vision WebSocket (${reconnectAttempts}/${maxReconnectAttempts})...`)
+            reconnectTimeout = setTimeout(connect, reconnectDelay)
+          }
+        }
+
+        ws.onerror = (error) => {
+          console.error("Vision WebSocket error:", error)
+          setConnected(false)
+        }
+      } catch (error) {
+        console.error("Failed to create Vision WebSocket:", error)
+        setConnected(false)
       }
     }
 
-    ws.onclose = () => {
-      setConnected(false)
-      console.log("Vision WebSocket disconnected")
-    }
-
-    ws.onerror = (error) => {
-      console.error("Vision WebSocket error:", error)
-      setConnected(false)
-    }
+    connect()
 
     return () => {
-      ws.close()
+      if (reconnectTimeout) {
+        clearTimeout(reconnectTimeout)
+      }
+      if (ws) {
+        ws.close(1000, "Component unmounting")
+      }
+      wsRef.current = null
     }
   }, [])
 
