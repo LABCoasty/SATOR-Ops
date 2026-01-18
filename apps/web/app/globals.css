@@ -3,54 +3,159 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Custom dark institutional theme for NexHacks */
-:root {
-  --background: oklch(0.12 0.005 250);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.16 0.005 250);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.14 0.005 250);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.65 0.15 180);
-  --primary-foreground: oklch(0.12 0.005 250);
-  --secondary: oklch(0.22 0.005 250);
-  --secondary-foreground: oklch(0.85 0 0);
-  --muted: oklch(0.2 0.005 250);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.75 0.12 80);
-  --accent-foreground: oklch(0.12 0.005 250);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.25 0.005 250);
-  --input: oklch(0.2 0.005 250);
-  --ring: oklch(0.65 0.15 180);
-  --chart-1: oklch(0.65 0.15 180);
-  --chart-2: oklch(0.75 0.12 80);
-  --chart-3: oklch(0.55 0.2 25);
-  --chart-4: oklch(0.6 0.15 280);
-  --chart-5: oklch(0.7 0.1 140);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.1 0.005 250);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.65 0.15 180);
-  --sidebar-primary-foreground: oklch(0.12 0.005 250);
-  --sidebar-accent: oklch(0.18 0.005 250);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.25 0.005 250);
-  --sidebar-ring: oklch(0.65 0.15 180);
+/* LOGOSYN Design System - Semantic Color Tokens
+   - Trust = YELLOW (confidence/verification)
+   - Warning = ORANGE (attention/errors)
+   - NO GOLD anywhere
+   - Text = Cool neutral white */
 
-  /* Custom tokens for state colors */
-  --warning: oklch(0.75 0.15 80);
-  --warning-foreground: oklch(0.12 0.005 250);
-  --success: oklch(0.65 0.15 150);
-  --success-foreground: oklch(0.12 0.005 250);
-  --contradiction: oklch(0.6 0.2 25);
-  --contradiction-foreground: oklch(0.95 0 0);
+:root {
+  /* Backgrounds */
+  --bg0: #07080B;
+  --bg1: #0B0D12;
+  --surface0: #0F1218;
+  --surface1: #121622;
+  
+  /* Borders */
+  --border0: rgba(230, 232, 238, 0.10);
+  --border1: rgba(230, 232, 238, 0.16);
+  
+  /* Text - Cool neutral white (NOT warm) */
+  --textPrimary: #E6E8EE;
+  --textSecondary: #A9B0BC;
+  --textTertiary: #7D8594;
+  
+  /* Semantic Status */
+  --ok: #7D8594;
+  --critical: #FF4D4D;
+  --unknown: #6E7686;
+  
+  /* WARNING = ORANGE (attention/errors) */
+  --warning: #FF9F1C;
+  --warningMuted: rgba(255, 159, 28, 0.45);
+  
+  /* TRUST = YELLOW (confidence/verification) */
+  --trust: #FFD400;
+  --trustMuted: rgba(255, 212, 0, 0.35);
+  
+  /* Code / Hash / IDs - Gray (NEVER accented) */
+  --code: #8E95A3;
+  --codeMuted: #6E7686;
+
+  /* Legacy token mapping for Tailwind compatibility */
+  --background: var(--bg0);
+  --foreground: var(--textPrimary);
+  --card: var(--surface0);
+  --card-foreground: var(--textPrimary);
+  --popover: var(--surface0);
+  --popover-foreground: var(--textPrimary);
+  
+  /* Primary = neutral CTA style */
+  --primary: var(--textPrimary);
+  --primary-foreground: var(--bg0);
+  
+  --secondary: var(--surface1);
+  --secondary-foreground: var(--textSecondary);
+  --muted: var(--surface0);
+  --muted-foreground: var(--textTertiary);
+  
+  /* Accent = Trust yellow for trust highlights */
+  --accent: var(--trust);
+  --accent-foreground: var(--bg0);
+  
+  --destructive: var(--critical);
+  --destructive-foreground: #FFFFFF;
+  --border: var(--border0);
+  --input: var(--surface0);
+  --ring: var(--trust);
+  
+  /* Charts - semantic colors */
+  --chart-1: var(--trust);
+  --chart-2: var(--warning);
+  --chart-3: var(--critical);
+  --chart-4: var(--textSecondary);
+  --chart-5: var(--ok);
+  
+  --radius: 0.5rem;
+  
+  /* Sidebar */
+  --sidebar: var(--bg0);
+  --sidebar-foreground: var(--textPrimary);
+  --sidebar-primary: var(--textPrimary);
+  --sidebar-primary-foreground: var(--bg0);
+  --sidebar-accent: var(--surface1);
+  --sidebar-accent-foreground: var(--textPrimary);
+  --sidebar-border: var(--border0);
+  --sidebar-ring: var(--trust);
+
+  /* State colors - mapped to semantic */
+  --success: var(--trust);
+  --success-foreground: var(--bg0);
+  --contradiction: var(--critical);
+  --contradiction-foreground: #FFFFFF;
+
+  /* ============================================
+     ROYGBIV Semantic Status/Accent System
+     Muted colors for indicators & widget accents ONLY
+     ============================================ */
+  
+  /* Red - Critical/Irreversible (muted) */
+  --status-critical: 0 45% 45%;
+  --status-critical-foreground: 0 0% 100%;
+  
+  /* Orange - Degraded/High Risk (muted) */
+  --status-risk: 25 55% 50%;
+  --status-risk-foreground: 0 0% 100%;
+  
+  /* Yellow - Uncertain/Human Judgment Required (muted) */
+  --status-uncertain: 45 60% 50%;
+  --status-uncertain-foreground: 0 0% 100%;
+  
+  /* Green - Verified/Defensible (muted) */
+  --status-verified: 142 40% 45%;
+  --status-verified-foreground: 0 0% 100%;
+  
+  /* Blue - Context/Reference/Non-actionable (muted) */
+  --status-context: 210 45% 50%;
+  --status-context-foreground: 0 0% 100%;
+  
+  /* Indigo - Temporal/Replay/Timeline ONLY (muted) */
+  --mode-temporal: 235 40% 55%;
+  --mode-temporal-foreground: 0 0% 100%;
+  
+  /* Violet - Trust/Legal/Artifacts ONLY (muted) */
+  --mode-trust: 270 35% 55%;
+  --mode-trust-foreground: 0 0% 100%;
 }
 
 @theme inline {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-nav: var(--font-nav), ui-sans-serif, system-ui, sans-serif;
+  
+  /* Background/Surface */
+  --color-bg0: var(--bg0);
+  --color-bg1: var(--bg1);
+  --color-surface0: var(--surface0);
+  --color-surface1: var(--surface1);
+  
+  /* Text */
+  --color-textPrimary: var(--textPrimary);
+  --color-textSecondary: var(--textSecondary);
+  --color-textTertiary: var(--textTertiary);
+  
+  /* Semantic */
+  --color-ok: var(--ok);
+  --color-warning: var(--warning);
+  --color-warningMuted: var(--warningMuted);
+  --color-critical: var(--critical);
+  --color-unknown: var(--unknown);
+  --color-trust: var(--trust);
+  --color-trustMuted: var(--trustMuted);
+  --color-code: var(--code);
+  --color-codeMuted: var(--codeMuted);
+  
+  /* Legacy mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -87,8 +192,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-warning: var(--warning);
-  --color-warning-foreground: var(--warning-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-contradiction: var(--contradiction);
@@ -104,6 +207,98 @@
   }
 }
 
+/* ============================================
+   ROYGBIV Semantic Utility Classes
+   For status indicators & widget accents ONLY
+   DO NOT use on large surfaces or containers
+   ============================================ */
+
+/* Status: Critical (Red) - irreversible actions */
+.status-critical {
+  --accent-color: hsl(var(--status-critical));
+  --accent-color-muted: hsl(var(--status-critical) / 0.15);
+}
+.status-critical-dot { background-color: hsl(var(--status-critical)); }
+.status-critical-border { border-color: hsl(var(--status-critical) / 0.5); }
+.status-critical-border-l { border-left-color: hsl(var(--status-critical)); }
+.status-critical-bg { background-color: hsl(var(--status-critical) / 0.15); }
+.status-critical-text { color: hsl(var(--status-critical)); }
+.status-critical-ring { --tw-ring-color: hsl(var(--status-critical) / 0.3); }
+
+/* Status: Risk (Orange) - degraded/high risk */
+.status-risk {
+  --accent-color: hsl(var(--status-risk));
+  --accent-color-muted: hsl(var(--status-risk) / 0.15);
+}
+.status-risk-dot { background-color: hsl(var(--status-risk)); }
+.status-risk-border { border-color: hsl(var(--status-risk) / 0.5); }
+.status-risk-border-l { border-left-color: hsl(var(--status-risk)); }
+.status-risk-bg { background-color: hsl(var(--status-risk) / 0.15); }
+.status-risk-text { color: hsl(var(--status-risk)); }
+.status-risk-ring { --tw-ring-color: hsl(var(--status-risk) / 0.3); }
+
+/* Status: Uncertain (Yellow) - human judgment required */
+.status-uncertain {
+  --accent-color: hsl(var(--status-uncertain));
+  --accent-color-muted: hsl(var(--status-uncertain) / 0.15);
+}
+.status-uncertain-dot { background-color: hsl(var(--status-uncertain)); }
+.status-uncertain-border { border-color: hsl(var(--status-uncertain) / 0.5); }
+.status-uncertain-border-l { border-left-color: hsl(var(--status-uncertain)); }
+.status-uncertain-bg { background-color: hsl(var(--status-uncertain) / 0.15); }
+.status-uncertain-text { color: hsl(var(--status-uncertain)); }
+.status-uncertain-ring { --tw-ring-color: hsl(var(--status-uncertain) / 0.3); }
+
+/* Status: Verified (Green) - defensible */
+.status-verified {
+  --accent-color: hsl(var(--status-verified));
+  --accent-color-muted: hsl(var(--status-verified) / 0.15);
+}
+.status-verified-dot { background-color: hsl(var(--status-verified)); }
+.status-verified-border { border-color: hsl(var(--status-verified) / 0.5); }
+.status-verified-border-l { border-left-color: hsl(var(--status-verified)); }
+.status-verified-bg { background-color: hsl(var(--status-verified) / 0.15); }
+.status-verified-text { color: hsl(var(--status-verified)); }
+.status-verified-ring { --tw-ring-color: hsl(var(--status-verified) / 0.3); }
+
+/* Status: Context (Blue) - reference/non-actionable */
+.status-context {
+  --accent-color: hsl(var(--status-context));
+  --accent-color-muted: hsl(var(--status-context) / 0.15);
+}
+.status-context-dot { background-color: hsl(var(--status-context)); }
+.status-context-border { border-color: hsl(var(--status-context) / 0.5); }
+.status-context-border-l { border-left-color: hsl(var(--status-context)); }
+.status-context-bg { background-color: hsl(var(--status-context) / 0.15); }
+.status-context-text { color: hsl(var(--status-context)); }
+.status-context-ring { --tw-ring-color: hsl(var(--status-context) / 0.3); }
+
+/* Mode: Temporal (Indigo) - timeline/replay ONLY */
+.mode-temporal {
+  --accent-color: hsl(var(--mode-temporal));
+  --accent-color-muted: hsl(var(--mode-temporal) / 0.15);
+}
+.mode-temporal-dot { background-color: hsl(var(--mode-temporal)); }
+.mode-temporal-border { border-color: hsl(var(--mode-temporal) / 0.5); }
+.mode-temporal-border-l { border-left-color: hsl(var(--mode-temporal)); }
+.mode-temporal-bg { background-color: hsl(var(--mode-temporal) / 0.15); }
+.mode-temporal-text { color: hsl(var(--mode-temporal)); }
+.mode-temporal-ring { --tw-ring-color: hsl(var(--mode-temporal) / 0.3); }
+.mode-temporal-track { background-color: hsl(var(--mode-temporal) / 0.3); }
+.mode-temporal-progress { background-color: hsl(var(--mode-temporal)); }
+
+/* Mode: Trust (Violet) - legal/artifacts ONLY */
+.mode-trust {
+  --accent-color: hsl(var(--mode-trust));
+  --accent-color-muted: hsl(var(--mode-trust) / 0.15);
+}
+.mode-trust-dot { background-color: hsl(var(--mode-trust)); }
+.mode-trust-border { border-color: hsl(var(--mode-trust) / 0.5); }
+.mode-trust-border-l { border-left-color: hsl(var(--mode-trust)); }
+.mode-trust-bg { background-color: hsl(var(--mode-trust) / 0.15); }
+.mode-trust-text { color: hsl(var(--mode-trust)); }
+.mode-trust-ring { --tw-ring-color: hsl(var(--mode-trust) / 0.3); }
+
 /* Print styles */
 @media print {
   body {
@@ -117,10 +312,7 @@
     display: none !important;
   }
 
-  /* Hide sidebar and navigation during print */
-  aside,
-  nav,
-  header {
+  aside, nav, header {
     display: none !important;
   }
 
@@ -131,13 +323,11 @@
     max-width: 100% !important;
   }
 
-  /* Ensure cards have visible borders in print */
   .rounded-lg {
     border: 1px solid #ddd !important;
     background: white !important;
   }
 
-  /* Make text readable in print */
   .text-muted-foreground {
     color: #666 !important;
   }
@@ -146,7 +336,6 @@
     color: #000 !important;
   }
 
-  /* Page breaks */
   .page-break-before {
     page-break-before: always;
   }

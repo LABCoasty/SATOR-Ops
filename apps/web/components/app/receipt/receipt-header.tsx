@@ -6,8 +6,8 @@ export function ReceiptHeader() {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-md bg-primary/20">
-          <Receipt className="h-6 w-6 text-primary" />
+        <div className="flex h-12 w-12 items-center justify-center rounded-md mode-trust-bg">
+          <Receipt className="h-6 w-6 mode-trust-text" />
         </div>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Trust Receipt</h1>

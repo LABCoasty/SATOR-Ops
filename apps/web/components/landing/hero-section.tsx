@@ -1,67 +1,81 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Play } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative pt-32 pb-24 overflow-hidden">
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px),
-                            linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
+    <section className="relative pt-32 pb-24 overflow-hidden" style={{ backgroundColor: '#07080B' }}>
+      {/* Video Background with dark overlay */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-full w-full object-cover opacity-30"
+        >
+          <source src="/data_center.mp4" type="video/mp4" />
+        </video>
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07080B]/80 via-[#07080B]/60 to-[#07080B]" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
-          {/* Status badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-medium text-muted-foreground">Operator-Grade Decision Infrastructure</span>
-          </div>
-
-          <h1 className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Decisions You Can Defend
+          {/* Headline */}
+          <h1 
+            className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
+            style={{ 
+              fontFamily: 'var(--font-nav)',
+              color: 'var(--textPrimary)'
+            }}
+          >
+            Operator-grade decision infrastructure.
           </h1>
 
-          <p className="mt-6 text-pretty text-lg text-muted-foreground leading-relaxed">
-            Transform unreliable data into structured decisions with evidence, trust scoring, and audit-ready artifacts.
+          {/* Subhead */}
+          <p 
+            className="mt-6 text-pretty text-lg leading-relaxed max-w-2xl mx-auto"
+            style={{ 
+              fontFamily: 'var(--font-nav)',
+              color: 'var(--textSecondary)'
+            }}
+          >
+            Turn incomplete, conflicting telemetry into defensible action—evidence lineage, 
+            trust scoring, contradictions, and compliance posture generated at the moment you act.
           </p>
 
+          {/* CTAs - Boxy buttons */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="gap-2">
-              <Link href="/app">
-                Run a Simulation
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="gap-2 bg-transparent">
-              <Link href="/app/artifact">
-                <Play className="h-4 w-4" />
-                View a Decision Packet
-              </Link>
-            </Button>
-          </div>
-        </div>
+            {/* Primary CTA - Light fill, dark text */}
+            <Link 
+              href="/app"
+              className="rounded-[6px] px-6 py-3 transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(255,255,255,0.1)]"
+              style={{
+                fontFamily: 'var(--font-nav)',
+                fontSize: '15px',
+                fontWeight: 600,
+                backgroundColor: '#F0F0F2',
+                color: '#0A0A0C',
+                border: '1px solid rgba(255,255,255,0.1)',
+              }}
+            >
+              Try Demo
+            </Link>
 
-        {/* Preview mockup */}
-        <div className="mt-20 mx-auto max-w-5xl">
-          <div className="rounded-lg border border-border bg-card p-1">
-            <div className="rounded-md bg-muted/30 aspect-[16/9] flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="inline-flex items-center gap-3 rounded-md border border-border bg-card px-4 py-2">
-                  <span className="h-3 w-3 rounded-full bg-success" />
-                  <span className="font-mono text-sm">DECISION_READY</span>
-                  <span className="text-muted-foreground text-sm">Trust: 0.87</span>
-                </div>
-                <p className="text-sm text-muted-foreground">Platform interface preview</p>
-              </div>
-            </div>
+            {/* Secondary CTA - Dark fill, white text */}
+            <Link 
+              href="/app/artifact"
+              className="rounded-[6px] px-6 py-3 transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(0,0,0,0.3)]"
+              style={{
+                fontFamily: 'var(--font-nav)',
+                fontSize: '15px',
+                fontWeight: 600,
+                backgroundColor: '#0A0A0C',
+                color: 'rgba(255,255,255,0.92)',
+                border: '1px solid rgba(255,255,255,0.16)',
+              }}
+            >
+              See Compliance Posture
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,13 @@
 "use client"
 
+<<<<<<< HEAD
 import { useState, useRef, useEffect } from "react"
 import { Bot, X, Send, FileText, Loader2, Terminal, CheckCircle, AlertTriangle } from "lucide-react"
+=======
+import { useState } from "react"
+import Image from "next/image"
+import { X, Send, Mic, FileText } from "lucide-react"
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -185,10 +191,27 @@ export function AgentButton() {
     <>
       {/* Popup Chat Box */}
       {isOpen && (
+<<<<<<< HEAD
         <div className="fixed bottom-24 right-6 w-[380px] rounded-lg border border-border bg-card shadow-xl z-50 flex flex-col max-h-[480px]">
+=======
+        <div 
+          className="fixed bottom-24 right-6 w-[420px] rounded-lg shadow-xl z-50 flex flex-col max-h-[500px]"
+          style={{ 
+            backgroundColor: 'var(--surface0)',
+            border: '1px solid var(--border0)',
+          }}
+        >
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-border px-4 py-3 rounded-t-lg bg-card">
+          <div 
+            className="flex items-center justify-between px-4 py-3 rounded-t-lg"
+            style={{ 
+              backgroundColor: 'var(--surface0)',
+              borderBottom: '1px solid var(--border0)',
+            }}
+          >
             <div className="flex items-center gap-2">
+<<<<<<< HEAD
               <Bot className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium">LeanMCP Agent</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary">11 tools</span>
@@ -203,6 +226,26 @@ export function AgentButton() {
                 <X className="h-4 w-4" />
               </Button>
             </div>
+=======
+              {/* Agent orb image */}
+              <Image
+                src="/logosynagntwidget.png"
+                alt="Logos"
+                width={24}
+                height={24}
+                className="rounded-full"
+              />
+              <span 
+                className="text-sm font-medium"
+                style={{ fontFamily: 'var(--font-nav)', color: 'var(--textPrimary)' }}
+              >
+                Logos
+              </span>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="h-8 w-8 p-0">
+              <X className="h-4 w-4" style={{ color: 'var(--textSecondary)' }} />
+            </Button>
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
           </div>
 
           {/* Messages */}
@@ -211,12 +254,22 @@ export function AgentButton() {
               <div
                 key={i}
                 className={cn(
+<<<<<<< HEAD
                   "rounded-md p-2 text-sm leading-relaxed",
                   msg.role === "agent" && "bg-muted text-muted-foreground",
                   msg.role === "user" && "bg-primary/10 text-foreground ml-4",
                   msg.role === "tool" && "bg-zinc-900 border border-zinc-700 font-mono text-xs",
                   msg.isError && "border-red-500/50",
+=======
+                  "rounded-md p-3 text-sm leading-relaxed",
+                  msg.role === "agent" ? "" : "ml-4",
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
                 )}
+                style={{
+                  fontFamily: 'var(--font-nav)',
+                  backgroundColor: msg.role === "agent" ? 'var(--surface1)' : 'var(--trustMuted)',
+                  color: 'var(--textPrimary)',
+                }}
               >
                 {msg.role === "tool" && (
                   <div className="flex items-center gap-1.5 mb-1 text-zinc-400 text-[10px]">
@@ -238,6 +291,7 @@ export function AgentButton() {
           </div>
 
           {/* Quick Actions */}
+<<<<<<< HEAD
           <div className="border-t border-border p-3 space-y-2">
             <div className="flex flex-wrap gap-1.5">
               {suggestedActions.map((action) => (
@@ -249,6 +303,21 @@ export function AgentButton() {
                     "rounded-md border border-border bg-secondary px-2 py-1 text-xs hover:bg-muted transition-colors",
                     isProcessing && "opacity-50 cursor-not-allowed"
                   )}
+=======
+          <div className="p-3 space-y-3" style={{ borderTop: '1px solid var(--border0)' }}>
+            <div className="flex flex-wrap gap-2">
+              {suggestedActions.map((action) => (
+                <button
+                  key={action}
+                  onClick={() => handleSubmit(action)}
+                  className="rounded-md px-2 py-1 text-xs transition-colors"
+                  style={{
+                    fontFamily: 'var(--font-nav)',
+                    backgroundColor: 'var(--surface1)',
+                    border: '1px solid var(--border0)',
+                    color: 'var(--textSecondary)',
+                  }}
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
                 >
                   {action.label}
                 </button>
@@ -262,6 +331,7 @@ export function AgentButton() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit(input)}
+<<<<<<< HEAD
                 placeholder="Ask about trust, contradictions..."
                 disabled={isProcessing}
                 className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50"
@@ -272,6 +342,30 @@ export function AgentButton() {
             </div>
 
             <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+=======
+                placeholder="Ask about the data..."
+                className="flex-1 rounded-md px-3 py-2 text-sm placeholder:opacity-50 focus:outline-none focus:ring-1"
+                style={{
+                  fontFamily: 'var(--font-nav)',
+                  backgroundColor: 'var(--bg0)',
+                  border: '1px solid var(--border0)',
+                  color: 'var(--textPrimary)',
+                }}
+              />
+              <Button size="sm" variant="ghost" className="h-9 w-9 p-0">
+                <Mic className="h-4 w-4" style={{ color: 'var(--textSecondary)' }} />
+              </Button>
+              <Button size="sm" onClick={() => handleSubmit(input)} className="h-9 w-9 p-0">
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Ground in evidence note */}
+            <p 
+              className="text-[10px] flex items-center gap-1"
+              style={{ fontFamily: 'var(--font-nav)', color: 'var(--textTertiary)' }}
+            >
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
               <FileText className="h-3 w-3" />
               Responses from LeanMCP tools
             </p>
@@ -279,21 +373,40 @@ export function AgentButton() {
         </div>
       )}
 
-      {/* Floating Button */}
+      {/* Floating Button - Gradient Orb */}
       <button
         onClick={isOpen ? () => setIsOpen(false) : handleOpen}
+<<<<<<< HEAD
         className="fixed bottom-6 right-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 z-50"
         aria-label={isOpen ? "Close assistant" : "Open LeanMCP agent"}
+=======
+        className="fixed bottom-6 right-6 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 z-50 overflow-hidden"
+        style={{
+          backgroundColor: 'var(--surface1)',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.4)',
+        }}
+        aria-label={isOpen ? "Close assistant" : "Open operator assistant"}
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
       >
         {isOpen ? (
-          <X className="h-6 w-6" />
+          <X className="h-6 w-6" style={{ color: 'var(--textPrimary)' }} />
         ) : (
+<<<<<<< HEAD
           <>
             <Bot className="h-6 w-6" />
             <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-success text-[9px] font-bold text-success-foreground">
               MCP
             </span>
           </>
+=======
+          <Image
+            src="/logosynagntwidget.png"
+            alt="Logos"
+            width={56}
+            height={56}
+            className="object-cover"
+          />
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
         )}
       </button>
     </>
