@@ -1,6 +1,7 @@
 import type React from "react"
 import { AppShell } from "@/components/app/app-shell"
 import { SimulationProvider } from "@/contexts/simulation-context"
+import { VoiceCallProvider } from "@/contexts/voice-call-context"
 
 export default function AppLayout({
   children,
@@ -9,7 +10,9 @@ export default function AppLayout({
 }) {
   return (
     <SimulationProvider>
-      <AppShell>{children}</AppShell>
+      <VoiceCallProvider>
+        <AppShell>{children}</AppShell>
+      </VoiceCallProvider>
     </SimulationProvider>
   )
 }

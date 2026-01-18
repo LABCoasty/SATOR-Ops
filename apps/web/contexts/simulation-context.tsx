@@ -75,12 +75,15 @@ interface SimulationContextType {
 
   // Status
   isRunning: boolean
+  isPaused: boolean
   isLoading: boolean
   error: string | null
 
   // Actions
   startSimulation: (scenarioType: ScenarioType) => Promise<void>
   stopSimulation: () => Promise<void>
+  pauseSimulation: (reason?: string) => void
+  resumeSimulation: () => void
   submitDecision: (decisionId: string, response: string) => Promise<boolean>
   updateDecisionDocumentation: (decisionId: string, explanation?: string, recommendation?: string) => void
 }
@@ -109,6 +112,8 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
   const [telemetry, setTelemetry] = useState<SimulationTelemetry | null>(null)
   const [activeScenario, setActiveScenario] = useState<ScenarioType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
+  const [pauseReason, setPauseReason] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const pollingRef = useRef<NodeJS.Timeout | null>(null)
@@ -252,11 +257,41 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
 
       setState(prev => prev ? { ...prev, status: "stopped" } : null)
       setActiveScenario(null)
+      setIsPaused(false)
+      setPauseReason(null)
 
     } catch (err) {
       console.error("Stop error:", err)
     }
   }, [simulationId])
+
+  // Pause simulation (frontend only - backend continues processing)
+  const pauseSimulation = useCallback((reason?: string) => {
+    setIsPaused(true)
+    setPauseReason(reason || "Simulation paused")
+    
+    // Stop polling to pause UI updates, but backend continues
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current)
+      pollingRef.current = null
+    }
+    
+    // Update state to show paused
+    setState(prev => prev ? { ...prev, phase: "escalated" } : null)
+  }, [])
+
+  // Resume simulation
+  const resumeSimulation = useCallback(() => {
+    setIsPaused(false)
+    setPauseReason(null)
+    
+    // Resume polling if simulation is still running
+    if (simulationId && state?.status === "running") {
+      setState(prev => prev ? { ...prev, phase: "monitoring" } : null)
+      // Resume polling
+      pollingRef.current = setInterval(() => poll(simulationId), 500)
+    }
+  }, [simulationId, state?.status, poll])
 
   // Submit decision
   const submitDecision = useCallback(async (decisionId: string, response: string): Promise<boolean> => {
@@ -344,10 +379,13 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
     telemetry,
     activeScenario,
     isRunning: state?.status === "running",
+    isPaused,
     isLoading,
     error,
     startSimulation,
     stopSimulation,
+    pauseSimulation,
+    resumeSimulation,
     submitDecision,
     updateDecisionDocumentation
   }

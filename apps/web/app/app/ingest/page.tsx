@@ -1,16 +1,30 @@
 "use client"
 
+import { useCallback } from "react"
 import { TelemetryGrid } from "@/components/app/ingest/telemetry-grid"
 import { SignalSummary } from "@/components/app/ingest/signal-summary"
 import { SourceReliability } from "@/components/app/ingest/source-reliability"
 import { Scenario2VideoPanel } from "@/components/app/ingest/scenario2-video-panel"
 import { Scenario2DecisionOverlay } from "@/components/app/ingest/scenario2-decision-overlay"
 import { useSimulationContext } from "@/contexts/simulation-context"
+import { useVoiceCallContext } from "@/contexts/voice-call-context"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
 // Vision scenarios show video panel after 5 seconds
 const VISION_ALERT_DELAY_SEC = 5
+
+// Helper to detect if a response is an escalation to supervisor
+function isEscalationToSupervisor(response: string): boolean {
+  const lowerResponse = response.toLowerCase()
+  return (
+    lowerResponse.includes("escalate to supervisor") ||
+    lowerResponse.includes("escalate to manager") ||
+    lowerResponse.includes("escalate to management") ||
+    lowerResponse.includes("escalate to facility manager") ||
+    lowerResponse.includes("escalate to utility management")
+  )
+}
 
 export default function DataIngestPage() {
   const { 
@@ -21,6 +35,33 @@ export default function DataIngestPage() {
     isRunning,
     submitDecision 
   } = useSimulationContext()
+
+  const { triggerCall } = useVoiceCallContext()
+
+  // Wrap submitDecision to detect escalation and trigger voice call
+  const handleSubmitDecision = useCallback(async (decisionId: string, response: string): Promise<boolean> => {
+    // Find the decision to get its details for context
+    const decision = decisions.find(d => d.decision_id === decisionId)
+    
+    // Submit the decision first
+    const success = await submitDecision(decisionId, response)
+    
+    // If this is an escalation to supervisor, trigger the voice call
+    if (success && isEscalationToSupervisor(response)) {
+      triggerCall({
+        currentPage: '/app/ingest',
+        trustScore: simState?.trust_score,
+        trustState: simState?.trust_score !== undefined 
+          ? (simState.trust_score >= 0.8 ? 'high' : simState.trust_score >= 0.6 ? 'medium' : 'low')
+          : undefined,
+        decisionId: decisionId,
+        decisionTitle: decision?.title,
+        escalationType: response,
+      })
+    }
+    
+    return success
+  }, [submitDecision, decisions, simState?.trust_score, triggerCall])
 
   // Calculate if vision panel (scenario 2, 3, or 4) should be visible
   const isScenario2 = activeScenario === "scenario2"
@@ -107,7 +148,7 @@ export default function DataIngestPage() {
           {showVisionPanel && decisions.length > 0 && (
             <Scenario2DecisionOverlay
               decisions={decisions}
-              onSubmitDecision={submitDecision}
+              onSubmitDecision={handleSubmitDecision}
             />
           )}
         </div>
