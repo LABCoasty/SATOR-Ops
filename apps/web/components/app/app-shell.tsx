@@ -6,11 +6,20 @@ import { AppSidebar } from "./app-sidebar"
 import { AppTopBar } from "./app-top-bar"
 import { AgentButton } from "./agent-button"
 import { DecisionPrompt, EventToast, type DecisionPromptData } from "./decision-prompt"
+import { ScenarioCompleteModal } from "./scenario-complete-modal"
 import { useSimulationContext, type SimulationEvent } from "@/contexts/simulation-context"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 
 export type AppMode = "ingest" | "decision" | "artifact"
+
+// Scenario name mapping
+const SCENARIO_NAMES: Record<string, string> = {
+  scenario1: "Valve Incident",
+  scenario2: "Oil Rig Analysis",
+  scenario3: "Water Pipe Leakage",
+  scenario4: "Data Center Arc Flash",
+}
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   // Enhanced simulation state from context
@@ -18,6 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     state: simState,
     events,
     decisions,
+    completedDecisions,
     activeScenario,
     isRunning,
     isLoading: simLoading,
@@ -28,6 +38,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // Event toast state
   const [currentEventToast, setCurrentEventToast] = useState<SimulationEvent | null>(null)
   const lastShownEventRef = useRef<string | null>(null)
+  
+  // Scenario completion modal state
+  const [showCompletionModal, setShowCompletionModal] = useState(false)
+  const [completedScenarioData, setCompletedScenarioData] = useState<{
+    scenarioId: string
+    scenarioName: string
+    trustScore: number
+    decisionsCount: number
+    eventsCount: number
+    duration: number
+  } | null>(null)
+  const prevRunningRef = useRef(false)
 
   // Show event toasts for new events (non-decision events)
   useEffect(() => {
@@ -42,6 +64,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       }
     }
   }, [events])
+
+  // Detect simulation completion and show modal
+  useEffect(() => {
+    // Check if simulation just completed (was running, now not running)
+    if (prevRunningRef.current && !isRunning && simState && activeScenario) {
+      // Simulation completed
+      setCompletedScenarioData({
+        scenarioId: activeScenario,
+        scenarioName: SCENARIO_NAMES[activeScenario] || activeScenario,
+        trustScore: simState.trust_score,
+        decisionsCount: simState.decisions_made,
+        eventsCount: simState.events_triggered,
+        duration: simState.current_time_sec,
+      })
+      setShowCompletionModal(true)
+    }
+    prevRunningRef.current = isRunning
+  }, [isRunning, simState, activeScenario])
 
   // Handle decision submission
   const handleDecisionSubmit = useCallback(async (decisionId: string, response: string) => {
@@ -152,6 +192,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <EventToast
           event={currentEventToast}
           onClose={() => setCurrentEventToast(null)}
+        />
+      )}
+
+      {/* Scenario Completion Modal */}
+      {showCompletionModal && completedScenarioData && (
+        <ScenarioCompleteModal
+          scenarioId={completedScenarioData.scenarioId}
+          scenarioName={completedScenarioData.scenarioName}
+          trustScore={completedScenarioData.trustScore}
+          decisionsCount={completedScenarioData.decisionsCount}
+          eventsCount={completedScenarioData.eventsCount}
+          duration={completedScenarioData.duration}
+          onClose={() => {
+            setShowCompletionModal(false)
+            setCompletedScenarioData(null)
+          }}
+          onAnchor={() => {
+            // Anchor was successful
+          }}
         />
       )}
     </div>
