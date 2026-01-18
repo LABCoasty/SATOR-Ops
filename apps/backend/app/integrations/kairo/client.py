@@ -234,14 +234,31 @@ class KairoClient:
         except Exception as e:
             # On deploy gate failure, we're more cautious but still don't block
             # (following sidecar pattern - Kairo shouldn't gate core functionality)
+            error_str = str(e)
+            
+            # Detect DNS/connection errors
+            if "nodename nor servname" in error_str or "Could not resolve host" in error_str or "NXDOMAIN" in error_str:
+                decision_reason = "Kairo API endpoint unreachable (DNS resolution failed). The Kairo service may not be available yet."
+                recommendations = [
+                    "Kairo integration is disabled automatically",
+                    "Anchoring will proceed without Kairo security checks",
+                    "To enable Kairo, ensure the API endpoint is accessible"
+                ]
+            elif "timeout" in error_str.lower():
+                decision_reason = "Kairo API request timed out. The service may be temporarily unavailable."
+                recommendations = ["Retry later or proceed without Kairo checks"]
+            else:
+                decision_reason = f"Kairo deploy check unavailable: {error_str}"
+                recommendations = ["Proceed with caution - verify contract manually"]
+            
             return ContractAnalysis(
                 decision=KairoDecision.WARN,
-                decision_reason=f"Kairo deploy check unavailable: {str(e)}",
+                decision_reason=decision_reason,
                 risk_score=0.4,
                 is_safe=True,
                 confidence=0.0,
-                warnings=[f"Deploy check failed: {str(e)}"],
-                recommendations=["Proceed with caution - verify contract manually"],
+                warnings=[f"Deploy check failed: {error_str}"],
+                recommendations=recommendations,
             )
     
     async def validate_anchor_program(self) -> bool:
