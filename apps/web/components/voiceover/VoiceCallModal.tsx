@@ -10,7 +10,18 @@ import {
 } from '@livekit/components-react';
 import '@livekit/components-styles';
 import { useCallback, useState } from 'react';
-import { Phone, PhoneOff, Loader2 } from 'lucide-react';
+import { Phone, PhoneOff, Loader2, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface VoiceCallModalProps {
   onClose: () => void;
@@ -19,6 +30,7 @@ interface VoiceCallModalProps {
     incidentId?: string;
     trustScore?: number;
     trustState?: string;
+    scenarioName?: string;
   };
 }
 
@@ -26,42 +38,53 @@ interface VoiceCallModalProps {
 function VoiceAgent() {
   const { state, audioTrack } = useVoiceAssistant();
 
+  const getStatusText = () => {
+    switch (state) {
+      case 'connecting':
+        return 'Connecting to Supervisor...';
+      case 'listening':
+        return 'Listening...';
+      case 'thinking':
+        return 'Processing...';
+      case 'speaking':
+        return 'Supervisor speaking...';
+      default:
+        return 'Ready';
+    }
+  };
+
+  const getStatusIcon = () => {
+    switch (state) {
+      case 'connecting':
+        return '🔄';
+      case 'listening':
+        return '🎤';
+      case 'thinking':
+        return '🤔';
+      case 'speaking':
+        return '🔊';
+      default:
+        return '📞';
+    }
+  };
+
   return (
-    <div className="voice-agent-container">
-      <div className="agent-status">
-        {state === 'connecting' && <span>🔄 Connecting to Supervisor...</span>}
-        {state === 'listening' && <span>🎤 Listening...</span>}
-        {state === 'thinking' && <span>🤔 Processing...</span>}
-        {state === 'speaking' && <span>🔊 Supervisor speaking...</span>}
+    <div className="flex flex-col items-center gap-6 py-4">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <span>{getStatusIcon()}</span>
+        <span>{getStatusText()}</span>
       </div>
 
-      <div className="visualizer-container">
+      <div className="w-[200px] h-[100px] flex items-center justify-center">
         <BarVisualizer
           state={state}
           barCount={5}
           trackRef={audioTrack}
-          className="agent-visualizer"
+          className="[&_.lk-bar]:bg-primary"
         />
       </div>
 
       <VoiceAssistantControlBar controls={{ leave: false }} />
-
-      <style jsx>{`
-        .voice-agent-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-        }
-        .agent-status {
-          font-size: 16px;
-          color: #e2e8f0;
-        }
-        .visualizer-container {
-          width: 200px;
-          height: 100px;
-        }
-      `}</style>
     </div>
   );
 }
@@ -110,196 +133,159 @@ export default function VoiceCallModal({ onClose, context }: VoiceCallModalProps
   }, [onClose]);
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h2>📞 Supervisor Call</h2>
-          {context?.incidentId && (
-            <span className="incident-badge">{context.incidentId}</span>
-          )}
-        </div>
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="max-w-md" showCloseButton={false}>
+        <DialogHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                <Phone className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <DialogTitle>Supervisor Call</DialogTitle>
+                {context?.incidentId && (
+                  <Badge variant="secondary" className="mt-1 text-xs">
+                    {context.incidentId}
+                  </Badge>
+                )}
+              </div>
+            </div>
+          </div>
+        </DialogHeader>
 
         {!token ? (
           // Pre-call screen
-          <div className="pre-call">
-            {error && <div className="error">{error}</div>}
-
-            <p>Connect with an AI supervisor for guidance on your current situation.</p>
-
-            {context && (
-              <div className="context-preview">
-                <div>Page: {context.currentPage}</div>
-                {context.trustState && (
-                  <div>Trust: {context.trustState} ({context.trustScore?.toFixed(2)})</div>
-                )}
+          <div className="space-y-4">
+            {error && (
+              <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+                {error}
               </div>
             )}
 
-            <button
-              onClick={startCall}
-              disabled={isConnecting}
-              className="start-call-btn"
-            >
-              {isConnecting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Connecting...
-                </>
-              ) : (
-                <>
-                  <Phone className="w-5 h-5" />
-                  Start Call
-                </>
-              )}
-            </button>
+            <DialogDescription className="text-center">
+              Connect with an AI supervisor for guidance on your current situation.
+            </DialogDescription>
 
-            <button onClick={onClose} className="cancel-btn">
-              Cancel
-            </button>
+            {context && (
+              <Card>
+                <CardContent className="pt-6">
+                  {/* Supervisor Avatar */}
+                  <div className="flex justify-center mb-4">
+                    <div className="h-35 w-35 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg">
+                      <img
+                        src="/morgan.jpg"
+                        alt="Supervisor"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-3 text-base">
+                    {context.scenarioName && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">Scenario:</span>
+                        <span className="font-semibold">{context.scenarioName}</span>
+                      </div>
+                    )}
+                    {context.trustState && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">Trust:</span>
+                        <div className="flex items-center gap-2">
+                          <Badge
+                            variant={
+                              context.trustState === 'high'
+                                ? 'default'
+                                : context.trustState === 'medium'
+                                  ? 'secondary'
+                                  : 'destructive'
+                            }
+                            className={cn(
+                              "text-sm",
+                              context.trustState === 'high' && "bg-green-500 hover:bg-green-600",
+                              context.trustState === 'medium' && "bg-yellow-500 hover:bg-yellow-600 text-black",
+                              context.trustState === 'low' && "bg-red-500 hover:bg-red-600"
+                            )}
+                          >
+                            {context.trustState}
+                          </Badge>
+                          <span className={cn(
+                            "font-mono text-sm font-semibold",
+                            context.trustState === 'high' && "text-green-500",
+                            context.trustState === 'medium' && "text-yellow-500",
+                            context.trustState === 'low' && "text-red-500"
+                          )}>
+                            {context.trustScore?.toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={startCall}
+                disabled={isConnecting}
+                className="w-full gap-2"
+                size="lg"
+              >
+                {isConnecting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Connecting...
+                  </>
+                ) : (
+                  <>
+                    <Phone className="h-5 w-5" />
+                    Start Call
+                  </>
+                )}
+              </Button>
+
+              <Button
+                variant="ghost"
+                onClick={onClose}
+                className="w-full"
+                disabled={isConnecting}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         ) : (
           // Active call screen
-          <LiveKitRoom
-            token={token}
-            serverUrl={livekitUrl}
-            connect={true}
-            audio={true}
-            video={false}
-            onDisconnected={handleDisconnect}
-            className="livekit-room"
-          >
-            <VoiceAgent />
-            <RoomAudioRenderer />
-
-            <DisconnectButton className="end-call-btn">
-              <PhoneOff className="w-5 h-5" />
-              End Call
-            </DisconnectButton>
-          </LiveKitRoom>
+          <div className="space-y-4">
+            <LiveKitRoom
+              token={token}
+              serverUrl={livekitUrl}
+              connect={true}
+              audio={true}
+              video={false}
+              onDisconnected={handleDisconnect}
+            >
+              <Card>
+                <CardContent className="pt-6">
+                  <VoiceAgent />
+                  <RoomAudioRenderer />
+                </CardContent>
+                <div className="border-t border-border p-4">
+                  <DisconnectButton>
+                    <Button
+                      variant="destructive"
+                      className="w-full gap-2"
+                      onClick={handleDisconnect}
+                    >
+                      <PhoneOff className="h-4 w-4" />
+                      End Call
+                    </Button>
+                  </DisconnectButton>
+                </div>
+              </Card>
+            </LiveKitRoom>
+          </div>
         )}
-      </div>
-
-      <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.8);
-          backdrop-filter: blur(4px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-        }
-        .modal-content {
-          background: linear-gradient(180deg, #1e293b, #0f172a);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 24px;
-          width: 100%;
-          max-width: 400px;
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-        }
-        .modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 20px;
-        }
-        .modal-header h2 {
-          font-size: 18px;
-          color: white;
-          margin: 0;
-        }
-        .incident-badge {
-          background: #3b82f6;
-          color: white;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 12px;
-        }
-        .pre-call {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-          text-align: center;
-        }
-        .pre-call p {
-          color: #94a3b8;
-          font-size: 14px;
-        }
-        .context-preview {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
-          padding: 12px;
-          font-size: 13px;
-          color: #e2e8f0;
-          text-align: left;
-        }
-        .error {
-          background: rgba(239, 68, 68, 0.2);
-          border: 1px solid #ef4444;
-          border-radius: 8px;
-          padding: 12px;
-          color: #ef4444;
-          font-size: 14px;
-        }
-        .start-call-btn {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          padding: 12px 24px;
-          background: linear-gradient(135deg, #22c55e, #16a34a);
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .start-call-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, #16a34a, #15803d);
-        }
-        .start-call-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-        }
-        .cancel-btn {
-          background: transparent;
-          color: #94a3b8;
-          border: none;
-          cursor: pointer;
-          font-size: 14px;
-        }
-        .cancel-btn:hover {
-          color: white;
-        }
-        :global(.livekit-room) {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-        }
-        :global(.end-call-btn) {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 24px;
-          background: #ef4444;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-size: 14px;
-          cursor: pointer;
-        }
-        :global(.end-call-btn:hover) {
-          background: #dc2626;
-        }
-        :global(.agent-visualizer) {
-          --lk-bar-color: #3b82f6;
-        }
-      `}</style>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
