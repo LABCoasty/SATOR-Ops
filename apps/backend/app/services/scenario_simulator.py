@@ -163,7 +163,7 @@ SCENARIO_1_EVENTS: List[ScenarioEvent] = [
     ),
 ]
 
-# Scenario 2: Live Vision Scenario
+# Scenario 2: Live Vision Scenario - Oil Rig
 SCENARIO_2_EVENTS: List[ScenarioEvent] = [
     ScenarioEvent(
         event_id="s2_start",
@@ -237,6 +237,91 @@ SCENARIO_2_EVENTS: List[ScenarioEvent] = [
         time_sec=58,
         title="Scenario Complete",
         description="All events processed. Decision artifact ready for review.",
+        severity=EventSeverity.INFO,
+    ),
+]
+
+# Scenario 3: Water Pipe Leakage Monitoring
+SCENARIO_3_EVENTS: List[ScenarioEvent] = [
+    ScenarioEvent(
+        event_id="s3_start",
+        time_sec=0,
+        title="Water Infrastructure Monitoring Started",
+        description="Video feed connected. AI monitoring water pipeline infrastructure.",
+        severity=EventSeverity.INFO,
+    ),
+    ScenarioEvent(
+        event_id="s3_moisture_detected",
+        time_sec=8,
+        title="Moisture Anomaly Detected",
+        description="Vision system detected unusual moisture patterns near pipe junction.",
+        severity=EventSeverity.WARNING,
+    ),
+    ScenarioEvent(
+        event_id="s3_decision_1",
+        time_sec=16,
+        title="Leak Classification Required",
+        description="AI detected possible water leak. Visual analysis confidence: 82%",
+        severity=EventSeverity.WARNING,
+        requires_decision=True,
+        decision_type=DecisionType.BINARY,
+        decision_options=["Confirm Leak Detected", "Mark as Condensation"],
+        decision_prompt="The vision system detected moisture accumulation that may indicate a leak. Please review and classify.",
+        auto_resolve_sec=15,
+    ),
+    ScenarioEvent(
+        event_id="s3_pressure_drop",
+        time_sec=25,
+        title="Pressure Drop Detected",
+        description="Water pressure sensors showing 12% decrease from baseline. Correlates with visual detection.",
+        severity=EventSeverity.CRITICAL,
+    ),
+    ScenarioEvent(
+        event_id="s3_flow_correlation",
+        time_sec=32,
+        title="Flow Rate Discrepancy",
+        description="Inlet flow (450 L/min) differs from outlet flow (398 L/min). 52 L/min unaccounted.",
+        severity=EventSeverity.CRITICAL,
+    ),
+    ScenarioEvent(
+        event_id="s3_decision_2",
+        time_sec=40,
+        title="Leak Severity Assessment",
+        description="Multiple indicators confirm water loss. Vision + Flow + Pressure all indicate leak.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.MULTI_CHOICE,
+        decision_options=[
+            "Minor Leak - Schedule Repair",
+            "Moderate Leak - Urgent Repair",
+            "Major Leak - Immediate Shutdown",
+            "Request Inspection Team"
+        ],
+        decision_prompt="Confirmed water leak detected. Based on flow discrepancy of 52 L/min, classify severity and response.",
+        auto_resolve_sec=20,
+    ),
+    ScenarioEvent(
+        event_id="s3_damage_prediction",
+        time_sec=50,
+        title="Infrastructure Risk Alert",
+        description="AI predicts potential structural impact if leak continues. Estimated water loss: 3,120 L/hour.",
+        severity=EventSeverity.CRITICAL,
+        requires_decision=True,
+        decision_type=DecisionType.ESCALATE,
+        decision_options=[
+            "Initiate Emergency Shutoff",
+            "Deploy Repair Team",
+            "Continue Monitoring",
+            "Escalate to Utility Management"
+        ],
+        decision_prompt="Continued leakage may cause structural damage. Recommend immediate action.",
+        auto_resolve_sec=15,
+    ),
+    ScenarioEvent(
+        event_id="s3_resolution",
+        time_sec=58,
+        title="Scenario Complete",
+        description="Water leak monitoring complete. Decision artifact generated with full timeline.",
         severity=EventSeverity.INFO,
     ),
 ]
@@ -506,6 +591,13 @@ def create_simulator(scenario_type: str) -> ScenarioSimulator:
         simulator = ScenarioSimulator(
             scenario_id=scenario_id,
             events=SCENARIO_2_EVENTS,
+            duration_sec=60.0
+        )
+    elif scenario_type == "scenario3" or scenario_type == "water-pipe-leakage":
+        scenario_id = f"scenario3_{int(datetime.utcnow().timestamp())}"
+        simulator = ScenarioSimulator(
+            scenario_id=scenario_id,
+            events=SCENARIO_3_EVENTS,
             duration_sec=60.0
         )
     else:
