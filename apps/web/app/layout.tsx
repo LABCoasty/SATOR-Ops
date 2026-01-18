@@ -1,21 +1,22 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ErrorHandler } from "@/components/error-handler"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-nav" })
 
 export const metadata: Metadata = {
-  title: "SATOR-Ops | Decisions You Can Defend",
+  title: "LOGOSYN | Operator-Grade Decision Infrastructure",
   description:
-    "Transform unreliable data into structured decisions with evidence, trust scoring, and audit-ready artifacts.",
+    "Turn incomplete, conflicting telemetry into defensible action—evidence lineage, trust scoring, contradictions, and compliance posture generated at the moment you act.",
 }
 
 export const viewport: Viewport = {
-  themeColor: "#1a1a1f",
+  themeColor: "#07080B",
 }
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}>
       <body className="font-sans antialiased">
         <ErrorHandler />
         {children}

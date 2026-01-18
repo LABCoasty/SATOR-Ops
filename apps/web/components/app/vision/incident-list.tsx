@@ -6,16 +6,16 @@ import { cn } from "@/lib/utils"
 import { useActiveIncidents, type Incident } from "@/hooks/use-incidents"
 
 const severityConfig = {
-  info: { color: "text-blue-500", bg: "bg-blue-500", border: "border-blue-500" },
-  warning: { color: "text-yellow-500", bg: "bg-yellow-500", border: "border-yellow-500" },
-  critical: { color: "text-orange-500", bg: "bg-orange-500", border: "border-orange-500" },
-  emergency: { color: "text-red-500", bg: "bg-red-500", border: "border-red-500" },
+  info: { color: "status-context-text", bg: "status-context-dot", border: "status-context-border" },
+  warning: { color: "status-uncertain-text", bg: "status-uncertain-dot", border: "status-uncertain-border" },
+  critical: { color: "status-risk-text", bg: "status-risk-dot", border: "status-risk-border" },
+  emergency: { color: "status-critical-text", bg: "status-critical-dot", border: "status-critical-border" },
 }
 
 const stateConfig = {
-  open: { label: "Open", color: "text-red-500", bg: "bg-red-500/10" },
-  acknowledged: { label: "Acknowledged", color: "text-yellow-500", bg: "bg-yellow-500/10" },
-  resolved: { label: "Resolved", color: "text-green-500", bg: "bg-green-500/10" },
+  open: { label: "Open", color: "status-critical-text", bg: "status-critical-bg" },
+  acknowledged: { label: "Acknowledged", color: "status-uncertain-text", bg: "status-uncertain-bg" },
+  resolved: { label: "Resolved", color: "status-verified-text", bg: "status-verified-bg" },
   closed: { label: "Closed", color: "text-muted-foreground", bg: "bg-muted" },
 }
 

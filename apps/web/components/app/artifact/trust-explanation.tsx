@@ -25,7 +25,7 @@ export function TrustExplanation() {
       <div className="p-4 space-y-4">
         <div>
           <h4 className="text-sm font-medium flex items-center gap-2 mb-2">
-            <Shield className="h-4 w-4 text-primary" />
+            <Shield className="h-4 w-4 mode-trust-text" />
             Why This Score
           </h4>
           <p className="text-sm text-muted-foreground leading-relaxed">

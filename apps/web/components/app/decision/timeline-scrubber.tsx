@@ -199,13 +199,13 @@ export function TimelineScrubber() {
 
       {/* Timeline Track */}
       <div className="relative">
-        {/* Background track */}
-        <div className="h-2 rounded-full bg-muted" />
+        {/* Background track - temporal indigo accent */}
+        <div className="h-2 rounded-full mode-temporal-track" />
 
         {/* Progress indicator for simulation */}
         {simulation?.isRunning && simulation.state && (
           <div 
-            className="absolute top-0 left-0 h-2 rounded-full bg-primary/30 transition-all duration-300"
+            className="absolute top-0 left-0 h-2 rounded-full mode-temporal-progress transition-all duration-300"
             style={{ width: `${simulation.state.progress_percent}%` }}
           />
         )}

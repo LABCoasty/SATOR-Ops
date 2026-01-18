@@ -23,11 +23,19 @@ import {
 import { Button } from "@/components/ui/button"
 
 const modes = [
+<<<<<<< HEAD
   { path: "/app/ingest", label: "Simulate scenario", icon: Radio, color: "text-chart-2" },
   { path: "/app/decision", label: "Decision / Trust", icon: GitBranch, color: "text-primary" },
   { path: "/app/artifact", label: "Artifact Creation", icon: FileOutput, color: "text-accent" },
   { path: "/app/receipt", label: "Artifact Creation", icon: FileOutput, color: "text-accent" },
   { path: "/app/vision", label: "Vision Monitoring", icon: Video, color: "text-primary" },
+=======
+  { path: "/app/ingest", label: "Data Ingest" },
+  { path: "/app/decision", label: "Decision / Trust" },
+  { path: "/app/artifact", label: "Artifact Creation" },
+  { path: "/app/receipt", label: "Artifact Creation" },
+  { path: "/app/vision", label: "Vision Monitoring" },
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
 ]
 
 interface AppTopBarProps {
@@ -128,24 +136,39 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
   }
 
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border bg-card px-4">
+    <header 
+      className="flex h-14 items-center justify-between px-4"
+      style={{ 
+        backgroundColor: 'var(--surface0)',
+        borderBottom: '1px solid var(--border0)',
+      }}
+    >
       {/* Left: Mode Indicator with Scenario Dropdown */}
       <div className="flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
+<<<<<<< HEAD
             <button
               className={cn(
                 "flex items-center gap-2 rounded-md bg-secondary px-3 py-1.5 hover:bg-secondary/80 transition-colors cursor-pointer",
                 currentMode.color
               )}
+=======
+            <button 
+              className="flex items-center gap-2 rounded-md px-3 py-1.5 transition-colors cursor-pointer"
+              style={{
+                fontFamily: 'var(--font-nav)',
+                backgroundColor: 'var(--surface1)',
+                color: 'var(--textPrimary)',
+              }}
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
             >
-              <currentMode.icon className="h-4 w-4" />
               <span className="text-sm font-medium">{currentMode.label}</span>
               <ChevronDown className="h-3 w-3 opacity-60" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-xs" style={{ color: 'var(--textTertiary)' }}>
               Select Scenario
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -155,13 +178,13 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
               className="cursor-pointer"
             >
               {scenario1Loading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin text-chart-2" />
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" style={{ color: 'var(--warning)' }} />
               ) : (
-                <Radio className="h-4 w-4 mr-2 text-chart-2" />
+                <Radio className="h-4 w-4 mr-2" style={{ color: 'var(--warning)' }} />
               )}
               <div>
-                <div className="font-medium">Scenario 1: Valve Incident</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="font-medium" style={{ fontFamily: 'var(--font-nav)' }}>Scenario 1: Valve Incident</div>
+                <div className="text-xs" style={{ color: 'var(--textTertiary)' }}>
                   {scenario1Loading ? "Starting 20s simulation..." : "20s telemetry simulation with decisions"}
                 </div>
               </div>
@@ -172,13 +195,13 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
               className="cursor-pointer"
             >
               {scenario2Loading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin text-primary" />
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" style={{ color: 'var(--textPrimary)' }} />
               ) : (
-                <Video className="h-4 w-4 mr-2 text-primary" />
+                <Video className="h-4 w-4 mr-2" style={{ color: 'var(--textPrimary)' }} />
               )}
               <div>
-                <div className="font-medium">Scenario 2: Oil Rig Analysis</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="font-medium" style={{ fontFamily: 'var(--font-nav)' }}>Scenario 2: Oil Rig Analysis</div>
+                <div className="text-xs" style={{ color: 'var(--textTertiary)' }}>
                   {scenario2Loading ? "Starting 20s simulation..." : "20s AI vision simulation with decisions"}
                 </div>
               </div>
@@ -189,13 +212,13 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
               className="cursor-pointer"
             >
               {scenario3Loading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin text-blue-500" />
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" style={{ color: 'var(--textSecondary)' }} />
               ) : (
-                <Video className="h-4 w-4 mr-2 text-blue-500" />
+                <Video className="h-4 w-4 mr-2" style={{ color: 'var(--textSecondary)' }} />
               )}
               <div>
-                <div className="font-medium">Scenario 3: Water Pipe Leakage</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="font-medium" style={{ fontFamily: 'var(--font-nav)' }}>Scenario 3: Water Pipe Leakage</div>
+                <div className="text-xs" style={{ color: 'var(--textTertiary)' }}>
                   {scenario3Loading ? "Starting 20s simulation..." : "20s water infrastructure monitoring"}
                 </div>
               </div>
@@ -206,13 +229,13 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
               className="cursor-pointer"
             >
               {scenario4Loading ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin text-orange-500" />
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" style={{ color: 'var(--warning)' }} />
               ) : (
-                <Video className="h-4 w-4 mr-2 text-orange-500" />
+                <Video className="h-4 w-4 mr-2" style={{ color: 'var(--warning)' }} />
               )}
               <div>
-                <div className="font-medium">Scenario 4: Data Center Arc Flash</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="font-medium" style={{ fontFamily: 'var(--font-nav)' }}>Scenario 4: Data Center Arc Flash</div>
+                <div className="text-xs" style={{ color: 'var(--textTertiary)' }}>
                   {scenario4Loading ? "Starting 20s simulation..." : "20s electrical hazard monitoring"}
                 </div>
               </div>
@@ -220,8 +243,11 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Mode selector pills */}
-        <div className="hidden md:flex items-center gap-1 rounded-md border border-border p-1">
+        {/* Mode selector tabs - text only */}
+        <div 
+          className="hidden md:flex items-center gap-1 rounded-md p-1"
+          style={{ border: '1px solid var(--border0)' }}
+        >
           {modes.slice(0, 3).map((mode) => {
             const isActive = pathname.startsWith(mode.path)
             return (
@@ -229,10 +255,13 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
                 key={mode.path}
                 className={cn(
                   "flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium transition-colors",
-                  isActive ? "bg-muted text-foreground" : "text-muted-foreground",
                 )}
+                style={{
+                  fontFamily: 'var(--font-nav)',
+                  backgroundColor: isActive ? 'var(--trustMuted)' : 'transparent',
+                  color: isActive ? 'var(--textPrimary)' : 'var(--textTertiary)',
+                }}
               >
-                <mode.icon className="h-3 w-3" />
                 <span className="hidden lg:inline">{mode.label.split(" ")[0]}</span>
               </div>
             )
@@ -304,16 +333,19 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
       {/* Right: Status */}
       <div className="flex items-center gap-4">
         {/* System Status */}
-        <div className="hidden sm:flex items-center gap-3 text-xs text-muted-foreground">
+        <div 
+          className="hidden sm:flex items-center gap-3 text-xs"
+          style={{ fontFamily: 'var(--font-nav)', color: 'var(--textTertiary)' }}
+        >
           <div className="flex items-center gap-1.5">
             {systemStatus.connected ? (
-              <Wifi className="h-3.5 w-3.5 text-success" />
+              <Wifi className="h-3.5 w-3.5" style={{ color: 'var(--trust)' }} />
             ) : (
-              <WifiOff className="h-3.5 w-3.5 text-destructive" />
+              <WifiOff className="h-3.5 w-3.5" style={{ color: 'var(--critical)' }} />
             )}
             <span>{systemStatus.sources} sources</span>
           </div>
-          <span className="text-border">|</span>
+          <span style={{ color: 'var(--border1)' }}>|</span>
           <span>Synced {systemStatus.lastSync}</span>
         </div>
       </div>

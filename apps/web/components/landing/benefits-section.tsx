@@ -29,23 +29,55 @@ const benefits = [
 
 export function BenefitsSection() {
   return (
-    <section id="benefits" className="py-24 border-t border-border bg-card/30">
+    <section id="benefits" className="py-24" style={{ backgroundColor: 'var(--bg0)' }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight">Measurable Impact</h2>
-          <p className="mt-4 text-muted-foreground">Real improvements for operators making high-stakes decisions.</p>
+          <h2 
+            className="text-3xl font-bold tracking-tight"
+            style={{ fontFamily: 'var(--font-nav)', color: 'var(--textPrimary)' }}
+          >
+            Measurable Impact
+          </h2>
+          <p 
+            className="mt-4"
+            style={{ fontFamily: 'var(--font-nav)', color: 'var(--textSecondary)' }}
+          >
+            Real improvements for operators making high-stakes decisions.
+          </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {benefits.map((benefit) => (
-            <div key={benefit.label} className="rounded-lg border border-border bg-card p-6 space-y-4">
+            <div 
+              key={benefit.label} 
+              className="rounded-[6px] p-6 space-y-4 transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(255,255,255,0.06)]"
+              style={{ 
+                backgroundColor: '#F5F5F7',
+                border: '1px solid rgba(0,0,0,0.08)',
+              }}
+            >
               <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-primary">{benefit.metric}</span>
-                <benefit.icon className="h-5 w-5 text-muted-foreground" />
+                <span 
+                  className="text-3xl font-bold"
+                  style={{ fontFamily: 'var(--font-nav)', color: '#0A0A0C' }}
+                >
+                  {benefit.metric}
+                </span>
+                <benefit.icon className="h-5 w-5" style={{ color: '#6B7280' }} />
               </div>
               <div className="space-y-1">
-                <h3 className="font-semibold">{benefit.label}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{benefit.description}</p>
+                <h3 
+                  className="font-semibold"
+                  style={{ fontFamily: 'var(--font-nav)', color: '#0A0A0C' }}
+                >
+                  {benefit.label}
+                </h3>
+                <p 
+                  className="text-sm leading-relaxed"
+                  style={{ fontFamily: 'var(--font-nav)', color: '#4B5563' }}
+                >
+                  {benefit.description}
+                </p>
               </div>
             </div>
           ))}

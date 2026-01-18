@@ -62,24 +62,25 @@ export function DecisionPrompt({ decision, onSubmit, onDismiss }: DecisionPrompt
     switch (decision.severity) {
       case "critical":
         return {
-          border: "border-destructive",
-          bg: "bg-destructive/10",
-          icon: <AlertTriangle className="h-6 w-6 text-destructive" />,
-          badge: "bg-destructive text-destructive-foreground"
+          border: "status-critical-border",
+          bg: "status-critical-bg",
+          icon: <AlertTriangle className="h-6 w-6 status-critical-text" />,
+          badge: "status-critical-bg status-critical-text"
         }
       case "warning":
         return {
-          border: "border-warning",
-          bg: "bg-warning/10",
-          icon: <AlertTriangle className="h-6 w-6 text-warning" />,
-          badge: "bg-warning text-warning-foreground"
+          border: "status-risk-border",
+          bg: "status-risk-bg",
+          icon: <AlertTriangle className="h-6 w-6 status-risk-text" />,
+          badge: "status-risk-bg status-risk-text"
         }
       default:
+        // Info/default uses uncertain (yellow) - requires human judgment
         return {
-          border: "border-primary",
-          bg: "bg-primary/10",
-          icon: <CheckCircle className="h-6 w-6 text-primary" />,
-          badge: "bg-primary text-primary-foreground"
+          border: "status-uncertain-border",
+          bg: "status-uncertain-bg",
+          icon: <CheckCircle className="h-6 w-6 status-uncertain-text" />,
+          badge: "status-uncertain-bg status-uncertain-text"
         }
     }
   }

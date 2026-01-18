@@ -113,8 +113,8 @@ export function ArtifactHeader() {
       <div className="rounded-lg border border-border bg-card p-4 print:border-none print:p-0">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-accent/20 print:bg-gray-200">
-              <FileOutput className="h-6 w-6 text-accent print:text-gray-700" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-md mode-trust-bg print:bg-gray-200">
+              <FileOutput className="h-6 w-6 mode-trust-text print:text-gray-700" />
             </div>
             <div>
               <div className="flex items-center gap-2">

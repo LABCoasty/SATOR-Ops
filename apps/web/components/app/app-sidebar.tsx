@@ -3,8 +3,13 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+<<<<<<< HEAD
 import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon, Bot } from "lucide-react"
 import { useState, ReactNode } from "react"
+=======
+import { Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft } from "lucide-react"
+import { useState } from "react"
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
 
 type NavItem = {
   label: string
@@ -55,26 +60,46 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        "flex flex-col border-r border-border bg-sidebar transition-all duration-200",
+        "flex flex-col border-r transition-all duration-200",
         collapsed ? "w-16" : "w-56",
       )}
+      style={{ 
+        backgroundColor: 'var(--bg0)',
+        borderColor: 'var(--border0)',
+      }}
     >
-      {/* Logo */}
-      <div className="flex h-14 items-center justify-between border-b border-sidebar-border px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <Shield className="h-6 w-6 text-sidebar-primary shrink-0" />
-          {!collapsed && <span className="font-semibold text-sidebar-foreground">SATOR-Ops</span>}
+      {/* Logo - LOGOSYN text only */}
+      <div 
+        className="flex h-14 items-center justify-between px-4"
+        style={{ borderBottom: '1px solid var(--border0)' }}
+      >
+        <Link href="/" className="flex items-center">
+          {!collapsed && (
+            <span 
+              className="font-bold"
+              style={{ 
+                fontFamily: 'var(--font-nav)',
+                fontSize: '16px',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                color: 'var(--textPrimary)',
+              }}
+            >
+              LOGOSYN
+            </span>
+          )}
         </Link>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-1 rounded hover:bg-sidebar-accent text-sidebar-foreground"
+          className="p-1 rounded transition-colors"
+          style={{ color: 'var(--textSecondary)' }}
         >
           <ChevronLeft className={cn("h-4 w-4 transition-transform", collapsed && "rotate-180")} />
         </button>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-2 space-y-1">
+      {/* Navigation - LS16 style: white highlight bar for active */}
+      <nav className="flex-1 py-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -82,13 +107,20 @@ export function AppSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors mx-0",
                 isActive
-                  ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground",
+                  ? "text-black"
+                  : "text-white/70 hover:bg-white/5"
               )}
+              style={isActive ? { 
+                backgroundColor: '#FFFFFF',
+                color: '#0A0A0C',
+              } : {
+                fontFamily: 'var(--font-nav)',
+              }}
             >
               <item.icon className="h-4 w-4 shrink-0" />
+<<<<<<< HEAD
               {!collapsed && (
                 <span className="flex items-center gap-2">
                   {item.label}
@@ -99,16 +131,23 @@ export function AppSidebar() {
                   )}
                 </span>
               )}
+=======
+              {!collapsed && <span style={{ fontFamily: 'var(--font-nav)' }}>{item.label}</span>}
+>>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
             </Link>
           )
         })}
       </nav>
 
       {/* Bottom Settings */}
-      <div className="border-t border-sidebar-border p-2">
+      <div style={{ borderTop: '1px solid var(--border0)' }} className="py-2">
         <Link
           href="/app/settings"
-          className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground transition-colors"
+          className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium transition-colors hover:bg-white/5"
+          style={{ 
+            fontFamily: 'var(--font-nav)',
+            color: 'var(--textSecondary)',
+          }}
         >
           <Settings className="h-4 w-4 shrink-0" />
           {!collapsed && <span>Settings</span>}
