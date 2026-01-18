@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function LandingNav() {
   return (
@@ -7,8 +8,15 @@ export function LandingNav() {
     >
       <div className="mx-auto max-w-7xl px-6 h-full">
         <div className="flex items-center justify-between h-full">
-          {/* Brand - LOGOSYN */}
-          <Link href="/" className="flex items-center">
+          {/* Brand - AI Logo + LOGOSYN */}
+          <Link href="/" className="flex items-center gap-2">
+            <div className="relative w-8 h-8 flex-shrink-0">
+              <img
+                src="/icon/logo.png"
+                alt="AI Logo"
+                className="w-8 h-8 object-contain rounded-full"
+              />
+            </div>
             <span 
               style={{
                 fontFamily: 'var(--font-nav)',

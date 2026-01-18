@@ -104,12 +104,12 @@ export function TelemetryDetailModal({ channel, history, onClose, currentTimeSec
               {stats && (
                 <div className={cn(
                   "flex items-center gap-1 px-2 py-1 rounded text-sm",
-                  stats.change > 0 && "bg-destructive/10 text-destructive",
-                  stats.change < 0 && "bg-success/10 text-success",
+                  stats.change > 0 && "bg-success/10 text-green-500",
+                  stats.change < 0 && "bg-destructive/10 text-red-500",
                   stats.change === 0 && "bg-muted text-muted-foreground"
                 )}>
-                  {stats.change > 0 ? <TrendingUp className="h-4 w-4" /> : 
-                   stats.change < 0 ? <TrendingDown className="h-4 w-4" /> : 
+                  {stats.change > 0 ? <TrendingUp className="h-4 w-4 text-green-500" /> : 
+                   stats.change < 0 ? <TrendingDown className="h-4 w-4 text-red-500" /> : 
                    <Minus className="h-4 w-4" />}
                   <span>{stats.change > 0 ? "+" : ""}{stats.change.toFixed(2)}</span>
                   <span className="text-xs">({stats.changePercent.toFixed(1)}%)</span>
@@ -130,7 +130,7 @@ export function TelemetryDetailModal({ channel, history, onClose, currentTimeSec
           </div>
           <LargeGraph 
             data={history} 
-            status={channel.status}
+            trend={channel.trend}
             minThreshold={channel.min_threshold}
             maxThreshold={channel.max_threshold}
             unit={channel.unit}
@@ -266,13 +266,13 @@ function StatCard({ label, value, unit }: { label: string; value: string; unit: 
 
 function LargeGraph({ 
   data, 
-  status, 
+  trend, 
   minThreshold, 
   maxThreshold,
   unit
 }: { 
   data: number[]
-  status: string
+  trend: "up" | "down" | "stable"
   minThreshold: number
   maxThreshold: number
   unit: string
@@ -303,10 +303,11 @@ function LargeGraph({
   const minThresholdY = padding.top + graphHeight - ((minThreshold - dataMin) / range) * graphHeight
   const maxThresholdY = padding.top + graphHeight - ((maxThreshold - dataMin) / range) * graphHeight
 
+  // Color based on trend direction: green for up, red for down, yellow/orange for stable
   const strokeColor =
-    status === "warning" ? "var(--warning)" : 
-    status === "critical" ? "var(--destructive)" : 
-    "var(--primary)"
+    trend === "up" ? "#22c55e" : // green-500
+    trend === "down" ? "#ef4444" : // red-500
+    "#f97316" // orange-500 for stable/static
 
   // Y-axis labels
   const yLabels = [dataMax, (dataMax + dataMin) / 2, dataMin].map(v => ({

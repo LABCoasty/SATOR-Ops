@@ -7,9 +7,12 @@ import { useOptionalSimulationContext } from "@/contexts/simulation-context"
 
 const statusColors = {
   normal: "text-foreground",
-  success: "text-success",
+  success: "text-green-500",
   warning: "text-warning",
   muted: "text-muted-foreground",
+  active: "text-blue-500",
+  danger: "text-red-500",
+  unknown: "text-yellow-500",
 }
 
 export function SignalSummary() {
@@ -79,7 +82,7 @@ export function SignalSummary() {
       value: displaySummary.active_signals.toString(),
       subtext: `${displaySummary.sources_reporting} sources reporting`,
       icon: Activity,
-      status: "normal" as const,
+      status: "active" as const,
     },
     {
       label: "Healthy",
@@ -93,14 +96,14 @@ export function SignalSummary() {
       value: displaySummary.warnings.toString(),
       subtext: displaySummary.warnings > 0 ? "Deviation detected" : "No deviations",
       icon: AlertTriangle,
-      status: "warning" as const,
+      status: "danger" as const,
     },
     {
       label: "Unknown",
       value: displaySummary.unknown.toString(),
       subtext: "Awaiting data",
       icon: HelpCircle,
-      status: "muted" as const,
+      status: "unknown" as const,
     },
   ]
 

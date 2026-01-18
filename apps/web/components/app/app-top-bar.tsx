@@ -325,7 +325,7 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
         >
           <div className="flex items-center gap-1.5">
             {systemStatus.connected ? (
-              <Wifi className="h-3.5 w-3.5" style={{ color: 'var(--trust)' }} />
+              <Wifi className="h-3.5 w-3.5 text-green-500" />
             ) : (
               <WifiOff className="h-3.5 w-3.5" style={{ color: 'var(--critical)' }} />
             )}

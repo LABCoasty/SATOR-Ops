@@ -107,7 +107,7 @@ export default function DataIngestPage() {
                   : isScenario3 ? "bg-blue-500" 
                   : isScenario4 ? "bg-orange-500"
                   : "bg-destructive"
-                : "bg-success"
+                : "bg-green-500"
             )} />
             <span className="text-sm font-mono">LIVE</span>
           </div>
