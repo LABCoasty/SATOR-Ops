@@ -10,20 +10,20 @@ export function HeroSection() {
           loop
           muted
           playsInline
-          className="h-full w-full object-cover opacity-30"
+          className="h-full w-full object-cover opacity-60"
         >
           <source src="/data_center.mp4" type="video/mp4" />
         </video>
         {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07080B]/80 via-[#07080B]/60 to-[#07080B]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07080B]/45 via-[#07080B]/30 to-[#07080B]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
           {/* Headline */}
-          <h1 
+          <h1
             className="text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
-            style={{ 
+            style={{
               fontFamily: 'var(--font-nav)',
               color: 'var(--textPrimary)'
             }}
@@ -32,21 +32,21 @@ export function HeroSection() {
           </h1>
 
           {/* Subhead */}
-          <p 
+          <p
             className="mt-6 text-pretty text-lg leading-relaxed max-w-2xl mx-auto"
-            style={{ 
+            style={{
               fontFamily: 'var(--font-nav)',
               color: 'var(--textSecondary)'
             }}
           >
-            Turn incomplete, conflicting telemetry into defensible action—evidence lineage, 
+            Turn incomplete, conflicting telemetry into defensible action—evidence lineage,
             trust scoring, contradictions, and compliance posture generated at the moment you act.
           </p>
 
           {/* CTAs - Boxy buttons */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             {/* Primary CTA - Light fill, dark text */}
-            <Link 
+            <Link
               href="/app"
               className="rounded-[6px] px-6 py-3 transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(255,255,255,0.1)]"
               style={{
@@ -62,7 +62,7 @@ export function HeroSection() {
             </Link>
 
             {/* Secondary CTA - Dark fill, white text */}
-            <Link 
+            <Link
               href="/app/artifact"
               className="rounded-[6px] px-6 py-3 transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(0,0,0,0.3)]"
               style={{
