@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
+const API_URL = `${API_BASE}/api`
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws"
 
 export interface TelemetryChannel {

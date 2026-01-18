@@ -8,6 +8,7 @@ import { AgentButton } from "./agent-button"
 import { DecisionPrompt, EventToast, type DecisionPromptData } from "./decision-prompt"
 import { ScenarioCompleteModal } from "./scenario-complete-modal"
 import { useSimulationContext, type SimulationEvent } from "@/contexts/simulation-context"
+import { useVoiceCallContext } from "@/contexts/voice-call-context"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 
@@ -21,6 +22,18 @@ const SCENARIO_NAMES: Record<string, string> = {
   scenario4: "Data Center Arc Flash",
 }
 
+// Helper to detect if a response is an escalation to supervisor
+function isEscalationToSupervisor(response: string): boolean {
+  const lowerResponse = response.toLowerCase()
+  return (
+    lowerResponse.includes("escalate to supervisor") ||
+    lowerResponse.includes("escalate to manager") ||
+    lowerResponse.includes("escalate to management") ||
+    lowerResponse.includes("escalate to facility manager") ||
+    lowerResponse.includes("escalate to utility management")
+  )
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   // Enhanced simulation state from context
   const {
@@ -30,10 +43,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     completedDecisions,
     activeScenario,
     isRunning,
+    isPaused,
     isLoading: simLoading,
     startSimulation,
     submitDecision
   } = useSimulationContext()
+
+  // Voice call context for escalation
+  const { triggerCall } = useVoiceCallContext()
 
   // Event toast state
   const [currentEventToast, setCurrentEventToast] = useState<SimulationEvent | null>(null)
@@ -85,8 +102,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   // Handle decision submission
   const handleDecisionSubmit = useCallback(async (decisionId: string, response: string) => {
+    // Find the decision to get its details for context
+    const decision = decisions.find(d => d.decision_id === decisionId)
+    
+    // Submit the decision first
     await submitDecision(decisionId, response)
-  }, [submitDecision])
+    
+    // If this is an escalation to supervisor, trigger the voice call
+    if (isEscalationToSupervisor(response)) {
+      triggerCall({
+        currentPage: '/app/ingest',
+        trustScore: simState?.trust_score,
+        trustState: simState?.trust_score !== undefined 
+          ? (simState.trust_score >= 0.8 ? 'high' : simState.trust_score >= 0.6 ? 'medium' : 'low')
+          : undefined,
+        decisionId: decisionId,
+        decisionTitle: decision?.title,
+        escalationType: response,
+      })
+    }
+  }, [submitDecision, decisions, simState?.trust_score, triggerCall])
 
   // Handle scenario 1 start (enhanced)
   const handleScenario1 = useCallback(async () => {
@@ -134,23 +169,30 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         />
 
         {/* Simulation Progress Bar */}
-        {isRunning && simState && (
-          <div className="border-b border-border bg-card px-4 py-2">
+        {(isRunning || isPaused) && simState && (
+          <div className={cn(
+            "border-b border-border bg-card px-4 py-2",
+            isPaused && "bg-blue-500/10 border-blue-500/30"
+          )}>
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-3">
                 <span className="text-xs font-medium">
-                  {simState.phase === "monitoring" && "Monitoring..."}
-                  {simState.phase === "alert" && "Alert Active"}
-                  {simState.phase === "decision" && "Decision Required"}
-                  {simState.phase === "resolution" && "Resolving..."}
+                  {isPaused && "📞 Supervisor Call - Scenario Paused"}
+                  {!isPaused && simState.phase === "monitoring" && "Monitoring..."}
+                  {!isPaused && simState.phase === "alert" && "Alert Active"}
+                  {!isPaused && simState.phase === "decision" && "Decision Required"}
+                  {!isPaused && simState.phase === "resolution" && "Resolving..."}
+                  {!isPaused && simState.phase === "escalated" && "Escalated to Supervisor"}
                 </span>
                 <span
                   className={cn(
                     "h-2 w-2 rounded-full",
-                    simState.phase === "monitoring" && "bg-success animate-pulse",
-                    simState.phase === "alert" && "bg-warning animate-pulse",
-                    simState.phase === "decision" && "bg-destructive animate-pulse",
-                    simState.phase === "resolution" && "bg-primary"
+                    isPaused && "bg-blue-500 animate-pulse",
+                    !isPaused && simState.phase === "monitoring" && "bg-success animate-pulse",
+                    !isPaused && simState.phase === "alert" && "bg-warning animate-pulse",
+                    !isPaused && simState.phase === "decision" && "bg-destructive animate-pulse",
+                    !isPaused && simState.phase === "resolution" && "bg-primary",
+                    !isPaused && simState.phase === "escalated" && "bg-blue-500 animate-pulse"
                   )}
                 />
               </div>
