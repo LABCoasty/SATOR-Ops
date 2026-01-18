@@ -1,0 +1,19 @@
+[package]
+name = "sator-anchor"
+version = "0.1.0"
+description = "SATOR Ops Decision Artifact Anchor - Tamper-evident blockchain witness"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "sator_anchor"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.29.0"

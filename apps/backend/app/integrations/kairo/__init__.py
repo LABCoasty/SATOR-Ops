@@ -9,8 +9,13 @@ from .anchor import (
     AnchorRecord,
     AnchorRequest,
     AnchorResult,
+    ArtifactHashes,
+    VerificationResult,
+    OperatorRole,
     get_anchor_service,
-    compute_artifact_hash,
+    compute_artifact_hashes,
+    sha256_hash,
+    canonicalize,
 )
 
 __all__ = [
@@ -18,6 +23,11 @@ __all__ = [
     "AnchorRecord",
     "AnchorRequest",
     "AnchorResult",
+    "ArtifactHashes",
+    "VerificationResult",
+    "OperatorRole",
     "get_anchor_service",
-    "compute_artifact_hash",
+    "compute_artifact_hashes",
+    "sha256_hash",
+    "canonicalize",
 ]

@@ -361,9 +361,9 @@ class ArtifactBuilderService:
         request = AnchorRequest(
             artifact_id=artifact_id,
             incident_id=artifact.incident_id,
+            scenario_id=artifact.scenario_id,
             artifact_data=artifact.model_dump(),
-            trust_score=artifact.final_trust_receipt.overall_trust_score,
-            issuer="sator-ops"
+            operator_id="sator-ops",
         )
         
         result = anchor_service.anchor_artifact(request)
