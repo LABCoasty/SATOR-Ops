@@ -61,6 +61,7 @@ export interface CompletedDecision {
   explanation?: string
   recommendation?: string
 }
+export type ScenarioType = "scenario1" | "scenario2"
 
 interface SimulationContextType {
   // State
@@ -70,6 +71,7 @@ interface SimulationContextType {
   decisions: SimulationDecision[]
   completedDecisions: CompletedDecision[]
   telemetry: SimulationTelemetry | null
+  activeScenario: ScenarioType | null
   
   // Status
   isRunning: boolean
@@ -77,7 +79,7 @@ interface SimulationContextType {
   error: string | null
   
   // Actions
-  startSimulation: (scenarioType: "scenario1" | "scenario2") => Promise<void>
+  startSimulation: (scenarioType: ScenarioType) => Promise<void>
   stopSimulation: () => Promise<void>
   submitDecision: (decisionId: string, response: string) => Promise<boolean>
   updateDecisionDocumentation: (decisionId: string, explanation?: string, recommendation?: string) => void
@@ -105,6 +107,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
   const [decisions, setDecisions] = useState<SimulationDecision[]>([])
   const [completedDecisions, setCompletedDecisions] = useState<CompletedDecision[]>([])
   const [telemetry, setTelemetry] = useState<SimulationTelemetry | null>(null)
+  const [activeScenario, setActiveScenario] = useState<ScenarioType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
@@ -185,13 +188,14 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
   }, [simulationId, state?.status, poll])
 
   // Start simulation
-  const startSimulation = useCallback(async (scenarioType: "scenario1" | "scenario2") => {
+  const startSimulation = useCallback(async (scenarioType: ScenarioType) => {
     setIsLoading(true)
     setError(null)
     setEvents([])
     setDecisions([])
     setCompletedDecisions([])
     setTelemetry(null)
+    setActiveScenario(scenarioType)
     lastEventTimeSec.current = 0
     
     try {
@@ -247,6 +251,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
       }
       
       setState(prev => prev ? { ...prev, status: "stopped" } : null)
+      setActiveScenario(null)
       
     } catch (err) {
       console.error("Stop error:", err)
@@ -337,6 +342,7 @@ export function SimulationProvider({ children }: { children: React.ReactNode }) 
     decisions,
     completedDecisions,
     telemetry,
+    activeScenario,
     isRunning: state?.status === "running",
     isLoading,
     error,
