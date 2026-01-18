@@ -18,6 +18,7 @@ from datetime import datetime
 from ...services.artifact_builder import get_artifact_builder, ArtifactPacket
 from ...services.audit_logger import get_audit_logger
 from ...integrations.kairo.anchor import get_anchor_service
+from ...integrations.kairo import get_kairo_client
 
 
 router = APIRouter(tags=["artifacts"])
@@ -170,7 +171,8 @@ async def anchor_artifact(artifact_id: str, request: AnchorRequest):
             operator_id="demo-operator",
         )
         
-        result = anchor_service.anchor_artifact(kairo_request)
+        # Use async version to get Kairo security analysis
+        result = await anchor_service.anchor_artifact_async(kairo_request)
         
         if result.success:
             return AnchorResponse(
@@ -211,6 +213,77 @@ async def anchor_artifact(artifact_id: str, request: AnchorRequest):
             artifact_id=artifact_id,
             error="Failed to anchor artifact"
         )
+
+
+@router.post("/kairo/analyze")
+async def analyze_contract_with_kairo(request: Dict[str, Any]):
+    """
+    Test endpoint to analyze a smart contract with Kairo AI.
+    
+    Request body:
+    {
+        "contract_code": "pragma solidity ^0.8.0; contract Token { ... }",
+        "contract_path": "Token.sol",
+        "severity_threshold": "high"
+    }
+    """
+    kairo_client = get_kairo_client()
+    
+    if not kairo_client.enabled:
+        raise HTTPException(
+            status_code=503,
+            detail="Kairo integration is not enabled or API key is missing"
+        )
+    
+    contract_code = request.get("contract_code", "")
+    contract_path = request.get("contract_path", "Contract.sol")
+    severity_threshold = request.get("severity_threshold", "high")
+    
+    if not contract_code:
+        raise HTTPException(
+            status_code=400,
+            detail="contract_code is required"
+        )
+    
+    try:
+        analysis = await kairo_client.analyze_contract(
+            contract_code=contract_code,
+            contract_path=contract_path,
+            severity_threshold=severity_threshold,
+            include_suggestions=True
+        )
+        
+        return {
+            "success": True,
+            "decision": analysis.decision.value,
+            "decision_reason": analysis.decision_reason,
+            "risk_score": analysis.risk_score,
+            "is_safe": analysis.is_safe,
+            "confidence": analysis.confidence,
+            "warnings": analysis.warnings,
+            "recommendations": analysis.recommendations,
+            "findings": analysis.findings,
+            "summary": analysis.summary,
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Kairo analysis failed: {str(e)}"
+        )
+
+
+@router.get("/kairo/health")
+async def kairo_health_check():
+    """Check Kairo API health and configuration."""
+    kairo_client = get_kairo_client()
+    
+    health = await kairo_client.health_check()
+    
+    return {
+        "enabled": kairo_client.enabled,
+        "api_key_configured": bool(kairo_client.api_key),
+        "health": health,
+    }
 
 
 @router.get("/{artifact_id}/verify")
