@@ -12,6 +12,7 @@ from app.api import agent_tools, audit, ingest, overshoot_test, replay as replay
 from app.api.routes import decisions, evidence, telemetry, scenarios, incidents, vision, temporal
 from app.api.routes import replay as replay_v1
 from app.api.routes import artifacts as artifacts_original
+from app.api.routes import kairo_contracts
 from app.api.websocket import router as websocket_router
 
 
@@ -81,6 +82,7 @@ app.include_router(temporal.router, prefix="/api/temporal", tags=["temporal"])
 app.include_router(scenarios.router, prefix="/api", tags=["scenarios"])
 app.include_router(incidents.router, prefix="/api", tags=["incidents"])
 app.include_router(vision.router, prefix="/api", tags=["vision"])
+app.include_router(kairo_contracts.router, prefix="/api", tags=["kairo-contracts"])
 app.include_router(websocket_router, prefix="/ws", tags=["websocket"])
 
 # New Core Routes
