@@ -57,11 +57,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     await startSimulation("scenario2")
   }, [startSimulation])
 
-  // Scenario 2 handles its own decisions in the ingest page
+  const handleScenario3 = useCallback(async () => {
+    await startSimulation("scenario3")
+  }, [startSimulation])
+
+  // Scenario 2 & 3 handle their own decisions in the ingest page
   const isScenario2 = activeScenario === "scenario2"
+  const isScenario3 = activeScenario === "scenario3"
+  const isVisionScenario = isScenario2 || isScenario3
 
   // Get current decision to show (first pending decision) - only for scenario 1
-  const currentDecision = !isScenario2 && decisions.length > 0 ? decisions[0] : null
+  const currentDecision = !isVisionScenario && decisions.length > 0 ? decisions[0] : null
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
@@ -74,8 +80,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <AppTopBar
           onScenario1={handleScenario1}
           onScenario2={handleScenario2}
+          onScenario3={handleScenario3}
           scenario1Loading={simLoading && !simState}
           scenario2Loading={simLoading && isScenario2}
+          scenario3Loading={simLoading && isScenario3}
         />
 
         {/* Simulation Progress Bar */}
@@ -132,8 +140,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         />
       )}
 
-      {/* Event Toast - hide for scenario 2 (handled in ingest page) */}
-      {currentEventToast && !isScenario2 && (
+      {/* Event Toast - hide for vision scenarios (handled in ingest page) */}
+      {currentEventToast && !isVisionScenario && (
         <EventToast
           event={currentEventToast}
           onClose={() => setCurrentEventToast(null)}

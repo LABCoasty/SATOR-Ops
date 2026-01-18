@@ -5,17 +5,32 @@ import { Video, ChevronLeft, ChevronRight, AlertTriangle, Shield } from "lucide-
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
-import type { SimulationEvent } from "@/contexts/simulation-context"
+import type { SimulationEvent, ScenarioType } from "@/contexts/simulation-context"
 
-// Local video for Scenario 2
-const VIDEO_URL = "/oil_rig.mp4"
+// Video sources for different scenarios
+const SCENARIO_CONFIG = {
+  scenario2: {
+    videoUrl: "/oil_rig.mp4",
+    title: "Oil Rig Monitoring",
+    badge: "SCENARIO 2",
+    badgeColor: "destructive" as const,
+  },
+  scenario3: {
+    videoUrl: "/water_pipe.mp4",
+    title: "Water Pipe Monitoring",
+    badge: "SCENARIO 3",
+    badgeColor: "default" as const,
+  },
+}
 
 interface Scenario2VideoPanelProps {
   events: SimulationEvent[]
   currentTimeSec: number
+  scenario?: ScenarioType
 }
 
-export function Scenario2VideoPanel({ events, currentTimeSec }: Scenario2VideoPanelProps) {
+export function Scenario2VideoPanel({ events, currentTimeSec, scenario = "scenario2" }: Scenario2VideoPanelProps) {
+  const config = SCENARIO_CONFIG[scenario as keyof typeof SCENARIO_CONFIG] || SCENARIO_CONFIG.scenario2
   const [currentIssueIndex, setCurrentIssueIndex] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -45,9 +60,15 @@ export function Scenario2VideoPanel({ events, currentTimeSec }: Scenario2VideoPa
       <div className="border-b border-border px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Video className="h-4 w-4 text-primary" />
-          <h2 className="font-semibold">Live Video Feed</h2>
-          <Badge variant="destructive" className="text-xs animate-pulse">
-            SCENARIO 2
+          <h2 className="font-semibold">{config.title}</h2>
+          <Badge 
+            variant={config.badgeColor === "destructive" ? "destructive" : "default"} 
+            className={cn(
+              "text-xs animate-pulse",
+              config.badgeColor !== "destructive" && "bg-blue-500 text-white"
+            )}
+          >
+            {config.badge}
           </Badge>
         </div>
         <span className="text-xs text-muted-foreground font-mono">
@@ -58,7 +79,7 @@ export function Scenario2VideoPanel({ events, currentTimeSec }: Scenario2VideoPa
       {/* Video */}
       <div className="aspect-video bg-black">
         <video
-          src={VIDEO_URL}
+          src={config.videoUrl}
           className="w-full h-full object-cover"
           autoPlay
           loop
