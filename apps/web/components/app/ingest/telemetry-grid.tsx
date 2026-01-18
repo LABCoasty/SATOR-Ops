@@ -61,14 +61,18 @@ const CHANNEL_DEFS = [
   { id: "humidity", name: "Ambient Humidity", source: "backup_telemetry", unit: "%", min: 30, max: 60 },
 ]
 
-export function TelemetryGrid() {
+interface TelemetryGridProps {
+  compact?: boolean
+}
+
+export function TelemetryGrid({ compact = false }: TelemetryGridProps) {
   const { channels: apiChannels, loading, error } = useTelemetry()
   const simulation = useOptionalSimulationContext()
   const [selectedChannel, setSelectedChannel] = useState<TelemetryChannel | null>(null)
-  
+
   // Track full history for each channel (more data points for the detail modal)
   const [fullHistory, setFullHistory] = useState<Record<string, number[]>>({})
-  
+
   // Track sparkline history for simulation data (last 10 points for inline display)
   const [sparklineHistory, setSparklineHistory] = useState<Record<string, number[]>>({})
 
@@ -85,7 +89,7 @@ export function TelemetryGrid() {
         })
         return newHistory
       })
-      
+
       // Update sparkline history (keep last 10 for inline display)
       setSparklineHistory(prev => {
         const newHistory = { ...prev }
@@ -119,9 +123,9 @@ export function TelemetryGrid() {
 
       const history = sparklineHistory[def.id] || [data.value]
       const prevValue = history.length > 1 ? history[history.length - 2] : data.value
-      const trend: "up" | "down" | "stable" = 
-        data.value > prevValue + 0.5 ? "up" : 
-        data.value < prevValue - 0.5 ? "down" : "stable"
+      const trend: "up" | "down" | "stable" =
+        data.value > prevValue + 0.5 ? "up" :
+          data.value < prevValue - 0.5 ? "down" : "stable"
 
       return {
         id: def.id,
@@ -141,8 +145,8 @@ export function TelemetryGrid() {
   }, [simulation?.isRunning, simulation?.telemetry, sparklineHistory])
 
   // Use simulation data when running, otherwise use API data
-  const channels = simulation?.isRunning && simulationChannels.length > 0 
-    ? simulationChannels 
+  const channels = simulation?.isRunning && simulationChannels.length > 0
+    ? simulationChannels
     : apiChannels
 
   // Handle channel click
@@ -168,57 +172,79 @@ export function TelemetryGrid() {
     )
   }
 
+  // Compact mode: show fewer channels and simpler layout
+  const displayChannels = compact ? channels.slice(0, 4) : channels
+
   return (
-    <>
-      <div className="rounded-lg border border-border bg-card">
-        <div className="border-b border-border px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-semibold">Live Telemetry Channels</h2>
-              <p className="text-xs text-muted-foreground">Click any channel for detailed view</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={cn(
-                "h-2 w-2 rounded-full animate-pulse",
-                simulation?.isRunning ? "bg-primary" : "bg-success"
-              )} />
-              <span className="text-xs text-muted-foreground">
-                {channels.length} channels
-                {simulation?.isRunning && " (LIVE SIM)"}
-              </span>
-            </div>
+    <div className="rounded-lg border border-border bg-card transition-all duration-500 ease-in-out">
+      {/* Header - adjusts for compact mode */}
+      <div className={cn(
+        "border-b border-border transition-all duration-500 ease-in-out",
+        compact ? "px-3 py-2" : "px-4 py-3"
+      )}>
+        <div className="flex items-center justify-between">
+          <div className="overflow-hidden">
+            <h2 className={cn(
+              "font-semibold transition-all duration-300",
+              compact ? "text-sm" : "text-base"
+            )}>
+              {compact ? "Telemetry" : "Live Telemetry Channels"}
+            </h2>
+            {!compact && (
+              <p className="text-xs text-muted-foreground">
+                Real-time data streams with plain-language summaries
+              </p>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={cn(
+              "h-2 w-2 rounded-full animate-pulse",
+              simulation?.isRunning ? "bg-primary" : "bg-success"
+            )} />
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              {displayChannels.length}
+              {!compact && " channels"}
+              {simulation?.isRunning && !compact && " (LIVE SIM)"}
+            </span>
           </div>
         </div>
-        <div className="divide-y divide-border">
-          {channels.map((channel) => (
-            <div 
-              key={channel.id} 
-              className="px-4 py-3 cursor-pointer hover:bg-muted/50 transition-colors"
+      </div>
+
+      {/* Channel list */}
+      <div className={cn(
+        "divide-y divide-border",
+        compact && "max-h-[400px] overflow-y-auto"
+      )}>
+        {displayChannels.map((channel) => (
+          <div 
+            key={channel.id} 
+            className={cn(
+              "transition-all duration-300",
+              compact ? "px-3 py-2" : "px-4 py-3"
+            )}
+          >
+            <button
               onClick={() => handleChannelClick(channel)}
+              className="w-full text-left"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "h-2 w-2 rounded-full",
-                      channel.status === "normal" && "bg-success",
-                      channel.status === "warning" && "bg-warning",
-                      channel.status === "critical" && "bg-destructive",
-                    )}
-                  />
-                  <span className="text-sm font-medium">{channel.name}</span>
-                  <span className="text-xs text-muted-foreground">({channel.source})</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Sparkline data={channel.sparkline} status={channel.status} />
-                  <div className="flex items-center gap-2 min-w-[80px] justify-end">
-                    <span className="font-mono text-sm font-medium">
-                      {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
-                      <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
-                    </span>
+              {compact ? (
+                // Compact layout: stacked rows
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div
+                        className={cn(
+                          "h-2 w-2 rounded-full flex-shrink-0",
+                          channel.status === "normal" && "bg-success",
+                          channel.status === "warning" && "bg-warning",
+                          channel.status === "critical" && "bg-destructive",
+                        )}
+                      />
+                      <span className="text-xs font-medium truncate">{channel.name}</span>
+                    </div>
                     <span
                       className={cn(
-                        "text-muted-foreground",
+                        "text-muted-foreground flex-shrink-0",
                         channel.trend === "up" && channel.status === "warning" && "text-warning",
                         channel.trend === "down" && channel.status === "warning" && "text-warning",
                       )}
@@ -226,12 +252,62 @@ export function TelemetryGrid() {
                       <TrendIcon trend={channel.trend} />
                     </span>
                   </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <Sparkline data={channel.sparkline} status={channel.status} />
+                    <span className="font-mono text-xs font-medium whitespace-nowrap">
+                      {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
+                      <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
+              ) : (
+                // Full layout: horizontal row
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={cn(
+                        "h-2 w-2 rounded-full",
+                        channel.status === "normal" && "bg-success",
+                        channel.status === "warning" && "bg-warning",
+                        channel.status === "critical" && "bg-destructive",
+                      )}
+                    />
+                    <span className="text-sm font-medium">{channel.name}</span>
+                    <span className="text-xs text-muted-foreground">({channel.source})</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Sparkline data={channel.sparkline} status={channel.status} />
+                    <div className="flex items-center gap-2 min-w-[80px] justify-end">
+                      <span className="font-mono text-sm font-medium">
+                        {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
+                        <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
+                      </span>
+                      <span
+                        className={cn(
+                          "text-muted-foreground",
+                          channel.trend === "up" && channel.status === "warning" && "text-warning",
+                          channel.trend === "down" && channel.status === "warning" && "text-warning",
+                        )}
+                      >
+                        <TrendIcon trend={channel.trend} />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </button>
+          </div>
+        ))}
       </div>
+
+      {/* More channels indicator for compact mode */}
+      {compact && channels.length > displayChannels.length && (
+        <div className="border-t border-border px-3 py-2 text-center">
+          <span className="text-xs text-muted-foreground">
+            +{channels.length - displayChannels.length} more channels
+          </span>
+        </div>
+      )}
 
       {/* Detail Modal */}
       {selectedChannel && (
@@ -239,10 +315,9 @@ export function TelemetryGrid() {
           channel={selectedChannel}
           history={fullHistory[selectedChannel.id] || selectedChannel.sparkline}
           onClose={() => setSelectedChannel(null)}
-          currentTimeSec={simulation?.state?.current_time_sec || 0}
         />
       )}
-    </>
+    </div>
   )
 }
 
