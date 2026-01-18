@@ -115,7 +115,7 @@ export function IncidentList({ onSelectIncident, selectedIncidentId, className }
                           {incident.operator_id}
                         </span>
                       )}
-                      {incident.contradiction_ids.length > 0 && (
+                      {incident.contradiction_ids?.length > 0 && (
                         <Badge variant="outline" className="text-xs">
                           {incident.contradiction_ids.length} contradictions
                         </Badge>
