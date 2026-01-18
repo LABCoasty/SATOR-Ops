@@ -4,12 +4,14 @@
   "private": true,
   "description": "SATOR Ops - Decision Infrastructure for Physical Systems",
   "scripts": {
-    "dev": "pnpm --parallel -r run dev",
+    "dev": "pnpm --parallel --filter web --filter backend run dev",
     "dev:web": "pnpm --filter web dev",
     "dev:backend": "pnpm --filter backend dev",
+    "start": "pnpm --parallel --filter web --filter backend run dev",
     "build": "pnpm --parallel -r run build",
     "lint": "pnpm --parallel -r run lint",
-    "clean": "pnpm --parallel -r run clean"
+    "clean": "pnpm --parallel -r run clean",
+    "test": "pnpm --parallel -r run test"
   },
   "engines": {
     "node": ">=18.0.0",
