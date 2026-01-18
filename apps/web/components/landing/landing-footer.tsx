@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function LandingFooter() {
   return (
@@ -30,11 +31,18 @@ export function LandingFooter() {
 
         {/* Footer links */}
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row pt-8" style={{ borderTop: '1px solid var(--border0)' }}>
-          <span 
-            style={{ fontFamily: 'var(--font-nav)', fontSize: '14px', fontWeight: 600, color: 'var(--textSecondary)' }}
-          >
-            LOGOSYN
-          </span>
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/icon/logo.png"
+              alt="AI Logo"
+              className="w-6 h-6 object-contain rounded-full"
+            />
+            <span 
+              style={{ fontFamily: 'var(--font-nav)', fontSize: '14px', fontWeight: 600, color: 'var(--textSecondary)' }}
+            >
+              LOGOSYN
+            </span>
+          </Link>
           <div className="flex items-center gap-6">
             <Link 
               href="/docs" 

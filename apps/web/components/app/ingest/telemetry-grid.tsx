@@ -10,15 +10,15 @@ import { TelemetryDetailModal } from "./telemetry-detail-modal"
 const TrendIcon = ({ trend }: { trend: "up" | "down" | "stable" }) => {
   switch (trend) {
     case "up":
-      return <TrendingUp className="h-3 w-3" />
+      return <TrendingUp className="h-3 w-3 text-green-500" />
     case "down":
-      return <TrendingDown className="h-3 w-3" />
+      return <TrendingDown className="h-3 w-3 text-red-500" />
     default:
-      return <Minus className="h-3 w-3" />
+      return <Minus className="h-3 w-3 text-orange-500" />
   }
 }
 
-const Sparkline = ({ data, status }: { data: number[]; status: string }) => {
+const Sparkline = ({ data, trend }: { data: number[]; trend: "up" | "down" | "stable" }) => {
   const min = Math.min(...data)
   const max = Math.max(...data)
   const range = max - min || 1
@@ -33,8 +33,11 @@ const Sparkline = ({ data, status }: { data: number[]; status: string }) => {
     })
     .join(" ")
 
+  // Color based on trend direction: green for up, red for down, yellow/orange for stable
   const strokeColor =
-    status === "warning" ? "var(--warning)" : status === "critical" ? "var(--destructive)" : "var(--primary)"
+    trend === "up" ? "#22c55e" : // green-500
+    trend === "down" ? "#ef4444" : // red-500
+    "#f97316" // orange-500 for stable/static
 
   return (
     <svg width={width} height={height} className="overflow-visible">
@@ -253,7 +256,7 @@ export function TelemetryGrid({ compact = false }: TelemetryGridProps) {
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-2">
-                    <Sparkline data={channel.sparkline} status={channel.status} />
+                    <Sparkline data={channel.sparkline} trend={channel.trend} />
                     <span className="font-mono text-xs font-medium whitespace-nowrap">
                       {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
                       <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
@@ -276,21 +279,13 @@ export function TelemetryGrid({ compact = false }: TelemetryGridProps) {
                     <span className="text-xs text-muted-foreground">({channel.source})</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <Sparkline data={channel.sparkline} status={channel.status} />
+                    <Sparkline data={channel.sparkline} trend={channel.trend} />
                     <div className="flex items-center gap-2 min-w-[80px] justify-end">
                       <span className="font-mono text-sm font-medium">
                         {typeof channel.value === 'number' ? channel.value.toFixed(1) : channel.value}
                         <span className="text-muted-foreground ml-0.5">{channel.unit}</span>
                       </span>
-                      <span
-                        className={cn(
-                          "text-muted-foreground",
-                          channel.trend === "up" && channel.status === "warning" && "text-warning",
-                          channel.trend === "down" && channel.status === "warning" && "text-warning",
-                        )}
-                      >
-                        <TrendIcon trend={channel.trend} />
-                      </span>
+                      <TrendIcon trend={channel.trend} />
                     </div>
                   </div>
                 </div>

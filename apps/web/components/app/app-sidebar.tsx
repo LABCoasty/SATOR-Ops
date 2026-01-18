@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon, Bot } from "lucide-react"
@@ -63,12 +64,24 @@ export function AppSidebar() {
         borderColor: 'var(--border0)',
       }}
     >
-      {/* Logo - LOGOSYN text only */}
+      {/* Logo - AI Logo Icon */}
       <div 
         className="flex h-14 items-center justify-between px-4"
         style={{ borderBottom: '1px solid var(--border0)' }}
       >
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="relative w-8 h-8 flex-shrink-0">
+            <img
+              src="/icon/logo.png"
+              alt="AI Logo"
+              className="w-8 h-8 object-contain rounded-full"
+              onError={(e) => {
+                // Hide if image doesn't exist
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          </div>
           {!collapsed && (
             <span 
               className="font-bold"

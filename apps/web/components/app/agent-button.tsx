@@ -202,12 +202,14 @@ export function AgentButton() {
             }}
           >
             <div className="flex items-center gap-2">
-              <Image
-                src="/logosynagntwidget.png"
+              <img
+                src="/icon/logo.png"
                 alt="Logos"
-                width={24}
-                height={24}
-                className="rounded-full"
+                className="w-6 h-6 rounded-full object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
               />
               <span 
                 className="text-sm font-medium"
@@ -338,12 +340,14 @@ export function AgentButton() {
         {isOpen ? (
           <X className="h-6 w-6" style={{ color: 'var(--textPrimary)' }} />
         ) : (
-          <Image
-            src="/logosynagntwidget.png"
+          <img
+            src="/icon/logo.png"
             alt="Logos"
-            width={56}
-            height={56}
-            className="object-cover"
+            className="w-14 h-14 object-contain rounded-full"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+            }}
           />
         )}
       </button>

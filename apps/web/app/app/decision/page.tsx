@@ -15,9 +15,9 @@ export default function DecisionPage() {
           <p className="text-sm text-muted-foreground">Analyze evidence and compute trust scores</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-3 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            <span className="text-sm font-mono text-primary">DECISION_READY</span>
+          <div className="flex items-center gap-2 rounded-md border border-green-500/50 bg-green-500/10 px-3 py-1.5">
+            <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-sm font-mono text-green-500">DECISION_READY</span>
           </div>
         </div>
       </div>

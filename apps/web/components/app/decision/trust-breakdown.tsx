@@ -47,7 +47,7 @@ export function TrustBreakdown() {
           <p
             className={cn(
               "text-4xl font-bold font-mono mt-1",
-              compositeScore >= 0.85 ? "text-success" : compositeScore >= 0.7 ? "text-warning" : "text-destructive",
+              compositeScore >= 0.85 ? "text-green-500" : compositeScore >= 0.7 ? "text-orange-500" : "text-red-500",
             )}
           >
             {compositeScore.toFixed(2)}
@@ -56,7 +56,7 @@ export function TrustBreakdown() {
             <div
               className={cn(
                 "h-full rounded-full transition-all",
-                compositeScore >= 0.85 ? "bg-success" : compositeScore >= 0.7 ? "bg-warning" : "bg-destructive",
+                compositeScore >= 0.85 ? "bg-green-500" : compositeScore >= 0.7 ? "bg-orange-500" : "bg-red-500",
               )}
               style={{ width: `${compositeScore * 100}%` }}
             />
@@ -75,9 +75,9 @@ export function TrustBreakdown() {
                 <IconComponent
                   className={cn(
                     "h-4 w-4",
-                    factor.impact === "positive" && "text-success",
-                    factor.impact === "negative" && "text-warning",
-                    factor.impact === "neutral" && "text-muted-foreground",
+                    factor.value > 0 && "text-green-500",
+                    factor.value === 0 && "text-orange-500",
+                    factor.value < 0 && "text-red-500",
                   )}
                 />
                 <span className="text-sm text-muted-foreground">{factor.label}</span>
@@ -85,9 +85,9 @@ export function TrustBreakdown() {
               <span
                 className={cn(
                   "font-mono text-sm",
-                  factor.impact === "positive" && "text-success",
-                  factor.impact === "negative" && "text-warning",
-                  factor.impact === "neutral" && "text-foreground",
+                  factor.value > 0 && "text-green-500",
+                  factor.value === 0 && "text-orange-500",
+                  factor.value < 0 && "text-red-500",
                 )}
               >
                 {factor.value >= 0 ? "+" : ""}

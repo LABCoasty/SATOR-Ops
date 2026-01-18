@@ -191,7 +191,7 @@ export function ArtifactHeader() {
                 size="sm"
               />
             )}
-            <Button asChild size="sm" className="gap-2">
+            <Button asChild size="sm" className="gap-2 bg-green-500 hover:bg-green-600 text-white">
               <Link href="/app/receipt">
                 <CheckCircle className="h-4 w-4" />
                 View Trust Receipt
