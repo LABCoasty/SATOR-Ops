@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from config import config
-from app.api import agent_tools, audit, ingest, overshoot_test, replay, simulation
+from app.api import agent_tools, audit, ingest, overshoot_test, replay, simulation, scenario2_video
 from app.api.routes import decisions, evidence, telemetry, scenarios, incidents, vision
 from app.api.routes import artifacts as artifacts_original
 from app.api.websocket import router as websocket_router
@@ -73,6 +73,7 @@ app.include_router(replay.router, prefix="/replay", tags=["Replay"])
 app.include_router(audit.router, prefix="/audit", tags=["Audit"])
 app.include_router(ingest.router, prefix="/ingest", tags=["Ingest"])
 app.include_router(agent_tools.router, prefix="/agent", tags=["Agent Tools"])
+app.include_router(scenario2_video.router, prefix="/scenario2", tags=["Scenario 2"])
 try:
     app.include_router(overshoot_test.router, prefix="/overshoot-test", tags=["Overshoot Testing"])
     print("✅ Overshoot test router loaded")
