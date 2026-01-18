@@ -25,6 +25,7 @@ from ...services.audit_logger import get_audit_logger
 from ...services.operator_questionnaire import get_questionnaire_service
 from ...core.decision_engine import get_decision_engine
 from ...integrations.overshoot import get_overshoot_client
+from ...db import SimulationRepository, get_db
 
 
 router = APIRouter(prefix="/scenarios", tags=["scenarios"])
@@ -79,6 +80,27 @@ class StartScenarioResponse(BaseModel):
 
 _scenario_states: Dict[str, ScenarioStatus] = {}
 
+# MongoDB repository (if enabled)
+_simulation_repo: Optional[SimulationRepository] = None
+if get_db().enabled:
+    try:
+        _simulation_repo = SimulationRepository()
+    except Exception as e:
+        print(f"Warning: Could not initialize SimulationRepository: {e}")
+
+
+def _persist_scenario_state(scenario_id: str, status: ScenarioStatus):
+    """Persist scenario state to MongoDB if enabled"""
+    if _simulation_repo:
+        try:
+            state_dict = status.model_dump()
+            # Convert datetime to ISO string for MongoDB
+            if state_dict.get("started_at"):
+                state_dict["started_at"] = state_dict["started_at"].isoformat()
+            _simulation_repo.upsert_scenario_state(scenario_id, state_dict)
+        except Exception as e:
+            print(f"Warning: Failed to persist scenario state to MongoDB: {e}")
+
 
 # ============================================================================
 # Endpoints
@@ -132,13 +154,28 @@ async def get_scenario(scenario_id: str):
 @router.get("/{scenario_id}/status", response_model=ScenarioStatus)
 async def get_scenario_status(scenario_id: str):
     """Get current status of a scenario."""
-    if scenario_id not in _scenario_states:
-        return ScenarioStatus(
-            scenario_id=scenario_id,
-            status="idle"
-        )
+    # Check in-memory first
+    if scenario_id in _scenario_states:
+        return _scenario_states[scenario_id]
     
-    return _scenario_states[scenario_id]
+    # Try to load from MongoDB if enabled
+    if _simulation_repo:
+        try:
+            state_dict = _simulation_repo.get_scenario_state(scenario_id)
+            if state_dict:
+                # Convert back from MongoDB format
+                if state_dict.get("started_at"):
+                    state_dict["started_at"] = datetime.fromisoformat(state_dict["started_at"])
+                status = ScenarioStatus(**state_dict)
+                _scenario_states[scenario_id] = status  # Cache in memory
+                return status
+        except Exception as e:
+            print(f"Warning: Failed to load scenario state from MongoDB: {e}")
+    
+    return ScenarioStatus(
+        scenario_id=scenario_id,
+        status="idle"
+    )
 
 
 @router.post("/{scenario_id}/start", response_model=StartScenarioResponse)
@@ -171,6 +208,9 @@ async def start_scenario(
         mode="data_ingest"
     )
     _scenario_states[scenario_id] = status
+    
+    # Persist to MongoDB
+    _persist_scenario_state(scenario_id, status)
     
     # Log scenario start
     audit_logger = get_audit_logger()
@@ -210,6 +250,9 @@ async def stop_scenario(scenario_id: str):
     
     status = _scenario_states[scenario_id]
     status.status = "stopped"
+    
+    # Persist to MongoDB
+    _persist_scenario_state(scenario_id, status)
     
     # Log scenario stop
     audit_logger = get_audit_logger()
@@ -276,6 +319,7 @@ async def _run_fixed_scenario(scenario_id: str, operator_id: str):
             # Update status
             status.active_incidents = 1
             status.mode = "decision"
+            _persist_scenario_state(scenario_id, status)
             
             # Log mode change
             audit_logger.log_mode_changed(
@@ -304,7 +348,9 @@ async def _run_fixed_scenario(scenario_id: str, operator_id: str):
                 telemetry_snapshot=telemetry_at_time,
                 title=f"Decision Required: {incident.title}",
                 summary=incident.description,
-                severity=scenario_data.events[4].severity if len(scenario_data.events) > 4 else evaluation.uncertainty_level.value
+                severity=scenario_data.events[4].severity if len(scenario_data.events) > 4 else evaluation.uncertainty_level.value,
+                scenario_id=scenario_id,
+                incident_id=incident.incident_id
             )
             
             # Link card to incident
@@ -330,8 +376,10 @@ async def _run_fixed_scenario(scenario_id: str, operator_id: str):
         
         # Mark scenario as ready for operator interaction
         status.current_time_sec = 60.0
+        _persist_scenario_state(scenario_id, status)
         
     except Exception as e:
         print(f"Error running fixed scenario: {e}")
         if scenario_id in _scenario_states:
             _scenario_states[scenario_id].status = "error"
+            _persist_scenario_state(scenario_id, _scenario_states[scenario_id])

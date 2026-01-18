@@ -12,6 +12,8 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any, Literal
 from pydantic import BaseModel, Field
 
+from ..db import AuditRepository, get_db
+
 
 # ============================================================================
 # Audit Event Types
@@ -141,6 +143,14 @@ class AuditLogger:
             self.log_dir.mkdir(parents=True, exist_ok=True)
         else:
             self.log_dir = None
+        
+        # MongoDB repository (if enabled)
+        self._repo: Optional[AuditRepository] = None
+        if get_db().enabled:
+            try:
+                self._repo = AuditRepository()
+            except Exception as e:
+                print(f"Warning: Could not initialize AuditRepository: {e}")
     
     # ========================================================================
     # Event Logging
@@ -192,17 +202,31 @@ class AuditLogger:
         # Store event
         self._events.append(event)
         
-        # Persist if log_dir configured
+        # Persist to file if log_dir configured
         if self.log_dir:
-            self._persist_event(event)
+            self._persist_event_to_file(event)
+        
+        # Persist to MongoDB if enabled
+        self._persist_event_to_db(event)
         
         return event
     
-    def _persist_event(self, event: AuditLogEvent):
+    def _persist_event_to_file(self, event: AuditLogEvent):
         """Persist event to file."""
         log_file = self.log_dir / f"audit_{event.scenario_id or 'global'}.jsonl"
         with open(log_file, "a") as f:
             f.write(event.model_dump_json() + "\n")
+    
+    def _persist_event_to_db(self, event: AuditLogEvent):
+        """Persist event to MongoDB if enabled"""
+        if self._repo:
+            try:
+                event_dict = event.model_dump()
+                # Convert datetime to ISO string for MongoDB
+                event_dict["timestamp"] = event.timestamp.isoformat()
+                self._repo.insert_audit_event(event_dict)
+            except Exception as e:
+                print(f"Warning: Failed to persist audit event to MongoDB: {e}")
     
     # ========================================================================
     # Convenience Methods

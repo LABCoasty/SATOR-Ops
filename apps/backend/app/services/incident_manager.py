@@ -11,6 +11,8 @@ from typing import List, Optional, Dict, Any, Callable
 from enum import Enum
 from pydantic import BaseModel, Field
 
+from ..db import IncidentRepository, get_db
+
 
 # ============================================================================
 # Incident States and Transitions
@@ -131,6 +133,35 @@ class IncidentManager:
         self._scenario_incidents: Dict[str, List[str]] = {}  # scenario_id -> incident_ids
         self._transition_handlers: List[Callable[[Incident, StateTransition], None]] = []
         self._close_handlers: List[Callable[[Incident], None]] = []
+        
+        # MongoDB repository (if enabled)
+        self._repo: Optional[IncidentRepository] = None
+        if get_db().enabled:
+            try:
+                self._repo = IncidentRepository()
+            except Exception as e:
+                print(f"Warning: Could not initialize IncidentRepository: {e}")
+    
+    def _persist_incident(self, incident: Incident):
+        """Persist incident to MongoDB if enabled"""
+        if self._repo:
+            try:
+                incident_dict = incident.model_dump()
+                # Convert enums to strings for MongoDB
+                incident_dict["state"] = incident.state.value
+                incident_dict["severity"] = incident.severity.value
+                # Convert state transitions
+                incident_dict["state_transitions"] = [
+                    {
+                        **t.model_dump(),
+                        "from_state": t.from_state.value,
+                        "to_state": t.to_state.value
+                    }
+                    for t in incident.state_transitions
+                ]
+                self._repo.upsert_incident(incident_dict)
+            except Exception as e:
+                print(f"Warning: Failed to persist incident to MongoDB: {e}")
     
     # ========================================================================
     # Incident Creation
@@ -182,6 +213,9 @@ class IncidentManager:
         if scenario_id not in self._scenario_incidents:
             self._scenario_incidents[scenario_id] = []
         self._scenario_incidents[scenario_id].append(incident.incident_id)
+        
+        # Persist to MongoDB
+        self._persist_incident(incident)
         
         # Notify handlers
         self._notify_transition(incident, transition)
@@ -246,6 +280,9 @@ class IncidentManager:
             incident.closed_at = datetime.utcnow()
             # Trigger close handlers
             self._notify_close(incident)
+        
+        # Persist to MongoDB
+        self._persist_incident(incident)
         
         # Notify transition handlers
         self._notify_transition(incident, transition)
@@ -357,6 +394,7 @@ class IncidentManager:
         if incident:
             incident.assigned_operator_id = operator_id
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
         return incident
     
     def record_question_asked(self, incident_id: str, question_id: str):
@@ -365,6 +403,7 @@ class IncidentManager:
         if incident and question_id not in incident.questions_asked:
             incident.questions_asked.append(question_id)
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
     
     def record_question_answered(self, incident_id: str, question_id: str):
         """Record that a question was answered for this incident."""
@@ -372,6 +411,7 @@ class IncidentManager:
         if incident and question_id not in incident.questions_answered:
             incident.questions_answered.append(question_id)
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
     
     def link_decision_card(self, incident_id: str, card_id: str):
         """Link a decision card to the incident."""
@@ -379,6 +419,7 @@ class IncidentManager:
         if incident:
             incident.decision_card_id = card_id
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
     
     def link_trust_receipt(self, incident_id: str, receipt_id: str):
         """Link a trust receipt to the incident."""
@@ -386,6 +427,7 @@ class IncidentManager:
         if incident:
             incident.trust_receipt_ids.append(receipt_id)
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
     
     def link_artifact(self, incident_id: str, artifact_id: str, tx_hash: Optional[str] = None):
         """Link the final artifact to the incident."""
@@ -394,6 +436,7 @@ class IncidentManager:
             incident.artifact_id = artifact_id
             incident.on_chain_tx = tx_hash
             incident.updated_at = datetime.utcnow()
+            self._persist_incident(incident)
     
     # ========================================================================
     # Event Handlers
