@@ -1,17 +1,26 @@
 """
-Vision API Routes - Handle Overshoot vision webhook.
+Vision API Routes - Handle Overshoot vision webhook with LeanMCP processing.
 
 Endpoints:
-- POST /vision/webhook - Receive Overshoot vision JSON
+- POST /vision/webhook - Receive Overshoot vision JSON (with configurable delay)
 - GET /vision/latest - Get latest vision frame
 - GET /vision/history - Get recent vision frames
+- GET /vision/queue/status - Get processing queue status
+- POST /vision/queue/start - Start the processing queue
+- POST /vision/queue/stop - Stop the processing queue
+
+LeanMCP Integration:
+Per https://docs.leanmcp.com/api-reference/introduction, the MCP server
+processes vision frames through 5 decision tools with configurable delays
+to sync with the timeline workflow.
 """
 
 from fastapi import APIRouter, HTTPException, BackgroundTasks
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
+from config import config
 from ...integrations.overshoot import (
     get_overshoot_client,
     VisionFrame,
@@ -32,6 +41,11 @@ from ...services.incident_manager import (
 )
 from ...services.audit_logger import get_audit_logger
 from ...services.operator_questionnaire import get_questionnaire_service
+from ...services.vision_processor import (
+    get_vision_queue,
+    process_vision_with_delay,
+    VisionProcessingQueue,
+)
 
 
 router = APIRouter(prefix="/vision", tags=["vision"])
@@ -46,8 +60,30 @@ class VisionWebhookResponse(BaseModel):
     success: bool
     frame_id: Optional[str] = None
     processed: bool = False
+    queued: bool = False
+    processing_delay_ms: int = 0
+    timeline_time_sec: float = 0.0
     incident_created: Optional[str] = None
     message: str
+
+
+class VisionProcessRequest(BaseModel):
+    """Request for immediate vision processing with delay."""
+    frame_data: Dict[str, Any] = Field(..., description="Overshoot vision frame")
+    scenario_id: Optional[str] = Field(None, description="Associated scenario ID")
+    delay_ms: Optional[int] = Field(None, description="Override processing delay (ms)")
+    process_immediately: bool = Field(True, description="Process now vs queue")
+
+
+class QueueStatusResponse(BaseModel):
+    """Response with queue status."""
+    is_running: bool
+    queue_size: int
+    processed_count: int
+    delay_ms: int
+    batch_size: int
+    timeline_sync_enabled: bool
+    timeline_offset_sec: float
 
 
 # ============================================================================
@@ -73,31 +109,42 @@ async def vision_webhook(
     background_tasks: BackgroundTasks
 ):
     """
-    Receive vision data from Overshoot.
+    Receive vision data from Overshoot with delayed LeanMCP processing.
     
-    This webhook is called by Overshoot with real-time vision analysis.
-    The data is processed through LeanMCP tools to:
-    1. Extract actionable insights
-    2. Cross-validate against telemetry
-    3. Detect contradictions
-    4. Generate predictions
-    5. Create decision cards if needed
+    Supports multiple payload formats:
+    - Full Overshoot format: {"session_id": "...", "frame": {...}}
+    - Nested frame: {"frame": {...}}
+    - Simple frame (for testing): {"frame_id": "...", "equipment_states": [], ...}
     """
     overshoot_client = get_overshoot_client()
     audit_logger = get_audit_logger()
+    vision_queue = get_vision_queue()
     
     try:
-        # Process webhook payload
-        webhook_data = overshoot_client.process_webhook(payload)
+        # Support both full OvershootWebhookPayload and simple VisionFrame format
+        frame: Optional[VisionFrame] = None
         
-        if not webhook_data.frame:
+        if "session_id" in payload:
+            # Full Overshoot webhook format
+            webhook_data = overshoot_client.process_webhook(payload)
+            frame = webhook_data.frame
+        elif "frame" in payload:
+            # Nested frame format without session_id
+            frame = VisionFrame(**payload["frame"])
+            overshoot_client._handle_frame(frame)
+        elif "frame_id" in payload:
+            # Simple frame format (for testing)
+            frame = VisionFrame(**payload)
+            overshoot_client._handle_frame(frame)
+        
+        if not frame:
             return VisionWebhookResponse(
                 success=True,
                 processed=False,
-                message="No frame data in payload"
+                queued=False,
+                processing_delay_ms=0,
+                message="No frame data. Expected session_id+frame, frame, or frame_id field."
             )
-        
-        frame = webhook_data.frame
         
         # Log vision received
         audit_logger.log_vision_received(
@@ -107,11 +154,20 @@ async def vision_webhook(
             safety_event_count=len(frame.safety_events)
         )
         
-        # Process frame in background
-        incident_id = None
+        # Ensure queue is started
+        if not vision_queue._is_running:
+            vision_queue.start()
+        
+        # Queue the frame for delayed processing
+        queued_frame = vision_queue.enqueue(
+            frame_data=frame.model_dump(),
+            scenario_id=_active_scenario_id
+        )
+        
+        # Process in background with delay
         if frame.has_detections():
             background_tasks.add_task(
-                _process_vision_frame,
+                _process_vision_frame_with_delay,
                 frame,
                 _active_scenario_id
             )
@@ -119,9 +175,12 @@ async def vision_webhook(
         return VisionWebhookResponse(
             success=True,
             frame_id=frame.frame_id,
-            processed=True,
-            incident_created=incident_id,
-            message="Vision frame received and queued for processing"
+            processed=False,
+            queued=True,
+            processing_delay_ms=config.vision_processing_delay_ms,
+            timeline_time_sec=queued_frame.timeline_time_sec,
+            incident_created=None,
+            message=f"Vision frame queued (delay: {config.vision_processing_delay_ms}ms)"
         )
         
     except Exception as e:
@@ -129,6 +188,90 @@ async def vision_webhook(
             success=False,
             message=f"Error processing vision data: {str(e)}"
         )
+
+
+@router.post("/process", summary="Process vision frame with configurable delay")
+async def process_vision_frame_endpoint(request: VisionProcessRequest):
+    """Process a vision frame through LeanMCP with configurable delay."""
+    try:
+        if request.process_immediately:
+            result = await process_vision_with_delay(
+                frame_data=request.frame_data,
+                scenario_id=request.scenario_id,
+                delay_override_ms=request.delay_ms
+            )
+            return result
+        else:
+            queue = get_vision_queue()
+            if not queue._is_running:
+                queue.start()
+            
+            queued = queue.enqueue(
+                frame_data=request.frame_data,
+                scenario_id=request.scenario_id
+            )
+            
+            return {
+                "success": True,
+                "queued": True,
+                "frame_id": queued.frame_id,
+                "timeline_time_sec": queued.timeline_time_sec,
+                "queue_size": queue.queue_size,
+                "message": "Frame queued for processing"
+            }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/queue/status", response_model=QueueStatusResponse)
+async def get_queue_status():
+    """Get the vision processing queue status."""
+    queue = get_vision_queue()
+    status = queue.get_status()
+    return QueueStatusResponse(**status)
+
+
+@router.post("/queue/start")
+async def start_queue(timeline_offset_sec: float = 0.0):
+    """Start the vision processing queue."""
+    queue = get_vision_queue()
+    queue.start(timeline_offset_sec=timeline_offset_sec)
+    return {
+        "success": True,
+        "message": "Vision processing queue started",
+        "timeline_offset_sec": timeline_offset_sec,
+        "delay_ms": queue.delay_ms
+    }
+
+
+@router.post("/queue/stop")
+async def stop_queue():
+    """Stop the vision processing queue."""
+    queue = get_vision_queue()
+    queue.stop()
+    return {
+        "success": True,
+        "message": "Vision processing queue stopped",
+        "processed_count": queue._processed_count
+    }
+
+
+@router.post("/queue/process-batch")
+async def process_queue_batch():
+    """Process a batch of queued frames."""
+    queue = get_vision_queue()
+    
+    if not queue._is_running:
+        queue.start()
+    
+    results = await queue.process_batch()
+    
+    return {
+        "success": True,
+        "processed_count": len(results),
+        "remaining_in_queue": queue.queue_size,
+        "results": results
+    }
 
 
 @router.get("/latest")
@@ -160,17 +303,12 @@ async def simulate_vision_frame(
     frame_data: Dict[str, Any],
     background_tasks: BackgroundTasks
 ):
-    """
-    Simulate a vision frame for demo purposes.
-    
-    This allows testing the vision pipeline without Overshoot.
-    """
+    """Simulate a vision frame for demo purposes."""
     overshoot_client = get_overshoot_client()
     
     try:
         frame = overshoot_client.simulate_frame(frame_data)
         
-        # Process in background
         if frame.has_detections():
             background_tasks.add_task(
                 _process_vision_frame,
@@ -189,71 +327,46 @@ async def simulate_vision_frame(
 
 
 # ============================================================================
-# Background Processing
+# Background Processing with LeanMCP Delay
 # ============================================================================
 
-async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
-    """
-    Process a vision frame through the LeanMCP pipeline.
-    
-    Steps:
-    1. Analyze vision to extract insights
-    2. Get current telemetry
-    3. Detect contradictions between vision and telemetry
-    4. Generate predictions
-    5. Create incident and decision card if needed
-    """
+async def _process_vision_frame_with_delay(frame: VisionFrame, scenario_id: Optional[str]):
+    """Process a vision frame through the LeanMCP pipeline with configurable delay."""
     from ...services.data_loader import get_data_loader
     
-    mcp_server = get_mcp_server()
     incident_manager = get_incident_manager()
     questionnaire = get_questionnaire_service()
     audit_logger = get_audit_logger()
-    data_loader = get_data_loader()
     
     try:
-        # Step 1: Analyze vision
-        vision_analysis = analyze_vision(frame.model_dump())
-        
-        # Step 2: Get telemetry (use scenario data or live)
-        try:
-            scenario_data = data_loader.load_fixed_scenario()
-            telemetry = data_loader.get_telemetry_at_time(scenario_data.telemetry, 60.0)
-            telemetry_dict = {k: v.model_dump() for k, v in telemetry.items()}
-        except:
-            telemetry_dict = {}
-        
-        # Step 3: Detect contradictions
-        contradictions = detect_contradictions(
-            vision_frame=frame.model_dump(),
-            telemetry=telemetry_dict
+        result = await process_vision_with_delay(
+            frame_data=frame.model_dump(),
+            scenario_id=scenario_id
         )
         
-        # Step 4: Generate predictions
-        predictions = predict_issues(
-            vision_frame=frame.model_dump(),
-            telemetry=telemetry_dict,
-            history=[]
-        )
+        if not result.get("success"):
+            print(f"Vision processing failed: {result.get('error')}")
+            return
         
-        # Step 5: Check for safety events or contradictions
-        has_safety_event = len(frame.safety_events) > 0
-        has_contradiction = len(contradictions) > 0
+        contradictions = result.get("steps", {}).get("detect_contradictions", [])
+        predictions = result.get("steps", {}).get("predict_issues", [])
+        vision_analysis = result.get("steps", {}).get("analyze_vision", {})
         
-        if has_safety_event or has_contradiction:
-            # Determine severity
+        if result.get("requires_incident"):
+            has_safety_event = len(frame.safety_events) > 0
+            has_critical = any(c.get("severity") == "critical" for c in contradictions)
+            
             if any(e.severity in ["critical", "emergency"] for e in frame.safety_events):
                 severity = IncidentSeverity.EMERGENCY
-            elif has_contradiction:
+            elif has_critical:
                 severity = IncidentSeverity.CRITICAL
             else:
                 severity = IncidentSeverity.WARNING
             
-            # Create incident
             title = "Vision Alert: "
             if has_safety_event:
                 title += frame.safety_events[0].description
-            elif has_contradiction:
+            elif contradictions:
                 title += contradictions[0].get("description", "Contradiction detected")
             
             incident = incident_manager.create_incident(
@@ -264,7 +377,6 @@ async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
                 contradiction_ids=[c.get("contradiction_id", "") for c in contradictions]
             )
             
-            # Log incident
             audit_logger.log_incident_opened(
                 incident_id=incident.incident_id,
                 scenario_id=scenario_id or "live-vision-demo",
@@ -272,32 +384,7 @@ async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
                 contradiction_ids=incident.contradiction_ids
             )
             
-            # Generate recommendation
-            recommendation = recommend_action(
-                incident_state={"severity": severity.value, "state": "open"},
-                evidence={
-                    "contradictions": contradictions,
-                    "predictions": predictions,
-                    "vision_analysis": vision_analysis
-                },
-                trust_score=0.5  # Default for vision-based incidents
-            )
-            
-            # Create decision card
-            card_data = create_decision_card(
-                incident_id=incident.incident_id,
-                findings={
-                    "contradictions": contradictions,
-                    "predictions": predictions,
-                    "recommendation": recommendation,
-                    "trust_score": 0.5,
-                    "telemetry": telemetry_dict,
-                    "vision": frame.model_dump()
-                },
-                operator_questions=[]
-            )
-            
-            # Generate questions
+            telemetry_dict = result.get("telemetry_snapshot", {})
             questions = questionnaire.generate_questions_for_incident(
                 incident_id=incident.incident_id,
                 contradictions=contradictions,
@@ -305,7 +392,6 @@ async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
                 severity=severity.value
             )
             
-            # Log mode change
             audit_logger.log_mode_changed(
                 scenario_id=scenario_id or "live-vision-demo",
                 from_mode="data_ingest",
@@ -313,5 +399,16 @@ async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
                 trigger="vision_event"
             )
             
+            print(f"Incident created: {incident.incident_id} "
+                  f"(delay: {result.get('processing_delay_ms', 0)}ms, "
+                  f"timeline: {result.get('timeline_time_sec', 0):.2f}s)")
+            
     except Exception as e:
         print(f"Error processing vision frame: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+async def _process_vision_frame(frame: VisionFrame, scenario_id: Optional[str]):
+    """Legacy wrapper - redirects to delayed processing."""
+    await _process_vision_frame_with_delay(frame, scenario_id)

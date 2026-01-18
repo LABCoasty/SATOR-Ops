@@ -32,6 +32,16 @@ class SATORConfig(BaseSettings):
     enable_arize: bool = Field(default=False, description="Enable Arize observability (Secondary sponsor)")
     enable_browserbase: bool = Field(default=False, description="Enable Browserbase evidence fetch (Secondary sponsor)")
     
+    # LeanMCP API settings (https://docs.leanmcp.com/api-reference/introduction)
+    leanmcp_api_key: str | None = Field(default=None, description="LeanMCP API key from dashboard")
+    leanmcp_api_url: str = Field(default="https://api.leanmcp.com/v1", description="LeanMCP API base URL")
+    leanmcp_mcp_id: str | None = Field(default=None, description="Deployed MCP server ID")
+    
+    # Vision processing settings
+    vision_processing_delay_ms: int = Field(default=500, description="Delay in ms before processing vision frames")
+    vision_queue_batch_size: int = Field(default=5, description="Number of frames to batch before processing")
+    vision_timeline_sync: bool = Field(default=True, description="Sync vision frames to timeline events")
+    
     # Kairo settings (only used if enable_kairo=True)
     kairo_api_key: str | None = Field(default=None, description="Kairo API key for Solana anchoring")
     solana_rpc_url: str = Field(default="https://api.devnet.solana.com", description="Solana RPC endpoint")

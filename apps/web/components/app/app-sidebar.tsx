@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft } from "lucide-react"
+import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, Video } from "lucide-react"
 import { useState } from "react"
 
 const navItems = [
@@ -12,6 +12,13 @@ const navItems = [
     href: "/app/ingest",
     icon: Radio,
     mode: "ingest" as const,
+  },
+  {
+    label: "Vision",
+    href: "/app/vision",
+    icon: Video,
+    mode: "vision" as const,
+    badge: "Live",
   },
   {
     label: "Decision / Trust",
@@ -74,7 +81,16 @@ export function AppSidebar() {
               )}
             >
               <item.icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span>{item.label}</span>}
+              {!collapsed && (
+                <span className="flex items-center gap-2">
+                  {item.label}
+                  {"badge" in item && item.badge && (
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
+                      {item.badge}
+                    </span>
+                  )}
+                </span>
+              )}
             </Link>
           )
         })}
