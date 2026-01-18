@@ -1,10 +1,8 @@
 "use client"
 
-import { useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Radio, GitBranch, FileOutput, Bot, Wifi, WifiOff, ChevronDown, Video, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Radio, GitBranch, FileOutput, Wifi, WifiOff, ChevronDown, Video, Loader2 } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,13 +21,13 @@ const modes = [
 ]
 
 interface AppTopBarProps {
-  onAgentToggle: () => void
-  agentOpen: boolean
+  onScenario1?: () => void
   onScenario2?: () => void
+  scenario1Loading?: boolean
   scenario2Loading?: boolean
 }
 
-export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Loading }: AppTopBarProps) {
+export function AppTopBar({ onScenario1, onScenario2, scenario1Loading, scenario2Loading }: AppTopBarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const currentMode = modes.find((m) => pathname.startsWith(m.path)) || modes[0]
@@ -43,13 +41,15 @@ export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Load
 
   const handleScenario1 = () => {
     router.push("/app/ingest")
+    if (onScenario1) {
+      onScenario1()
+    }
   }
 
   const handleScenario2 = () => {
+    router.push("/app/ingest")
     if (onScenario2) {
       onScenario2()
-    } else {
-      router.push("/app/vision")
     }
   }
 
@@ -75,16 +75,26 @@ export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Load
               Select Scenario
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleScenario1} className="cursor-pointer">
-              <Radio className="h-4 w-4 mr-2 text-chart-2" />
+            <DropdownMenuItem 
+              onClick={handleScenario1} 
+              disabled={scenario1Loading || scenario2Loading}
+              className="cursor-pointer"
+            >
+              {scenario1Loading ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin text-chart-2" />
+              ) : (
+                <Radio className="h-4 w-4 mr-2 text-chart-2" />
+              )}
               <div>
-                <div className="font-medium">Scenario 1</div>
-                <div className="text-xs text-muted-foreground">Fixed CSV/JSON data processing</div>
+                <div className="font-medium">Scenario 1: Valve Incident</div>
+                <div className="text-xs text-muted-foreground">
+                  {scenario1Loading ? "Starting 60s simulation..." : "60s telemetry simulation with decisions"}
+                </div>
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={handleScenario2} 
-              disabled={scenario2Loading}
+              disabled={scenario1Loading || scenario2Loading}
               className="cursor-pointer"
             >
               {scenario2Loading ? (
@@ -93,9 +103,9 @@ export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Load
                 <Video className="h-4 w-4 mr-2 text-primary" />
               )}
               <div>
-                <div className="font-medium">Scenario 2</div>
+                <div className="font-medium">Scenario 2: Vision Analysis</div>
                 <div className="text-xs text-muted-foreground">
-                  {scenario2Loading ? "Processing video with Overshoot AI..." : "Live video analysis (Overshoot.ai)"}
+                  {scenario2Loading ? "Starting 60s simulation..." : "60s AI vision simulation with decisions"}
                 </div>
               </div>
             </DropdownMenuItem>
@@ -122,7 +132,7 @@ export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Load
         </div>
       </div>
 
-      {/* Right: Status & Agent */}
+      {/* Right: Status */}
       <div className="flex items-center gap-4">
         {/* System Status */}
         <div className="hidden sm:flex items-center gap-3 text-xs text-muted-foreground">
@@ -137,12 +147,6 @@ export function AppTopBar({ onAgentToggle, agentOpen, onScenario2, scenario2Load
           <span className="text-border">|</span>
           <span>Synced {systemStatus.lastSync}</span>
         </div>
-
-        {/* Agent Toggle */}
-        <Button variant={agentOpen ? "default" : "outline"} size="sm" onClick={onAgentToggle} className="gap-2">
-          <Bot className="h-4 w-4" />
-          <span className="hidden sm:inline">Agent</span>
-        </Button>
       </div>
     </header>
   )

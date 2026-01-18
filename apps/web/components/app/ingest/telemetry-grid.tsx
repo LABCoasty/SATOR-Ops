@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { TrendingUp, TrendingDown, Minus, Loader2, WifiOff } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTelemetry, type TelemetryChannel } from "@/hooks/use-telemetry"
+import { useOptionalSimulationContext } from "@/contexts/simulation-context"
 
 const TrendIcon = ({ trend }: { trend: "up" | "down" | "stable" }) => {
   switch (trend) {
@@ -48,11 +49,86 @@ const Sparkline = ({ data, status }: { data: number[]; status: string }) => {
   )
 }
 
-export function TelemetryGrid() {
-  const { channels, loading, error } = useTelemetry()
-  const [expanded, setExpanded] = useState<string | null>(null)
+// Channel definitions for simulation data mapping
+const CHANNEL_DEFS = [
+  { id: "core_temp", name: "Core Temperature", source: "primary_sensor_array", unit: "°C", min: 60, max: 85 },
+  { id: "pressure", name: "System Pressure", source: "primary_sensor_array", unit: "PSI", min: 10, max: 20 },
+  { id: "flow_a", name: "Flow Rate A", source: "external_feed_alpha", unit: "L/min", min: 200, max: 300 },
+  { id: "flow_b", name: "Flow Rate B", source: "external_feed_beta", unit: "L/min", min: 200, max: 300 },
+  { id: "vibration", name: "Vibration Sensor", source: "backup_telemetry", unit: "mm/s", min: 0, max: 1 },
+  { id: "power", name: "Power Draw", source: "primary_sensor_array", unit: "kW", min: 800, max: 900 },
+  { id: "humidity", name: "Ambient Humidity", source: "backup_telemetry", unit: "%", min: 30, max: 60 },
+]
 
-  if (loading) {
+export function TelemetryGrid() {
+  const { channels: apiChannels, loading, error } = useTelemetry()
+  const simulation = useOptionalSimulationContext()
+  const [expanded, setExpanded] = useState<string | null>(null)
+  
+  // Track sparkline history for simulation data
+  const [sparklineHistory, setSparklineHistory] = useState<Record<string, number[]>>({})
+
+  // Update sparkline history when simulation telemetry changes
+  useEffect(() => {
+    if (simulation?.isRunning && simulation?.telemetry?.channels) {
+      setSparklineHistory(prev => {
+        const newHistory = { ...prev }
+        Object.entries(simulation.telemetry!.channels).forEach(([key, data]) => {
+          const value = (data as { value: number }).value
+          const history = prev[key] || []
+          newHistory[key] = [...history.slice(-9), value] // Keep last 10 values
+        })
+        return newHistory
+      })
+    }
+  }, [simulation?.isRunning, simulation?.telemetry])
+
+  // Reset sparkline history when simulation stops
+  useEffect(() => {
+    if (!simulation?.isRunning) {
+      setSparklineHistory({})
+    }
+  }, [simulation?.isRunning])
+
+  // Convert simulation telemetry to channel format
+  const simulationChannels: TelemetryChannel[] = useMemo(() => {
+    if (!simulation?.isRunning || !simulation?.telemetry?.channels) {
+      return []
+    }
+
+    return CHANNEL_DEFS.map(def => {
+      const data = simulation.telemetry!.channels[def.id] as { value: number; unit: string; status: string } | undefined
+      if (!data) return null
+
+      const history = sparklineHistory[def.id] || [data.value]
+      const prevValue = history.length > 1 ? history[history.length - 2] : data.value
+      const trend: "up" | "down" | "stable" = 
+        data.value > prevValue + 0.5 ? "up" : 
+        data.value < prevValue - 0.5 ? "down" : "stable"
+
+      return {
+        id: def.id,
+        name: def.name,
+        source: def.source,
+        value: data.value,
+        unit: def.unit,
+        trend,
+        status: data.status as "normal" | "warning" | "critical",
+        sparkline: history.length >= 2 ? history : [data.value, data.value],
+        summary: getSummary(def.id, data.value, data.status),
+        min_threshold: def.min,
+        max_threshold: def.max,
+        timestamp: new Date().toISOString()
+      }
+    }).filter(Boolean) as TelemetryChannel[]
+  }, [simulation?.isRunning, simulation?.telemetry, sparklineHistory])
+
+  // Use simulation data when running, otherwise use API data
+  const channels = simulation?.isRunning && simulationChannels.length > 0 
+    ? simulationChannels 
+    : apiChannels
+
+  if (loading && !simulation?.isRunning) {
     return (
       <div className="rounded-lg border border-border bg-card p-8 flex items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -61,7 +137,7 @@ export function TelemetryGrid() {
     )
   }
 
-  if (error) {
+  if (error && !simulation?.isRunning) {
     return (
       <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-8 flex items-center justify-center">
         <WifiOff className="h-6 w-6 text-destructive" />
@@ -79,8 +155,14 @@ export function TelemetryGrid() {
             <p className="text-xs text-muted-foreground">Real-time data streams with plain-language summaries</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-success animate-pulse" />
-            <span className="text-xs text-muted-foreground">{channels.length} channels</span>
+            <span className={cn(
+              "h-2 w-2 rounded-full animate-pulse",
+              simulation?.isRunning ? "bg-primary" : "bg-success"
+            )} />
+            <span className="text-xs text-muted-foreground">
+              {channels.length} channels
+              {simulation?.isRunning && " (LIVE SIM)"}
+            </span>
           </div>
         </div>
       </div>
@@ -138,4 +220,46 @@ export function TelemetryGrid() {
       </div>
     </div>
   )
+}
+
+function getSummary(channelId: string, value: number, status: string): string {
+  const summaries: Record<string, Record<string, string>> = {
+    core_temp: {
+      normal: "Temperature within normal operating range.",
+      warning: `Temperature elevated at ${value.toFixed(1)}°C. Monitor for further increases.`,
+      critical: `CRITICAL: Temperature at ${value.toFixed(1)}°C exceeds safe limits!`
+    },
+    pressure: {
+      normal: "System pressure stable.",
+      warning: "Pressure showing slight deviation from baseline.",
+      critical: "CRITICAL: Pressure anomaly detected!"
+    },
+    flow_a: {
+      normal: "Flow rate within expected parameters.",
+      warning: `Flow rate at ${value.toFixed(1)} L/min showing deviation from expected values.`,
+      critical: "CRITICAL: Significant flow rate deviation detected!"
+    },
+    flow_b: {
+      normal: "Secondary flow sensor showing slightly higher values than primary.",
+      warning: `Flow rate B at ${value.toFixed(1)} L/min diverging from Flow A.`,
+      critical: "CRITICAL: Major divergence between flow sensors!"
+    },
+    vibration: {
+      normal: "Vibration levels nominal.",
+      warning: "Slight vibration increase detected.",
+      critical: "CRITICAL: Excessive vibration detected!"
+    },
+    power: {
+      normal: "Power consumption within expected range.",
+      warning: "Power draw showing fluctuation.",
+      critical: "CRITICAL: Abnormal power consumption!"
+    },
+    humidity: {
+      normal: "Ambient humidity stable.",
+      warning: "Humidity levels changing.",
+      critical: "CRITICAL: Humidity outside acceptable range!"
+    }
+  }
+
+  return summaries[channelId]?.[status] || "Monitoring channel status."
 }

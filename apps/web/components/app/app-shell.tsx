@@ -4,129 +4,73 @@ import type React from "react"
 import { useState, useCallback, useEffect, useRef } from "react"
 import { AppSidebar } from "./app-sidebar"
 import { AppTopBar } from "./app-top-bar"
-import { AgentPanel } from "./agent-panel"
 import { AgentButton } from "./agent-button"
 import { VideoAlertModal, type Scenario2Result } from "./vision/video-alert-modal"
+import { DecisionPrompt, EventToast, type DecisionPromptData } from "./decision-prompt"
+import { useSimulationContext, type SimulationEvent } from "@/contexts/simulation-context"
+import { Progress } from "@/components/ui/progress"
+import { cn } from "@/lib/utils"
 
 export type AppMode = "ingest" | "decision" | "artifact"
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"
-
-// YouTube video URL for Scenario 2
+// YouTube video URL for Scenario 2 video modal
 const YOUTUBE_VIDEO_ID = "IPpKZx854VQ"
-const DEFAULT_VIDEO_URL = `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`
 const YOUTUBE_EMBED_URL = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [agentOpen, setAgentOpen] = useState(false)
+  // Enhanced simulation state from context
+  const {
+    state: simState,
+    events,
+    decisions,
+    isRunning,
+    isLoading: simLoading,
+    startSimulation,
+    submitDecision
+  } = useSimulationContext()
 
-  // Scenario 2 processing state
-  const [scenario2ModalOpen, setScenario2ModalOpen] = useState(false)
-  const [scenario2Processing, setScenario2Processing] = useState(false)
-  const [scenario2Progress, setScenario2Progress] = useState(0)
-  const [scenario2Message, setScenario2Message] = useState("")
-  const [scenario2Result, setScenario2Result] = useState<Scenario2Result | null>(null)
-  const [videoUrl, setVideoUrl] = useState(DEFAULT_VIDEO_URL)
+  // Event toast state
+  const [currentEventToast, setCurrentEventToast] = useState<SimulationEvent | null>(null)
+  const lastShownEventRef = useRef<string | null>(null)
 
-  const pollingRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Clean up polling on unmount
+  // Show event toasts for new events (non-decision events)
   useEffect(() => {
-    return () => {
-      if (pollingRef.current) {
-        clearInterval(pollingRef.current)
+    if (events.length > 0) {
+      const latestEvent = events[events.length - 1]
+      if (
+        latestEvent.event_id !== lastShownEventRef.current &&
+        !latestEvent.requires_decision
+      ) {
+        lastShownEventRef.current = latestEvent.event_id
+        setCurrentEventToast(latestEvent)
       }
     }
-  }, [])
+  }, [events])
+
+  // Handle decision submission
+  const handleDecisionSubmit = useCallback(async (decisionId: string, response: string) => {
+    await submitDecision(decisionId, response)
+  }, [submitDecision])
+
+  // Handle scenario 1 start (enhanced)
+  const handleScenario1 = useCallback(async () => {
+    await startSimulation("scenario1")
+  }, [startSimulation])
+
+  // Scenario 2 video modal state (kept for legacy video alert support)
+  const [scenario2ModalOpen, setScenario2ModalOpen] = useState(false)
+  const [scenario2Processing] = useState(false)
+  const [scenario2Progress] = useState(0)
+  const [scenario2Message] = useState("")
+  const [scenario2Result] = useState<Scenario2Result | null>(null)
 
   const handleScenario2 = useCallback(async () => {
-    // Reset state
-    setScenario2Result(null)
-    setScenario2Progress(0)
-    setScenario2Message("Starting video processing...")
-    setScenario2Processing(true)
-    // Hide modal during processing - only show after completion
-    setScenario2ModalOpen(false)
+    // Start the enhanced simulation for scenario 2
+    await startSimulation("scenario2")
+  }, [startSimulation])
 
-    try {
-      // Start async processing
-      const response = await fetch(`${API_URL}/scenario2/process-video`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          video_url: DEFAULT_VIDEO_URL, // Use YouTube URL
-          fps: 1.0,
-          max_frames: 5,
-          scenario_id: `ui-scenario2-${Date.now()}`
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`)
-      }
-
-      const jobData = await response.json()
-      const jobId = jobData.job_id
-
-      // Poll for status
-      pollingRef.current = setInterval(async () => {
-        try {
-          const statusResponse = await fetch(`${API_URL}/scenario2/process-video/${jobId}`)
-          const status = await statusResponse.json()
-
-          setScenario2Progress(status.progress)
-          setScenario2Message(status.message)
-
-          if (status.status === "completed" || status.status === "error") {
-            if (pollingRef.current) {
-              clearInterval(pollingRef.current)
-              pollingRef.current = null
-            }
-
-            setScenario2Processing(false)
-
-            if (status.result) {
-              setScenario2Result(status.result)
-            } else {
-              setScenario2Result({
-                success: status.status === "completed",
-                video_url: videoUrl,
-                frame_count: 0,
-                incidents_created: 0,
-                contradictions_found: 0,
-                predictions_made: 0,
-                processing_time_ms: 0,
-                incidents: [],
-                error: status.status === "error" ? status.message : undefined
-              })
-            }
-
-            // Show modal as alert after processing completes
-            if (status.status === "completed" || status.status === "error") {
-              setScenario2ModalOpen(true)
-            }
-          }
-        } catch (pollError) {
-          console.error("Polling error:", pollError)
-        }
-      }, 500)
-
-    } catch (error) {
-      console.error("Scenario 2 error:", error)
-      setScenario2Processing(false)
-      setScenario2Result({
-        success: false,
-        video_url: videoUrl,
-        frame_count: 0,
-        incidents_created: 0,
-        contradictions_found: 0,
-        predictions_made: 0,
-        processing_time_ms: 0,
-        incidents: [],
-        error: error instanceof Error ? error.message : "Unknown error"
-      })
-    }
-  }, [videoUrl])
+  // Get current decision to show (first pending decision)
+  const currentDecision = decisions.length > 0 ? decisions[0] : null
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
@@ -137,22 +81,73 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Top Status Bar */}
         <AppTopBar
-          onAgentToggle={() => setAgentOpen(!agentOpen)}
-          agentOpen={agentOpen}
+          onScenario1={handleScenario1}
           onScenario2={handleScenario2}
-          scenario2Loading={scenario2Processing}
+          scenario1Loading={simLoading && !simState}
+          scenario2Loading={simLoading || scenario2Processing}
         />
 
-        {/* Main Canvas with optional right panel */}
+        {/* Simulation Progress Bar */}
+        {isRunning && simState && (
+          <div className="border-b border-border bg-card px-4 py-2">
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-medium">
+                  {simState.phase === "monitoring" && "Monitoring..."}
+                  {simState.phase === "alert" && "Alert Active"}
+                  {simState.phase === "decision" && "Decision Required"}
+                  {simState.phase === "resolution" && "Resolving..."}
+                </span>
+                <span
+                  className={cn(
+                    "h-2 w-2 rounded-full",
+                    simState.phase === "monitoring" && "bg-success animate-pulse",
+                    simState.phase === "alert" && "bg-warning animate-pulse",
+                    simState.phase === "decision" && "bg-destructive animate-pulse",
+                    simState.phase === "resolution" && "bg-primary"
+                  )}
+                />
+              </div>
+              <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                <span>Time: {simState.current_time_sec.toFixed(0)}s / {simState.total_duration_sec}s</span>
+                <span>Trust: <span className={cn(
+                  "font-mono font-medium",
+                  simState.trust_score >= 0.8 && "text-success",
+                  simState.trust_score >= 0.6 && simState.trust_score < 0.8 && "text-warning",
+                  simState.trust_score < 0.6 && "text-destructive"
+                )}>{(simState.trust_score * 100).toFixed(0)}%</span></span>
+                <span>Events: {simState.events_triggered}</span>
+                <span>Decisions: {simState.decisions_made}</span>
+              </div>
+            </div>
+            <Progress value={simState.progress_percent} className="h-1" />
+          </div>
+        )}
+
+        {/* Main Canvas with Agent Popup */}
         <div className="flex flex-1 overflow-hidden relative">
           <main className="flex-1 overflow-auto p-6">{children}</main>
 
-          {/* Agent Insight Panel */}
-          {agentOpen && <AgentPanel onClose={() => setAgentOpen(false)} />}
-
-          {!agentOpen && <AgentButton onClick={() => setAgentOpen(true)} />}
+          {/* Agent Popup Button */}
+          <AgentButton />
         </div>
       </div>
+
+      {/* Decision Prompt Modal */}
+      {currentDecision && (
+        <DecisionPrompt
+          decision={currentDecision as DecisionPromptData}
+          onSubmit={handleDecisionSubmit}
+        />
+      )}
+
+      {/* Event Toast */}
+      {currentEventToast && (
+        <EventToast
+          event={currentEventToast}
+          onClose={() => setCurrentEventToast(null)}
+        />
+      )}
 
       {/* Scenario 2 Video Alert Modal - Only shown after processing completes */}
       <VideoAlertModal

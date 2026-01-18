@@ -1,15 +1,24 @@
 """
 Simulation API Routes
 
-Endpoints for controlling the simulation engine.
+Endpoints for controlling the simulation engine and enhanced scenario simulations.
 """
 
 from datetime import datetime
-from fastapi import APIRouter, HTTPException, Query
+from typing import List, Dict, Any, Optional
+from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
 from pydantic import BaseModel, Field
 
 from app.core.simulation import SimulationEngine, GOLDEN_SCENARIOS, get_available_scenarios
 from app.models.simulation import FailureModeType, FailureInjection
+from app.services.scenario_simulator import (
+    create_simulator,
+    get_simulator,
+    get_all_simulators,
+    ScenarioEvent,
+    TelemetryUpdate,
+    DecisionRequest,
+)
 
 
 router = APIRouter()
@@ -301,3 +310,256 @@ async def get_active_failures():
     if getattr(engine, "_video_mode", False):
         return {"failures": []}
     return {"failures": engine.scenario_runner.get_active_failures()}
+
+
+# ============================================================================
+# Enhanced Scenario Simulation with Decision Events (60-second scenarios)
+# ============================================================================
+
+# Storage for simulation events
+_enhanced_sim_events: Dict[str, List[dict]] = {}
+_enhanced_sim_telemetry: Dict[str, TelemetryUpdate] = {}
+_enhanced_sim_decisions: Dict[str, List[DecisionRequest]] = {}
+
+
+class EnhancedStartRequest(BaseModel):
+    scenario_type: str = Field(..., description="'scenario1' or 'scenario2'")
+    operator_id: str = Field(default="default_operator")
+
+
+class EnhancedStateResponse(BaseModel):
+    simulation_id: str
+    status: str
+    current_time_sec: float
+    total_duration_sec: float
+    progress_percent: float
+    trust_score: float
+    phase: str
+    events_triggered: int
+    pending_decisions: int
+    decisions_made: int
+
+
+class EnhancedDecisionResponse(BaseModel):
+    decision_id: str
+    event_id: str
+    time_sec: float
+    title: str
+    description: str
+    severity: str
+    decision_type: str
+    options: List[str]
+    prompt: str
+    expires_in_sec: Optional[float] = None
+    responded: bool
+
+
+class DecisionSubmitRequest(BaseModel):
+    response: str
+
+
+@router.post("/enhanced/start", summary="Start enhanced 60-second scenario")
+async def start_enhanced_scenario(
+    request: EnhancedStartRequest,
+    background_tasks: BackgroundTasks
+):
+    """
+    Start an enhanced scenario simulation that runs for ~60 seconds.
+    
+    Features:
+    - Continuous telemetry updates every 2 seconds
+    - Decision events at critical time points
+    - Trust score tracking
+    - Auto-timeout for unanswered decisions
+    """
+    try:
+        simulator = create_simulator(request.scenario_type)
+        sim_id = simulator.scenario_id
+        
+        # Initialize storage
+        _enhanced_sim_events[sim_id] = []
+        _enhanced_sim_decisions[sim_id] = []
+        
+        # Register callbacks
+        def on_event(event: ScenarioEvent):
+            _enhanced_sim_events[sim_id].append({
+                "event_id": event.event_id,
+                "time_sec": event.time_sec,
+                "title": event.title,
+                "description": event.description,
+                "severity": event.severity.value,
+                "requires_decision": event.requires_decision,
+                "timestamp": datetime.utcnow().isoformat()
+            })
+        
+        def on_telemetry(telemetry: TelemetryUpdate):
+            _enhanced_sim_telemetry[sim_id] = telemetry
+        
+        def on_decision(decision: DecisionRequest):
+            _enhanced_sim_decisions[sim_id].append(decision)
+        
+        simulator.on_event(on_event)
+        simulator.on_telemetry(on_telemetry)
+        simulator.on_decision_required(on_decision)
+        
+        # Start simulation in background
+        background_tasks.add_task(simulator.start)
+        
+        return {
+            "success": True,
+            "simulation_id": sim_id,
+            "message": "Enhanced simulation started. Duration: 60 seconds with decision events.",
+            "scenario_type": request.scenario_type
+        }
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/enhanced/{simulation_id}/state", response_model=EnhancedStateResponse)
+async def get_enhanced_state(simulation_id: str):
+    """Get current state of an enhanced simulation."""
+    simulator = get_simulator(simulation_id)
+    if not simulator:
+        raise HTTPException(status_code=404, detail="Simulation not found")
+    
+    state = simulator.state
+    progress = (state.current_time_sec / state.total_duration_sec) * 100
+    
+    return EnhancedStateResponse(
+        simulation_id=simulation_id,
+        status=state.status,
+        current_time_sec=state.current_time_sec,
+        total_duration_sec=state.total_duration_sec,
+        progress_percent=min(100, progress),
+        trust_score=state.trust_score,
+        phase=state.phase,
+        events_triggered=len(state.events_triggered),
+        pending_decisions=len(state.pending_decisions),
+        decisions_made=state.decisions_made
+    )
+
+
+@router.get("/enhanced/{simulation_id}/events")
+async def get_enhanced_events(simulation_id: str, since_sec: float = 0):
+    """Get events that have occurred in the enhanced simulation."""
+    if simulation_id not in _enhanced_sim_events:
+        raise HTTPException(status_code=404, detail="Simulation not found")
+    
+    events = _enhanced_sim_events.get(simulation_id, [])
+    filtered = [e for e in events if e["time_sec"] >= since_sec]
+    
+    return {"events": filtered}
+
+
+@router.get("/enhanced/{simulation_id}/telemetry")
+async def get_enhanced_telemetry(simulation_id: str):
+    """Get current telemetry data from enhanced simulation."""
+    if simulation_id not in _enhanced_sim_telemetry:
+        return {
+            "time_sec": 0,
+            "channels": {},
+            "anomalies": [],
+            "trust_score": 0.95
+        }
+    
+    telemetry = _enhanced_sim_telemetry[simulation_id]
+    return {
+        "time_sec": telemetry.time_sec,
+        "channels": telemetry.channels,
+        "anomalies": telemetry.anomalies,
+        "trust_score": telemetry.trust_score
+    }
+
+
+@router.get("/enhanced/{simulation_id}/decisions", response_model=List[EnhancedDecisionResponse])
+async def get_enhanced_decisions(simulation_id: str):
+    """Get pending decisions that require operator response."""
+    simulator = get_simulator(simulation_id)
+    if not simulator:
+        raise HTTPException(status_code=404, detail="Simulation not found")
+    
+    pending = simulator.get_pending_decisions()
+    now = datetime.utcnow()
+    
+    return [
+        EnhancedDecisionResponse(
+            decision_id=d.decision_id,
+            event_id=d.event_id,
+            time_sec=d.time_sec,
+            title=d.title,
+            description=d.description,
+            severity=d.severity.value,
+            decision_type=d.decision_type.value,
+            options=d.options,
+            prompt=d.prompt,
+            expires_in_sec=(d.expires_at - now).total_seconds() if d.expires_at and d.expires_at > now else None,
+            responded=d.responded
+        )
+        for d in pending
+        if not d.responded
+    ]
+
+
+@router.post("/enhanced/{simulation_id}/decisions/{decision_id}")
+async def submit_enhanced_decision(
+    simulation_id: str,
+    decision_id: str,
+    request: DecisionSubmitRequest
+):
+    """Submit an operator decision for the enhanced simulation."""
+    simulator = get_simulator(simulation_id)
+    if not simulator:
+        raise HTTPException(status_code=404, detail="Simulation not found")
+    
+    success = await simulator.submit_decision(decision_id, request.response)
+    
+    if not success:
+        raise HTTPException(status_code=404, detail="Decision not found or already responded")
+    
+    return {
+        "success": True,
+        "message": "Decision recorded",
+        "decision_id": decision_id,
+        "response": request.response,
+        "new_trust_score": simulator.state.trust_score
+    }
+
+
+@router.post("/enhanced/{simulation_id}/stop")
+async def stop_enhanced_simulation(simulation_id: str):
+    """Stop an enhanced simulation."""
+    simulator = get_simulator(simulation_id)
+    if not simulator:
+        raise HTTPException(status_code=404, detail="Simulation not found")
+    
+    await simulator.stop()
+    
+    return {
+        "success": True,
+        "message": "Simulation stopped",
+        "final_state": {
+            "trust_score": simulator.state.trust_score,
+            "decisions_made": simulator.state.decisions_made,
+            "events_triggered": len(simulator.state.events_triggered)
+        }
+    }
+
+
+@router.get("/enhanced/active")
+async def list_enhanced_simulations():
+    """List all active enhanced simulations."""
+    simulators = get_all_simulators()
+    
+    return {
+        "simulations": [
+            {
+                "simulation_id": sim_id,
+                "status": sim.state.status,
+                "progress_percent": (sim.state.current_time_sec / sim.state.total_duration_sec) * 100,
+                "trust_score": sim.state.trust_score,
+                "pending_decisions": len(sim.state.pending_decisions)
+            }
+            for sim_id, sim in simulators.items()
+        ]
+    }
