@@ -10,6 +10,7 @@ from .repository import (
     AuditRepository,
     IncidentRepository,
     SimulationRepository,
+    DecisionRepository,
 )
 
 __all__ = [
@@ -19,4 +20,5 @@ __all__ = [
     "AuditRepository",
     "IncidentRepository",
     "SimulationRepository",
+    "DecisionRepository",
 ]

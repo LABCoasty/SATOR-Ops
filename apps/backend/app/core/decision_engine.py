@@ -19,6 +19,7 @@ from ..services.data_loader import (
     EventSeverity
 )
 from ..models.decision import Decision, DecisionMode, ActionType
+from ..db import DecisionRepository, get_db
 
 
 # ============================================================================
@@ -111,6 +112,52 @@ class DecisionEngine:
     def __init__(self):
         """Initialize the decision engine."""
         self._active_decisions: Dict[str, DecisionCard] = {}
+        self._decision_metadata: Dict[str, Dict[str, Optional[str]]] = {}  # card_id -> {scenario_id, incident_id}
+        
+        # MongoDB repository (if enabled)
+        self._repo: Optional[DecisionRepository] = None
+        if get_db().enabled:
+            try:
+                self._repo = DecisionRepository()
+            except Exception as e:
+                print(f"Warning: Could not initialize DecisionRepository: {e}")
+    
+    def _persist_decision(self, card: DecisionCard, scenario_id: Optional[str] = None, incident_id: Optional[str] = None):
+        """Persist decision to MongoDB if enabled"""
+        if self._repo:
+            try:
+                # Get metadata from stored mapping if not provided
+                if not scenario_id or not incident_id:
+                    metadata = self._decision_metadata.get(card.card_id, {})
+                    scenario_id = scenario_id or metadata.get("scenario_id")
+                    incident_id = incident_id or metadata.get("incident_id")
+                
+                card_dict = card.model_dump()
+                # Add metadata
+                card_dict["scenario_id"] = scenario_id
+                card_dict["incident_id"] = incident_id
+                # Convert enums to strings
+                card_dict["severity"] = card.severity.value
+                card_dict["evaluation"]["uncertainty_level"] = card.evaluation.uncertainty_level.value
+                if card.evaluation.recommended_action:
+                    card_dict["evaluation"]["recommended_action"] = card.evaluation.recommended_action.value
+                # Convert datetime to ISO string
+                card_dict["created_at"] = card.created_at.isoformat()
+                card_dict["expires_at"] = card.expires_at.isoformat()
+                if card.action_taken_at:
+                    card_dict["action_taken_at"] = card.action_taken_at.isoformat()
+                card_dict["evaluation"]["timestamp"] = card.evaluation.timestamp.isoformat()
+                # Convert allowed actions
+                card_dict["allowed_actions"] = [
+                    {
+                        **action.model_dump(),
+                        "action_type": action.action_type.value
+                    }
+                    for action in card.allowed_actions
+                ]
+                self._repo.upsert_decision(card_dict)
+            except Exception as e:
+                print(f"Warning: Failed to persist decision to MongoDB: {e}")
     
     # ========================================================================
     # Evidence Evaluation
@@ -371,7 +418,9 @@ class DecisionEngine:
         title: str,
         summary: str,
         severity: EventSeverity = EventSeverity.WARNING,
-        timebox_seconds: Optional[int] = None
+        timebox_seconds: Optional[int] = None,
+        scenario_id: Optional[str] = None,
+        incident_id: Optional[str] = None
     ) -> DecisionCard:
         """
         Generate a decision card with timebox.
@@ -426,6 +475,16 @@ class DecisionEngine:
         # Store active decision
         self._active_decisions[card.card_id] = card
         
+        # Store metadata for persistence
+        if scenario_id or incident_id:
+            self._decision_metadata[card.card_id] = {
+                "scenario_id": scenario_id,
+                "incident_id": incident_id
+            }
+        
+        # Persist to MongoDB
+        self._persist_decision(card, scenario_id=scenario_id, incident_id=incident_id)
+        
         return card
     
     # ========================================================================
@@ -464,6 +523,14 @@ class DecisionEngine:
         card.action_taken = action_id
         card.action_taken_at = datetime.utcnow()
         card.operator_id = operator_id
+        
+        # Persist updated decision to MongoDB
+        metadata = self._decision_metadata.get(card_id, {})
+        self._persist_decision(
+            card, 
+            scenario_id=metadata.get("scenario_id"),
+            incident_id=metadata.get("incident_id")
+        )
         
         return card
     
