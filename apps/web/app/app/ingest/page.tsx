@@ -15,6 +15,14 @@ import { cn } from "@/lib/utils"
 // Vision scenarios show video panel after 5 seconds
 const VISION_ALERT_DELAY_SEC = 5
 
+// Scenario name mapping
+const SCENARIO_NAMES: Record<string, string> = {
+  scenario1: "Valve Incident",
+  scenario2: "Oil Rig Analysis",
+  scenario3: "Water Pipe Leakage",
+  scenario4: "Data Center Arc Flash",
+}
+
 // Helper to detect if a response is an escalation to supervisor
 function isEscalationToSupervisor(response: string): boolean {
   const lowerResponse = response.toLowerCase()
@@ -55,6 +63,7 @@ export default function DataIngestPage() {
         trustState: simState?.trust_score !== undefined 
           ? (simState.trust_score >= 0.8 ? 'high' : simState.trust_score >= 0.6 ? 'medium' : 'low')
           : undefined,
+        scenarioName: activeScenario ? SCENARIO_NAMES[activeScenario] : undefined,
         decisionId: decisionId,
         decisionTitle: decision?.title,
         escalationType: response,
@@ -62,7 +71,7 @@ export default function DataIngestPage() {
     }
     
     return success
-  }, [submitDecision, decisions, simState?.trust_score, triggerCall])
+  }, [submitDecision, decisions, simState?.trust_score, activeScenario, triggerCall])
 
   // Calculate if vision panel (scenario 2, 3, or 4) should be visible
   const isScenario1 = activeScenario === "scenario1"

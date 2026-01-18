@@ -116,12 +116,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         trustState: simState?.trust_score !== undefined 
           ? (simState.trust_score >= 0.8 ? 'high' : simState.trust_score >= 0.6 ? 'medium' : 'low')
           : undefined,
+        scenarioName: activeScenario ? SCENARIO_NAMES[activeScenario] : undefined,
         decisionId: decisionId,
         decisionTitle: decision?.title,
         escalationType: response,
       })
     }
-  }, [submitDecision, decisions, simState?.trust_score, triggerCall])
+  }, [submitDecision, decisions, simState?.trust_score, activeScenario, triggerCall])
 
   // Handle scenario 1 start (enhanced)
   const handleScenario1 = useCallback(async () => {

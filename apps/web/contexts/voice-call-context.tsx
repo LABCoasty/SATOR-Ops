@@ -9,6 +9,7 @@ interface VoiceCallContextData {
   incidentId?: string
   trustScore?: number
   trustState?: string
+  scenarioName?: string
   decisionId?: string
   decisionTitle?: string
   escalationType?: string
@@ -39,14 +40,14 @@ export function useOptionalVoiceCallContext() {
 function VoiceCallProviderInner({ children }: { children: React.ReactNode }) {
   const [isCallActive, setIsCallActive] = useState(false)
   const [callContext, setCallContext] = useState<VoiceCallContextData | undefined>()
-  
+
   // Get simulation context to pause/resume during call
   const simulationContext = useOptionalSimulationContext()
 
   const triggerCall = useCallback((context?: VoiceCallContextData) => {
     setCallContext(context)
     setIsCallActive(true)
-    
+
     // Pause the simulation when escalation call starts
     if (simulationContext?.pauseSimulation) {
       simulationContext.pauseSimulation("Supervisor call in progress")
@@ -56,7 +57,7 @@ function VoiceCallProviderInner({ children }: { children: React.ReactNode }) {
   const endCall = useCallback(() => {
     setIsCallActive(false)
     setCallContext(undefined)
-    
+
     // Resume the simulation when call ends
     if (simulationContext?.resumeSimulation) {
       simulationContext.resumeSimulation()
