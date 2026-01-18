@@ -6,6 +6,7 @@ import { SignalSummary } from "@/components/app/ingest/signal-summary"
 import { SourceReliability } from "@/components/app/ingest/source-reliability"
 import { Scenario2VideoPanel } from "@/components/app/ingest/scenario2-video-panel"
 import { Scenario2DecisionOverlay } from "@/components/app/ingest/scenario2-decision-overlay"
+import { Scenario1DecisionPanel } from "@/components/app/ingest/scenario1-decision-panel"
 import { useSimulationContext } from "@/contexts/simulation-context"
 import { useVoiceCallContext } from "@/contexts/voice-call-context"
 import { Badge } from "@/components/ui/badge"
@@ -64,12 +65,16 @@ export default function DataIngestPage() {
   }, [submitDecision, decisions, simState?.trust_score, triggerCall])
 
   // Calculate if vision panel (scenario 2, 3, or 4) should be visible
+  const isScenario1 = activeScenario === "scenario1"
   const isScenario2 = activeScenario === "scenario2"
   const isScenario3 = activeScenario === "scenario3"
   const isScenario4 = activeScenario === "scenario4"
   const isVisionScenario = isScenario2 || isScenario3 || isScenario4
   const visionTimeReached = simState && simState.current_time_sec >= VISION_ALERT_DELAY_SEC
   const showVisionPanel = isVisionScenario && isRunning && visionTimeReached
+  
+  // For Scenario 1, show decision panel when there are active decisions
+  const showScenario1DecisionPanel = isScenario1 && isRunning && decisions.length > 0
 
   return (
     <div className="space-y-6">
@@ -117,17 +122,19 @@ export default function DataIngestPage() {
         "grid gap-6 transition-all duration-700 ease-in-out",
         showVisionPanel 
           ? "lg:grid-cols-4" // Vision: [1 Telemetry] [2 Video] [1 Reliability]
+          : showScenario1DecisionPanel
+          ? "lg:grid-cols-4" // Scenario 1: [1 Telemetry] [2 Decision] [1 Reliability]
           : "lg:grid-cols-3"  // Normal: [2 Telemetry] [1 Reliability]
       )}>
         {/* Telemetry Grid - expands/shrinks smoothly */}
         <div className={cn(
           "transition-all duration-700 ease-in-out",
-          showVisionPanel ? "lg:col-span-1" : "lg:col-span-2"
+          (showVisionPanel || showScenario1DecisionPanel) ? "lg:col-span-1" : "lg:col-span-2"
         )}>
-          <TelemetryGrid compact={showVisionPanel ?? undefined} />
+          <TelemetryGrid compact={(showVisionPanel || showScenario1DecisionPanel) ?? undefined} />
         </div>
         
-        {/* Video Panel - slides in/out */}
+        {/* Video Panel - slides in/out (for vision scenarios) */}
         <div className={cn(
           "lg:col-span-2 transition-all duration-700 ease-in-out overflow-hidden",
           showVisionPanel 
@@ -138,6 +145,20 @@ export default function DataIngestPage() {
             events={events}
             currentTimeSec={simState?.current_time_sec ?? 0}
             scenario={activeScenario ?? "scenario2"}
+          />
+        </div>
+        
+        {/* Decision Panel - slides in/out (for Scenario 1) */}
+        <div className={cn(
+          "lg:col-span-2 transition-all duration-700 ease-in-out overflow-hidden",
+          showScenario1DecisionPanel 
+            ? "opacity-100 max-h-[800px] translate-x-0" 
+            : "opacity-0 max-h-0 -translate-x-full absolute pointer-events-none"
+        )}>
+          <Scenario1DecisionPanel
+            decisions={decisions}
+            onSubmitDecision={handleSubmitDecision}
+            currentTimeSec={simState?.current_time_sec ?? 0}
           />
         </div>
         
