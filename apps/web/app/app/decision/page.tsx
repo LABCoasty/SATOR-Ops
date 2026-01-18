@@ -4,6 +4,7 @@ import { ContradictionsPanel } from "@/components/app/decision/contradictions-pa
 import { TrustBreakdown } from "@/components/app/decision/trust-breakdown"
 import { EventLog } from "@/components/app/decision/event-log"
 import { OperatorDecisionsLog } from "@/components/app/decision/operator-decisions-log"
+import { CallSupervisorButton } from "@/components/voiceover"
 
 export default function DecisionPage() {
   return (
@@ -14,9 +15,12 @@ export default function DecisionPage() {
           <h1 className="text-2xl font-bold tracking-tight">Decision / Trust</h1>
           <p className="text-sm text-muted-foreground">Analyze evidence and compute trust scores</p>
         </div>
-        <div className="flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-3 py-1.5">
-          <span className="h-2 w-2 rounded-full bg-primary" />
-          <span className="text-sm font-mono text-primary">DECISION_READY</span>
+        <div className="flex items-center gap-3">
+          <CallSupervisorButton context={{ currentPage: '/app/decision' }} />
+          <div className="flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-3 py-1.5">
+            <span className="h-2 w-2 rounded-full bg-primary" />
+            <span className="text-sm font-mono text-primary">DECISION_READY</span>
+          </div>
         </div>
       </div>
 
