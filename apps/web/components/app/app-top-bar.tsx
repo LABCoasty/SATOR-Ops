@@ -23,19 +23,11 @@ import {
 import { Button } from "@/components/ui/button"
 
 const modes = [
-<<<<<<< HEAD
   { path: "/app/ingest", label: "Simulate scenario", icon: Radio, color: "text-chart-2" },
   { path: "/app/decision", label: "Decision / Trust", icon: GitBranch, color: "text-primary" },
   { path: "/app/artifact", label: "Artifact Creation", icon: FileOutput, color: "text-accent" },
   { path: "/app/receipt", label: "Artifact Creation", icon: FileOutput, color: "text-accent" },
   { path: "/app/vision", label: "Vision Monitoring", icon: Video, color: "text-primary" },
-=======
-  { path: "/app/ingest", label: "Data Ingest" },
-  { path: "/app/decision", label: "Decision / Trust" },
-  { path: "/app/artifact", label: "Artifact Creation" },
-  { path: "/app/receipt", label: "Artifact Creation" },
-  { path: "/app/vision", label: "Vision Monitoring" },
->>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
 ]
 
 interface AppTopBarProps {
@@ -147,21 +139,15 @@ export function AppTopBar({ onScenario1, onScenario2, onScenario3, onScenario4, 
       <div className="flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-<<<<<<< HEAD
-            <button
+            <button 
               className={cn(
-                "flex items-center gap-2 rounded-md bg-secondary px-3 py-1.5 hover:bg-secondary/80 transition-colors cursor-pointer",
+                "flex items-center gap-2 rounded-md px-3 py-1.5 transition-colors cursor-pointer",
                 currentMode.color
               )}
-=======
-            <button 
-              className="flex items-center gap-2 rounded-md px-3 py-1.5 transition-colors cursor-pointer"
               style={{
                 fontFamily: 'var(--font-nav)',
                 backgroundColor: 'var(--surface1)',
-                color: 'var(--textPrimary)',
               }}
->>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
             >
               <span className="text-sm font-medium">{currentMode.label}</span>
               <ChevronDown className="h-3 w-3 opacity-60" />

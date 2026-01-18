@@ -3,13 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-<<<<<<< HEAD
 import { Shield, Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft, LucideIcon, Bot } from "lucide-react"
 import { useState, ReactNode } from "react"
-=======
-import { Radio, GitBranch, FileOutput, Receipt, Settings, ChevronLeft } from "lucide-react"
-import { useState } from "react"
->>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
 
 type NavItem = {
   label: string
@@ -120,9 +115,8 @@ export function AppSidebar() {
               }}
             >
               <item.icon className="h-4 w-4 shrink-0" />
-<<<<<<< HEAD
               {!collapsed && (
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-2" style={{ fontFamily: 'var(--font-nav)' }}>
                   {item.label}
                   {item.badge && (
                     <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary font-medium">
@@ -131,9 +125,6 @@ export function AppSidebar() {
                   )}
                 </span>
               )}
-=======
-              {!collapsed && <span style={{ fontFamily: 'var(--font-nav)' }}>{item.label}</span>}
->>>>>>> 38715be (add ROYGBIV semantic color system for status indicators)
             </Link>
           )
         })}
