@@ -10,6 +10,19 @@ from pydantic_settings import BaseSettings
 from pydantic import Field
 
 
+def find_env_file() -> str:
+    """Find the .env file in current or parent directories."""
+    current = Path(__file__).parent
+    # Check current directory, then parent directories up to 3 levels
+    for _ in range(4):
+        env_path = current / ".env"
+        if env_path.exists():
+            return str(env_path)
+        current = current.parent
+    # Default to current directory
+    return ".env"
+
+
 class SATORConfig(BaseSettings):
     """Configuration settings for SATOR Ops"""
     
@@ -45,6 +58,8 @@ class SATORConfig(BaseSettings):
     # Kairo settings (only used if enable_kairo=True)
     kairo_api_key: str | None = Field(default=None, description="Kairo API key for Solana anchoring")
     solana_rpc_url: str = Field(default="https://api.devnet.solana.com", description="Solana RPC endpoint")
+    solana_private_key: str | None = Field(default=None, description="Base58 encoded private key for pre-funded Solana wallet (optional)")
+    solana_use_simulation: bool = Field(default=False, description="Use simulated transactions instead of real Solana devnet")
     
     # Arize settings (only used if enable_arize=True)
     arize_api_key: str | None = Field(default=None, description="Arize API key")
@@ -60,8 +75,9 @@ class SATORConfig(BaseSettings):
     
     model_config = {
         "env_prefix": "SATOR_",
-        "env_file": ".env",
+        "env_file": find_env_file(),
         "env_file_encoding": "utf-8",
+        "extra": "ignore",  # Ignore extra env vars not defined in the model
     }
     
     def get_data_path(self, subdir: str) -> Path:
