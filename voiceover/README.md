@@ -1,37 +1,51 @@
-# SATOR Virtual Supervisor - Voice Call
+# SATOR Virtual Supervisor - Voice Call Integration
 
 AI-powered virtual supervisor that operators can call for real-time voice guidance.
 
-## Setup
-
-1. Install dependencies:
-```bash
-cd voiceover
-pip install -r requirements.txt
-```
-
-2. Set environment variables:
-```bash
-export LIVEKIT_API_KEY=your_api_key
-export LIVEKIT_API_SECRET=your_api_secret
-export LIVEKIT_URL=wss://your-project.livekit.cloud
-```
-
-3. Run the agent:
-```bash
-python supervisor_agent.py dev
-```
-
 ## How It Works
 
-1. Operator clicks "Call Supervisor for Help" in the dashboard
-2. Frontend creates a LiveKit room and connects
-3. This agent joins the room and starts the voice conversation
-4. AI supervisor speaks with the operator using voice generation
-5. Operator can end the call anytime
+1. Operator clicks **"Call Supervisor"** on the Decision page
+2. Voice modal opens and connects to LiveKit Cloud
+3. AI supervisor (Morgan-5a9) joins and speaks with the operator
+4. Conversation continues until operator ends the call
 
-## Configuration
+## Architecture
 
-Edit `supervisor_agent.py` to customize:
-- `SUPERVISOR_PROMPT` - The AI persona and knowledge
-- Voice settings (interruption handling, silence detection)
+```
+Frontend (Next.js)              LiveKit Cloud
+┌─────────────────────┐         ┌─────────────────────┐
+│ CallSupervisorButton│         │ Agent: Morgan-5a9   │
+│ VoiceCallModal      │ ──────► │ STT → LLM → TTS     │
+│ Token API           │         │ Voice Generation    │
+└─────────────────────┘         └─────────────────────┘
+```
+
+## Components
+
+### Frontend (`apps/web/components/voiceover/`)
+- `CallSupervisorButton.tsx` - Button to start voice call
+- `VoiceCallModal.tsx` - Modal with LiveKit room connection
+- `index.ts` - Exports
+
+### API (`apps/web/app/api/livekit/`)
+- `token/route.ts` - Generates access tokens and dispatches agent
+
+### LiveKit Cloud
+- Agent deployed at: `cloud.livekit.io`
+- Agent name: `Morgan-5a9`
+- Agent ID: `CA_mxXPX9scMcCn`
+
+## Environment Variables
+
+Required in `apps/web/.env.local`:
+```env
+LIVEKIT_API_KEY=your_key
+LIVEKIT_API_SECRET=your_secret
+NEXT_PUBLIC_LIVEKIT_URL=wss://sator-voice-xxx.livekit.cloud
+```
+
+## Dependencies
+
+```bash
+pnpm add @livekit/components-react @livekit/components-styles livekit-client livekit-server-sdk
+```
