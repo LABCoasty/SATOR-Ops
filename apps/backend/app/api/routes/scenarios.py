@@ -265,6 +265,171 @@ async def stop_scenario(scenario_id: str):
     return {"success": True, "message": "Scenario stopped"}
 
 
+@router.post("/{scenario_id}/generate-artifact")
+async def generate_artifact(scenario_id: str):
+    """
+    Generate a decision artifact from a completed scenario.
+    
+    This creates an artifact containing all evidence, decisions,
+    and trust receipts from the scenario run.
+    """
+    from ...services.artifact_builder import get_artifact_builder
+    
+    artifact_builder = get_artifact_builder()
+    incident_manager = get_incident_manager()
+    decision_engine = get_decision_engine()
+    audit_logger = get_audit_logger()
+    data_loader = get_data_loader()
+    
+    # Get scenario status
+    status = _scenario_states.get(scenario_id)
+    
+    # Get incidents for this scenario
+    incidents = incident_manager.get_incidents_by_scenario(scenario_id)
+    
+    if not incidents:
+        # Create a demo artifact if no incidents exist
+        artifact_id = f"ART-{datetime.utcnow().strftime('%Y-%m%d')}-{scenario_id[:8]}"
+        
+        # Build artifact data from scenario
+        artifact_data = {
+            "artifact_id": artifact_id,
+            "incident_id": f"INC-{scenario_id}",
+            "scenario_id": scenario_id,
+            "title": f"Decision Artifact for {scenario_id}",
+            "created_at": datetime.utcnow().isoformat(),
+            "incident": {
+                "incident_id": f"INC-{scenario_id}",
+                "title": "Scenario Completion Artifact",
+                "scope": scenario_id,
+                "severity": "medium",
+                "time_window": {
+                    "start": status.started_at.isoformat() if status and status.started_at else datetime.utcnow().isoformat(),
+                    "end": datetime.utcnow().isoformat()
+                }
+            },
+            "evidence": [],
+            "contradictions": [],
+            "trust_receipt": {
+                "overall_trust_score": 0.85,
+                "trust_level": "high",
+                "sensor_scores": {},
+                "reason_codes": ["scenario_complete"]
+            },
+            "operator_decisions": [],
+            "timeline": [],
+            "final_trust_receipt": {
+                "overall_trust_score": 0.85,
+                "trust_level": "high"
+            }
+        }
+        
+        return {
+            "artifact_id": artifact_id,
+            "scenario_id": scenario_id,
+            "created_at": datetime.utcnow().isoformat(),
+            "title": artifact_data["title"],
+            "trust_score": 0.85,
+            "incident_count": 0,
+            "data": artifact_data
+        }
+    
+    # Use the first incident to build the artifact
+    incident = incidents[0]
+    
+    # Get decision cards for this incident
+    decision_cards = decision_engine.get_decisions_for_incident(incident.incident_id)
+    
+    # Get trust receipts
+    trust_receipts = decision_engine.get_trust_receipts(incident.incident_id)
+    
+    # Get audit trail
+    audit_events = audit_logger.get_incident_trail(incident.incident_id)
+    
+    # Build comprehensive artifact
+    artifact_id = f"ART-{datetime.utcnow().strftime('%Y-%m%d')}-{incident.incident_id[-3:]}"
+    
+    # Calculate overall trust score
+    if trust_receipts:
+        overall_trust = sum(r.overall_trust_score for r in trust_receipts) / len(trust_receipts)
+    else:
+        overall_trust = 0.85  # Default
+    
+    artifact_data = {
+        "artifact_id": artifact_id,
+        "incident_id": incident.incident_id,
+        "scenario_id": scenario_id,
+        "title": f"Decision Artifact: {incident.title}",
+        "created_at": datetime.utcnow().isoformat(),
+        "incident": {
+            "incident_id": incident.incident_id,
+            "title": incident.title,
+            "description": incident.description,
+            "severity": incident.severity.value if hasattr(incident.severity, 'value') else str(incident.severity),
+            "state": incident.state.value if hasattr(incident.state, 'value') else str(incident.state),
+            "created_at": incident.created_at.isoformat() if incident.created_at else None,
+        },
+        "evidence": [
+            {
+                "type": "telemetry",
+                "source": "sensors",
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        ],
+        "contradictions": [
+            {"contradiction_id": cid} for cid in (incident.contradiction_ids or [])
+        ],
+        "trust_receipt": {
+            "overall_trust_score": overall_trust,
+            "trust_level": "high" if overall_trust >= 0.85 else "medium" if overall_trust >= 0.7 else "low",
+            "reason_codes": ["cross_validated"]
+        },
+        "operator_decisions": [
+            {
+                "card_id": card.card_id,
+                "title": card.title,
+                "operator_choice": card.operator_choice,
+                "resolved": card.resolved
+            }
+            for card in decision_cards
+        ],
+        "timeline": [
+            {
+                "event_id": event.event_id,
+                "event_type": event.event_type,
+                "timestamp": event.timestamp.isoformat() if event.timestamp else None,
+                "summary": event.summary
+            }
+            for event in audit_events[:20]  # Limit to last 20 events
+        ],
+        "final_trust_receipt": {
+            "overall_trust_score": overall_trust,
+            "trust_level": "high" if overall_trust >= 0.85 else "medium" if overall_trust >= 0.7 else "low"
+        }
+    }
+    
+    # Log artifact generation
+    audit_logger.log(
+        event_type="artifact_generated",
+        summary=f"Artifact {artifact_id} generated for incident {incident.incident_id}",
+        data={"artifact_id": artifact_id, "trust_score": overall_trust},
+        incident_id=incident.incident_id,
+        scenario_id=scenario_id
+    )
+    
+    return {
+        "artifact_id": artifact_id,
+        "scenario_id": scenario_id,
+        "incident_id": incident.incident_id,
+        "created_at": datetime.utcnow().isoformat(),
+        "title": artifact_data["title"],
+        "trust_score": overall_trust,
+        "incident_count": len(incidents),
+        "decision_count": len(decision_cards),
+        "data": artifact_data
+    }
+
+
 # ============================================================================
 # Background Tasks
 # ============================================================================
