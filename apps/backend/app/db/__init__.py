@@ -11,6 +11,8 @@ from .repository import (
     IncidentRepository,
     SimulationRepository,
     DecisionRepository,
+    BlockchainAnchorRepository,
+    BlockchainArtifactRepository,
 )
 
 __all__ = [
@@ -21,4 +23,6 @@ __all__ = [
     "IncidentRepository",
     "SimulationRepository",
     "DecisionRepository",
+    "BlockchainAnchorRepository",
+    "BlockchainArtifactRepository",
 ]

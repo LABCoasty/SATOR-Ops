@@ -328,3 +328,122 @@ class DecisionRepository(BaseRepository):
         collection.create_index([("scenario_id", 1), ("resolved", 1)])
         collection.create_index([("incident_id", 1)])
         collection.create_index([("created_at", -1)])
+
+
+class BlockchainAnchorRepository(BaseRepository):
+    """Repository for blockchain anchor records (Solana/Kairo)"""
+    
+    def __init__(self):
+        super().__init__("blockchain_anchors")
+    
+    def create_anchor(self, anchor: dict) -> str:
+        """Create a new anchor record"""
+        return self.insert_one(anchor)
+    
+    def find_by_anchor_id(self, anchor_id: str) -> Optional[dict]:
+        """Find anchor by anchor ID"""
+        return self.find_one({"anchor_id": anchor_id})
+    
+    def find_by_artifact_id(self, artifact_id: str) -> Optional[dict]:
+        """Find anchor by artifact ID"""
+        return self.find_one({"artifact_id": artifact_id})
+    
+    def find_by_incident_id(self, incident_id: str) -> Optional[dict]:
+        """Find anchor by incident ID"""
+        return self.find_one({"incident_id": incident_id})
+    
+    def find_by_scenario(self, scenario_id: str) -> list[dict]:
+        """Find all anchors for a scenario"""
+        return self.find_many({"scenario_id": scenario_id}, limit=1000)
+    
+    def find_by_status(self, status: str) -> list[dict]:
+        """Find all anchors by status"""
+        return self.find_many({"status": status}, limit=1000)
+    
+    def find_pending_approval(self) -> list[dict]:
+        """Find all anchors pending approval"""
+        return self.find_many({"status": "pending_approval"}, limit=1000)
+    
+    def update_anchor(self, anchor_id: str, updates: dict) -> bool:
+        """Update an anchor record"""
+        updates["updated_at"] = datetime.utcnow()
+        result = self._get_collection().update_one(
+            {"anchor_id": anchor_id},
+            {"$set": updates}
+        )
+        return result.modified_count > 0
+    
+    def update_status(self, anchor_id: str, status: str, **kwargs) -> bool:
+        """Update anchor status with optional additional fields"""
+        updates = {"status": status, **kwargs}
+        return self.update_anchor(anchor_id, updates)
+    
+    def upsert_anchor(self, anchor: dict) -> str:
+        """Insert or update an anchor record"""
+        anchor_id = anchor.get("anchor_id")
+        if not anchor_id:
+            return self.create_anchor(anchor)
+        
+        existing = self.find_by_anchor_id(anchor_id)
+        if existing:
+            anchor["updated_at"] = datetime.utcnow()
+            self._get_collection().update_one(
+                {"anchor_id": anchor_id},
+                {"$set": anchor}
+            )
+            return anchor_id
+        else:
+            return self.create_anchor(anchor)
+    
+    def list_all(self, limit: int = 100) -> list[dict]:
+        """List all anchor records"""
+        return list(
+            self._get_collection()
+            .find({})
+            .sort("created_at", -1)
+            .limit(limit)
+        )
+    
+    def create_indexes(self):
+        """Create indexes for optimal query performance"""
+        collection = self._get_collection()
+        collection.create_index([("anchor_id", 1)], unique=True)
+        collection.create_index([("artifact_id", 1)], unique=True)
+        collection.create_index([("incident_id", 1)])
+        collection.create_index([("scenario_id", 1)])
+        collection.create_index([("tx_hash", 1)])
+        collection.create_index([("status", 1)])
+        collection.create_index([("created_at", -1)])
+
+
+class BlockchainArtifactRepository(BaseRepository):
+    """Repository for full blockchain artifact data (stored off-chain in MongoDB)"""
+    
+    def __init__(self):
+        super().__init__("blockchain_artifacts")
+    
+    def store_artifact(self, artifact_id: str, artifact_data: dict) -> str:
+        """Store a full artifact"""
+        doc = {
+            "artifact_id": artifact_id,
+            "artifact": artifact_data,
+            "stored_at": datetime.utcnow(),
+        }
+        return self.insert_one(doc)
+    
+    def find_by_artifact_id(self, artifact_id: str) -> Optional[dict]:
+        """Find artifact by ID"""
+        return self.find_one({"artifact_id": artifact_id})
+    
+    def find_by_mongo_id(self, mongo_id: str) -> Optional[dict]:
+        """Find artifact by MongoDB document ID"""
+        try:
+            return self.find_one({"_id": ObjectId(mongo_id)})
+        except Exception:
+            return None
+    
+    def create_indexes(self):
+        """Create indexes for optimal query performance"""
+        collection = self._get_collection()
+        collection.create_index([("artifact_id", 1)], unique=True)
+        collection.create_index([("stored_at", -1)])

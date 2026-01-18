@@ -412,6 +412,43 @@ async def get_audit_trail(artifact_id: str):
     }
 
 
+@router.get("/blockchain/status")
+async def get_blockchain_storage_status():
+    """
+    Get blockchain storage status.
+    
+    Returns the status of MongoDB storage for blockchain anchor records
+    and full artifact data.
+    """
+    from app.db import get_db
+    
+    anchor_service = get_anchor_service()
+    db = get_db()
+    
+    # Get MongoDB health if enabled
+    mongodb_status = await db.health_check()
+    
+    # Get anchor statistics
+    all_anchors = anchor_service.list_anchors()
+    
+    return {
+        "mongodb_enabled": anchor_service.mongodb_enabled,
+        "mongodb_health": mongodb_status,
+        "storage_mode": "mongodb" if anchor_service.mongodb_enabled else "in_memory",
+        "anchors_summary": {
+            "total": len(all_anchors),
+            "confirmed": len([a for a in all_anchors if a.status == "confirmed"]),
+            "pending": len([a for a in all_anchors if a.status == "pending"]),
+            "pending_approval": len([a for a in all_anchors if a.status == "pending_approval"]),
+            "failed": len([a for a in all_anchors if a.status == "failed"]),
+        },
+        "collections": {
+            "blockchain_anchors": "Stores anchor records with on-chain transaction data",
+            "blockchain_artifacts": "Stores full artifact data (off-chain in MongoDB)",
+        },
+    }
+
+
 @router.get("/security-report")
 async def get_security_report():
     """
