@@ -141,13 +141,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }, [startSimulation])
 
   // Scenario 2, 3 & 4 handle their own decisions in the ingest page
+  // Scenario 1 also handles decisions in the ingest page now (centered panel)
   const isScenario2 = activeScenario === "scenario2"
   const isScenario3 = activeScenario === "scenario3"
   const isScenario4 = activeScenario === "scenario4"
   const isVisionScenario = isScenario2 || isScenario3 || isScenario4
+  const isScenario1 = activeScenario === "scenario1"
 
-  // Get current decision to show (first pending decision) - only for scenario 1
-  const currentDecision = !isVisionScenario && decisions.length > 0 ? decisions[0] : null
+  // Get current decision to show (first pending decision) - only show floating modal for non-scenario cases
+  // Scenarios 1-4 all handle decisions in their respective ingest pages
+  const currentDecision = !isScenario1 && !isVisionScenario && decisions.length > 0 ? decisions[0] : null
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
